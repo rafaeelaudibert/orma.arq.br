@@ -10,7 +10,7 @@
     "check": "astro check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "oxlint",
+    "lint": "eslint .",
     "prepare": "node scripts/setup-git-hooks.mjs"
   },
   "dependencies": {
@@ -19,10 +19,14 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
-    "oxlint": "^1.74.0",
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.7.0",
+    "eslint-plugin-astro": "^3.0.1",
+    "globals": "^17.7.0",
     "prettier": "^3.9.5",
     "prettier-plugin-astro": "^0.14.1",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.65.0"
   },
   "engines": {
     "node": ">=22.12.0"
