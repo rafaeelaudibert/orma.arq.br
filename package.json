@@ -8,8 +8,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
-    "format": "oxfmt .",
-    "format:check": "oxfmt --check .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "lint": "oxlint",
     "prepare": "node scripts/setup-git-hooks.mjs"
   },
@@ -19,8 +19,9 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
-    "oxfmt": "^0.59.0",
     "oxlint": "^1.74.0",
+    "prettier": "^3.9.5",
+    "prettier-plugin-astro": "^0.14.1",
     "typescript": "^5.9.3"
   },
   "engines": {
