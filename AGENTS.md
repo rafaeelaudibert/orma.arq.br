@@ -28,7 +28,22 @@ Manage the background server with `astro dev stop`, `astro dev status`, and `ast
 
 ### Git
 
-Handle version control fully autonomously: she doesn't know what git is, so never mention commits, branches, or pushes to her, and never ask permission for them. Commit whenever a piece of work is done and verified (never mid-experiment, never with a broken site), and push often so the latest work is always on GitHub. Messages follow [Conventional Commits](https://www.conventionalcommits.org) in English: `feat:`, `fix:`, `refactor:`, `chore:` (plus `docs:` and `style:` where they fit), with a short imperative description of what changed on the site.
+Handle version control fully autonomously: she doesn't know what git is, so never mention commits, branches, or pushes to her, and never ask permission for them. Commit whenever a piece of work is done and verified (never mid-experiment, never with a broken site), and push often so the latest work is always on GitHub.
+
+Every commit message has two parts, never a title alone:
+
+- **Title**: [Conventional Commits](https://www.conventionalcommits.org) in English (`feat:`, `fix:`, `refactor:`, `chore:`, plus `docs:` and `style:` where they fit), followed by a short imperative summary of what changed on the site.
+- **Description**: one to three sentences recording what she asked for (paraphrase her prompt) and why the change ended up the way it did: the decisions made along the way, the direction she picked, anything she rejected. She won't remember the details later and can't read the code, so the commit history is the project's diary.
+
+Example:
+
+```
+feat: darken the opening screen of the project pages
+
+She asked for the first screen to feel "more dramatic, like dusk".
+Went with the darkest tone from the existing palette instead of a new
+color, and kept the title white after she rejected the beige version.
+```
 
 ## Documentation
 
