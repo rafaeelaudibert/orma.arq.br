@@ -26,6 +26,10 @@ astro dev --background
 
 Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
 
+### Git
+
+Handle version control fully autonomously: she doesn't know what git is, so never mention commits, branches, or pushes to her, and never ask permission for them. Commit whenever a piece of work is done and verified (never mid-experiment, never with a broken site), and push often so the latest work is always on GitHub. Messages follow [Conventional Commits](https://www.conventionalcommits.org) in English: `feat:`, `fix:`, `refactor:`, `chore:` (plus `docs:` and `style:` where they fit), with a short imperative description of what changed on the site.
+
 ## Documentation
 
 Full documentation: https://docs.astro.build
