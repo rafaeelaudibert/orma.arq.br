@@ -1,5 +1,7 @@
 ---
 import { Image } from "astro:assets"
+
+import { openingSizes, PHOTO_WIDTHS } from "../../lib/images"
 import { getCollection, render } from "astro:content"
 import type { GetStaticPaths } from "astro"
 
@@ -26,8 +28,6 @@ const { project, previous, next } = Astro.props
 const { Content } = await render(project)
 const d = project.data
 
-const wide = "100vw"
-
 const facts = [
   { label: "Local", value: d.location },
   { label: "Ano", value: String(d.year) },
@@ -45,8 +45,8 @@ const facts = [
       <Image
         src={d.cover}
         alt={d.coverAlt}
-        widths={[640, 960, 1280, 1920, 2400]}
-        sizes={wide}
+        widths={PHOTO_WIDTHS}
+        sizes={openingSizes(d.cover, 1.06)}
         loading="eager"
         fetchpriority="high"
       />
@@ -82,8 +82,8 @@ const facts = [
             <Image
               src={image.src}
               alt={image.alt}
-              widths={[640, 960, 1280, 1920, 2400]}
-              sizes={wide}
+              widths={PHOTO_WIDTHS}
+              sizes="(min-width: 60rem) 83.75vw, 100vw"
             />
             {image.caption && <figcaption>{image.caption}</figcaption>}
           </figure>

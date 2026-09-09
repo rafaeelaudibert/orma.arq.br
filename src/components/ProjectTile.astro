@@ -2,6 +2,8 @@
 import { Image } from "astro:assets"
 import type { CollectionEntry } from "astro:content"
 
+import { PHOTO_WIDTHS, tileSizes } from "../lib/images"
+
 interface Props {
   project: CollectionEntry<"projects">
   /** Share of the 12-column row this tile occupies. */
@@ -9,13 +11,14 @@ interface Props {
   /** True for the first tile on the page, which must not lazy-load. */
   eager?: boolean
   index?: number
+  /** The opening tile, which is sized against the screen rather than the grid. */
+  lead?: boolean
 }
 
-const { project, span, eager = false, index = 0 } = Astro.props
+const { project, span, eager = false, index = 0, lead = false } = Astro.props
 const { title, cover, coverAlt, location } = project.data
 
-/* The content column is the viewport minus the left rail and the right margin. */
-const sizes = `(min-width: 60rem) calc(83.75vw * ${span} / 12), 100vw`
+const sizes = tileSizes(cover, span, lead)
 ---
 
 <a
@@ -28,7 +31,7 @@ const sizes = `(min-width: 60rem) calc(83.75vw * ${span} / 12), 100vw`
     <Image
       src={cover}
       alt={coverAlt}
-      widths={[640, 960, 1280, 1920, 2400]}
+      widths={PHOTO_WIDTHS}
       sizes={sizes}
       loading={eager ? "eager" : "lazy"}
       fetchpriority={eager ? "high" : "auto"}

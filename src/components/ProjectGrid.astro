@@ -18,18 +18,22 @@ let tileIndex = 0
 
 <div class="grid">
   {
-    rows.map((row, rowIndex) => (
-      <div class:list={["row", { lead: lead && rowIndex === 0 }]}>
-        {row.cells.map((cell) => (
-          <ProjectTile
-            project={cell.item}
-            span={cell.span}
-            eager={tileIndex === 0}
-            index={tileIndex++ % 3}
-          />
-        ))}
-      </div>
-    ))
+    rows.map((row, rowIndex) => {
+      const isLead = lead && rowIndex === 0
+      return (
+        <div class:list={["row", { lead: isLead }]}>
+          {row.cells.map((cell) => (
+            <ProjectTile
+              project={cell.item}
+              span={cell.span}
+              eager={tileIndex === 0}
+              index={tileIndex++ % 3}
+              lead={isLead}
+            />
+          ))}
+        </div>
+      )
+    })
   }
 </div>
 

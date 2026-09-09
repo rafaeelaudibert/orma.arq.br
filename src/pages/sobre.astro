@@ -1,6 +1,8 @@
 ---
 import { Image } from "astro:assets"
 
+import { openingSizes, PHOTO_WIDTHS } from "../lib/images"
+
 import opening from "../assets/projects/apartamento-br/03-wardrobe.jpg"
 import { partnerNames, studio, whatsappUrl } from "../config"
 import Layout from "../layouts/Layout.astro"
@@ -30,8 +32,8 @@ const steps = [
     <Image
       src={opening}
       alt="Corredor com armários de madeira escura do piso ao teto e luminária de chão redonda"
-      widths={[640, 960, 1280, 1920, 2400]}
-      sizes="100vw"
+      widths={PHOTO_WIDTHS}
+      sizes={openingSizes(opening)}
       loading="eager"
       fetchpriority="high"
     />
