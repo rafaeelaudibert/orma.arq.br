@@ -1,123 +1,78 @@
 ---
-import { cauLine, partnerNames, studio, whatsappUrl } from "../config"
-import { categories } from "../lib/categories"
+import { partnerNames, studio } from "../config"
+
+/**
+ * The footer from the Figma design: the studio and its architects on the left,
+ * how to reach them on the right, and the year centred underneath. It shares
+ * the last screen with the final row of photographs.
+ */
 
 const year = new Date().getFullYear()
 ---
 
 <footer class="footer">
-  <div class="lead" data-reveal>
-    <p class="eyebrow">Vamos conversar</p>
-    <p class="pitch">
-      Conte o que você quer construir ou reformar. A primeira conversa é sem
-      compromisso.
-    </p>
-    <a class="cta" href={whatsappUrl} rel="noopener"> Conversar no WhatsApp </a>
-  </div>
-
   <div class="columns">
-    <div class="column" data-reveal style="--stagger: 1">
-      <p class="eyebrow">Estúdio</p>
-      <p>{studio.name}</p>
-      <p>{partnerNames.join(" e ")}</p>
-      {cauLine && <p class="cau">{cauLine}</p>}
-      <p>{studio.regions.join(" e ")}</p>
-    </div>
+    <section>
+      <h2>{studio.name}</h2>
+      <p class="label">Arquitetas</p>
+      <ul role="list">
+        {partnerNames.map((name) => <li>{name}</li>)}
+      </ul>
+    </section>
 
-    <div class="column" data-reveal style="--stagger: 2">
-      <p class="eyebrow">Contato</p>
-      <p><a href={`mailto:${studio.email}`}>{studio.email}</a></p>
-      <p>
-        <a href={studio.instagram} rel="noopener">{studio.instagramHandle}</a>
-      </p>
-    </div>
-
-    <div class="column" data-reveal style="--stagger: 3">
-      <p class="eyebrow">Projetos</p>
-      {
-        categories.map((c) => (
-          <p>
-            <a href={`/${c.slug}`}>{c.label}</a>
-          </p>
-        ))
-      }
-      <p><a href="/sobre">Sobre nós</a></p>
-    </div>
+    <section>
+      <h2>Contato</h2>
+      <ul role="list">
+        <li><a href={`mailto:${studio.email}`}>{studio.email}</a></li>
+        <li>
+          <a href={studio.instagram} rel="noopener">{studio.instagramHandle}</a>
+        </li>
+      </ul>
+    </section>
   </div>
 
-  <p class="colophon">© {year} {studio.name}</p>
+  <p class="colophon">{year} {studio.name}</p>
 </footer>
 
 <style>
   .footer {
-    padding: var(--section-pad) var(--gutter) var(--space-5);
-    border-block-start: 1px solid var(--color-grey-2);
-  }
-
-  .lead {
-    max-inline-size: 40rem;
-  }
-
-  .pitch {
-    margin-block-start: var(--space-3);
-    font-size: var(--text-title);
-    /* ch here is relative to the pitch's own big size, so the line breaks land right. */
-    max-inline-size: 15ch;
-    font-weight: 300;
-    line-height: 1.1;
-    letter-spacing: var(--tracking-tight);
-  }
-
-  .cta {
-    position: relative;
-    display: inline-block;
-    margin-block-start: var(--space-5);
-    padding-block-end: 0.35em;
-    font-size: var(--text-large);
-    font-weight: 300;
-  }
-
-  .cta::after {
-    content: "";
-    position: absolute;
-    inset-block-end: 0;
-    inset-inline-start: 0;
-    inline-size: 100%;
-    block-size: 1px;
-    background: currentColor;
-    transform-origin: left;
-    transition: transform var(--motion-fast) var(--ease-out-soft);
-  }
-
-  .cta:hover::after,
-  .cta:focus-visible::after {
-    transform: scaleX(0.4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding: var(--space-6) var(--edge) var(--space-5);
+    font-size: var(--text-ui);
+    line-height: 1.45;
   }
 
   .columns {
     display: grid;
     gap: var(--space-5);
-    margin-block-start: var(--space-7);
   }
 
-  .column p {
-    margin: 0;
+  h2 {
+    font-size: inherit;
+    font-weight: 600;
   }
 
-  .column .eyebrow {
-    margin-block-end: var(--space-3);
+  .label {
+    margin-block-start: 1.35em;
   }
 
-  .column a {
+  ul {
+    margin: 1.35em 0 0;
+    padding: 0;
+  }
+
+  section a {
     position: relative;
   }
 
-  .column a::after {
+  /* The underline draws in on hover, as it does in the menu. */
+  section a::after {
     content: "";
     position: absolute;
     inset-block-end: -0.1em;
-    inset-inline-start: 0;
-    inline-size: 100%;
+    inset-inline: 0;
     block-size: 1px;
     background: currentColor;
     transform: scaleX(0);
@@ -125,38 +80,35 @@ const year = new Date().getFullYear()
     transition: transform var(--motion-fast) var(--ease-out-soft);
   }
 
-  .column a:hover::after,
-  .column a:focus-visible::after {
+  section a:hover::after,
+  section a:focus-visible::after {
     transform: scaleX(1);
   }
 
-  .cau {
-    color: var(--color-grey-1);
+  .colophon {
+    color: var(--color-mute);
+    font-weight: 600;
+    text-align: center;
   }
 
   @media (min-width: 60rem) {
     .footer {
+      justify-content: space-between;
+      /* Fixed, so the last row of photographs and the footer always add up to
+         exactly one screen. */
+      block-size: calc(var(--footer-height) + 2 * var(--edge));
       margin-inline-start: var(--rail-width);
-      padding-inline-end: var(--edge);
+      padding: var(--edge) var(--edge) var(--edge) 0;
     }
-  }
 
-  .colophon {
-    margin-block-start: var(--space-7);
-    font-size: var(--text-small);
-    color: var(--color-grey-1);
-  }
-
-  @media (min-width: 48rem) {
     .columns {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: var(--space-4);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--edge);
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .cta::after,
-    .column a::after {
+    section a::after {
       transition: none;
     }
   }

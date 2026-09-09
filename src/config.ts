@@ -13,9 +13,10 @@ export const studio = {
   regions: ["Porto Alegre", "Serra Gaúcha"],
   country: "Brasil",
   /** CAU registration is the credential clients look for. `null` until we have it. */
+  /* Order follows the footer she drew in Figma. */
   partners: [
-    { name: "Liliane Basso", cau: "A307604-0" },
     { name: "Letícia Bierhals Ignacio", cau: null },
+    { name: "Liliane Basso", cau: "A307604-0" },
   ],
   email: "contato@orma.arq.br",
   /** Digits only, country code included. Used to build the wa.me link. */

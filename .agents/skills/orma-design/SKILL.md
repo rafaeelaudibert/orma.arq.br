@@ -123,6 +123,13 @@ are quoted at that size and live as tokens in `global.css`.
   image shows until you scroll.
 - Every other page wears the same chrome. Project and studio pages open with a
   photograph exactly one row tall, so all pages open alike.
+- **The footer shares the last screen with the last row of photographs**, which
+  is why `.row:last-child` gives up `--footer-height` and the footer is a fixed
+  height on desktop: the two always add up to exactly one screen. It holds the
+  studio and its two architects on the left, e-mail and Instagram on the right,
+  and the year centred underneath in `--color-mute` (#aeaeb2, her exact value —
+  it is below the usual contrast bar and she asked for it twice). Her footer has
+  no WhatsApp button and no CAU; WhatsApp still lives on Contato and Sobre.
 
 **2026-09-09 — first build of the site, decided with her directly**
 
