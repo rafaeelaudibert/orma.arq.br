@@ -21,8 +21,8 @@ export const studio = {
   email: "contato@orma.arq.br",
   /** Digits only, country code included. Used to build the wa.me link. */
   whatsapp: "5551999999999",
-  instagram: "https://www.instagram.com/orma.arq.br",
-  instagramHandle: "@orma.arq.br",
+  instagram: "https://www.instagram.com/orma.arq",
+  instagramHandle: "@orma.arq",
   url: "https://orma.arq.br",
 } as const
 

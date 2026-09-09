@@ -1,5 +1,5 @@
 ---
-import { partnerNames, studio } from "../config"
+import { partnerNames, studio, whatsappUrl } from "../config"
 
 /**
  * The footer from the Figma design: the studio and its architects on the left,
@@ -27,11 +27,12 @@ const year = new Date().getFullYear()
         <li>
           <a href={studio.instagram} rel="noopener">{studio.instagramHandle}</a>
         </li>
+        <li><a href={whatsappUrl} rel="noopener">chame pelo WhatsApp</a></li>
       </ul>
     </section>
   </div>
 
-  <p class="colophon">{year} {studio.name}</p>
+  <p class="colophon">© {year} {studio.name}</p>
 </footer>
 
 <style>
@@ -86,7 +87,12 @@ const year = new Date().getFullYear()
   }
 
   .colophon {
+    /* The base rule caps paragraphs for readability; this line is centred on
+       the photographs, so it needs the full width. */
+    max-inline-size: none;
     color: var(--color-mute);
+    /* Four fifths of the interface size, as in the design. */
+    font-size: calc(var(--text-ui) * 0.8);
     font-weight: 600;
     text-align: center;
   }
