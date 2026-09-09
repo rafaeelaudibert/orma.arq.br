@@ -1,0 +1,151 @@
+---
+import { studio, whatsappUrl } from "../config"
+import { categories } from "../lib/categories"
+
+const year = new Date().getFullYear()
+---
+
+<footer class="footer">
+  <div class="lead" data-reveal>
+    <p class="eyebrow">Vamos conversar</p>
+    <p class="pitch">
+      Conte o que você quer construir ou reformar. A primeira conversa é sem
+      compromisso.
+    </p>
+    <a class="cta" href={whatsappUrl} rel="noopener"> Conversar no WhatsApp </a>
+  </div>
+
+  <div class="columns">
+    <div class="column" data-reveal style="--stagger: 1">
+      <p class="eyebrow">Estúdio</p>
+      <p>{studio.name}</p>
+      <p>{studio.partners.join(" e ")}</p>
+      <p>{studio.regions.join(" e ")}</p>
+    </div>
+
+    <div class="column" data-reveal style="--stagger: 2">
+      <p class="eyebrow">Contato</p>
+      <p><a href={`mailto:${studio.email}`}>{studio.email}</a></p>
+      <p>
+        <a href={studio.instagram} rel="noopener">{studio.instagramHandle}</a>
+      </p>
+    </div>
+
+    <div class="column" data-reveal style="--stagger: 3">
+      <p class="eyebrow">Projetos</p>
+      {
+        categories.map((c) => (
+          <p>
+            <a href={`/${c.slug}`}>{c.label}</a>
+          </p>
+        ))
+      }
+      <p><a href="/sobre">Sobre nós</a></p>
+    </div>
+  </div>
+
+  <p class="colophon">© {year} {studio.name}</p>
+</footer>
+
+<style>
+  .footer {
+    padding: var(--section-pad) var(--gutter) var(--space-5);
+    border-block-start: 1px solid var(--color-grey-2);
+  }
+
+  .lead {
+    max-inline-size: 40rem;
+  }
+
+  .pitch {
+    margin-block-start: var(--space-3);
+    font-size: var(--text-title);
+    /* ch here is relative to the pitch's own big size, so the line breaks land right. */
+    max-inline-size: 15ch;
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .cta {
+    position: relative;
+    display: inline-block;
+    margin-block-start: var(--space-5);
+    padding-block-end: 0.35em;
+    font-size: var(--text-large);
+    font-weight: 300;
+  }
+
+  .cta::after {
+    content: "";
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline-start: 0;
+    inline-size: 100%;
+    block-size: 1px;
+    background: currentColor;
+    transform-origin: left;
+    transition: transform var(--motion-fast) var(--ease-out-soft);
+  }
+
+  .cta:hover::after,
+  .cta:focus-visible::after {
+    transform: scaleX(0.4);
+  }
+
+  .columns {
+    display: grid;
+    gap: var(--space-5);
+    margin-block-start: var(--space-7);
+  }
+
+  .column p {
+    margin: 0;
+  }
+
+  .column .eyebrow {
+    margin-block-end: var(--space-3);
+  }
+
+  .column a {
+    position: relative;
+  }
+
+  .column a::after {
+    content: "";
+    position: absolute;
+    inset-block-end: -0.1em;
+    inset-inline-start: 0;
+    inline-size: 100%;
+    block-size: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--motion-fast) var(--ease-out-soft);
+  }
+
+  .column a:hover::after,
+  .column a:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  .colophon {
+    margin-block-start: var(--space-7);
+    font-size: var(--text-small);
+    color: var(--color-grey-1);
+  }
+
+  @media (min-width: 48rem) {
+    .columns {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta::after,
+    .column a::after {
+      transition: none;
+    }
+  }
+</style>

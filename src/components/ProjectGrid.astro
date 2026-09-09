@@ -1,0 +1,74 @@
+---
+import type { CollectionEntry } from "astro:content"
+
+import { toRows } from "../lib/grid"
+import ProjectTile from "./ProjectTile.astro"
+
+interface Props {
+  projects: CollectionEntry<"projects">[]
+  /** The first row runs full width. Off on the filtered pages. */
+  lead?: boolean
+}
+
+const { projects, lead = true } = Astro.props
+const rows = toRows(projects, { lead })
+
+let tileIndex = 0
+---
+
+<div class="grid">
+  {
+    rows.map((row, rowIndex) => (
+      <div
+        class="row"
+        class:list={[{ lead: lead && rowIndex === 0 }]}
+        style={`--row-height: ${row.height}svh`}
+      >
+        {row.cells.map((cell) => (
+          <ProjectTile
+            project={cell.item}
+            span={cell.span}
+            eager={tileIndex === 0}
+            index={tileIndex++ % 3}
+          />
+        ))}
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--grid-gap, 2px);
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--grid-gap, 2px);
+  }
+
+  /* On the phone every project gets the same generous slice of the screen. */
+  .row :global(.tile figure) {
+    aspect-ratio: 4 / 3;
+  }
+
+  /* The opening project gets a portrait crop on the phone, so it owns the screen. */
+  .row.lead :global(.tile figure) {
+    aspect-ratio: 3 / 4;
+  }
+
+  @media (min-width: 48rem) {
+    .row {
+      grid-template-columns: repeat(12, 1fr);
+      block-size: var(--row-height);
+    }
+
+    .row :global(.tile figure),
+    .row.lead :global(.tile figure) {
+      aspect-ratio: auto;
+    }
+  }
+</style>

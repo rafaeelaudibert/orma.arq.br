@@ -1,0 +1,121 @@
+---
+import { Image } from "astro:assets"
+import type { CollectionEntry } from "astro:content"
+
+import { categoryLabel, type CategorySlug } from "../lib/categories"
+
+interface Props {
+  project: CollectionEntry<"projects">
+  /** Share of the 12-column row this tile occupies. */
+  span: number
+  /** True for the first tile on the page, which must not lazy-load. */
+  eager?: boolean
+  index?: number
+}
+
+const { project, span, eager = false, index = 0 } = Astro.props
+const { title, cover, coverAlt, categories, location } = project.data
+
+const sizes = `(min-width: 60rem) calc((100vw - var(--nav-width)) * ${span} / 12), 100vw`
+const kinds = (categories as CategorySlug[]).map(categoryLabel).join(" · ")
+---
+
+<a
+  class="tile"
+  href={`/projetos/${project.id}`}
+  style={`--span: ${span}; --stagger: ${index}`}
+  data-reveal={eager ? undefined : ""}
+>
+  <figure>
+    <Image
+      src={cover}
+      alt={coverAlt}
+      widths={[640, 960, 1280, 1920, 2400]}
+      sizes={sizes}
+      loading={eager ? "eager" : "lazy"}
+      fetchpriority={eager ? "high" : "auto"}
+    />
+    <figcaption>
+      <span class="kinds">{kinds}</span>
+      <span class="title">{title}</span>
+      <span class="place">{location}</span>
+    </figcaption>
+  </figure>
+</a>
+
+<style>
+  .tile {
+    grid-column: span var(--span);
+    display: block;
+    overflow: clip;
+  }
+
+  figure {
+    position: relative;
+    block-size: 100%;
+    overflow: clip;
+    background: var(--color-grey-2);
+  }
+
+  img {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    transform: scale(1);
+    transition: transform 900ms var(--ease-out-soft);
+  }
+
+  .tile:hover img,
+  .tile:focus-visible img {
+    transform: scale(1.04);
+  }
+
+  figcaption {
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15em;
+    padding: var(--space-4);
+    color: #fff;
+    text-align: center;
+    /* Scrim so the caption keeps contrast over any photograph. */
+    background: linear-gradient(
+      to top,
+      rgb(0 0 0 / 0.62) 0%,
+      rgb(0 0 0 / 0.34) 45%,
+      rgb(0 0 0 / 0) 100%
+    );
+    padding-block-start: var(--space-7);
+    pointer-events: none;
+  }
+
+  .kinds,
+  .place {
+    font-size: var(--text-small);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    opacity: 0.82;
+  }
+
+  .title {
+    font-size: clamp(1.35rem, 2.2vw, 2.25rem);
+    font-weight: 300;
+    letter-spacing: var(--tracking-tight);
+    line-height: 1.1;
+  }
+
+  .place {
+    margin-block-start: 0.35em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    img,
+    .tile:hover img,
+    .tile:focus-visible img {
+      transition: none;
+      transform: none;
+    }
+  }
+</style>

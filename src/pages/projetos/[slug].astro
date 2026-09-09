@@ -1,0 +1,271 @@
+---
+import { Image } from "astro:assets"
+import { getCollection, render } from "astro:content"
+import type { GetStaticPaths } from "astro"
+
+import { categoryLabel, type CategorySlug } from "../../lib/categories"
+import Layout from "../../layouts/Layout.astro"
+
+export const getStaticPaths = (async () => {
+  const projects = (await getCollection("projects")).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  )
+
+  return projects.map((project, index) => ({
+    params: { slug: project.id },
+    props: {
+      project,
+      // The list wraps, so there is always somewhere to go next.
+      previous: projects[(index - 1 + projects.length) % projects.length],
+      next: projects[(index + 1) % projects.length],
+    },
+  }))
+}) satisfies GetStaticPaths
+
+const { project, previous, next } = Astro.props
+const { Content } = await render(project)
+const d = project.data
+
+const wide = `(min-width: 60rem) calc(100vw - var(--nav-width)), 100vw`
+
+const facts = [
+  { label: "Local", value: d.location },
+  { label: "Ano", value: String(d.year) },
+  ...(d.area ? [{ label: "Área", value: d.area }] : []),
+  {
+    label: "Projeto",
+    value: (d.categories as CategorySlug[]).map(categoryLabel).join(", "),
+  },
+]
+---
+
+<Layout title={d.title} description={d.summary} flush>
+  <article>
+    <figure class="opening">
+      <Image
+        src={d.cover}
+        alt={d.coverAlt}
+        widths={[640, 960, 1280, 1920, 2400]}
+        sizes={wide}
+        loading="eager"
+        fetchpriority="high"
+      />
+      <figcaption>
+        <h1>{d.title}</h1>
+        <p class="eyebrow">{d.location} — {d.year}</p>
+      </figcaption>
+    </figure>
+
+    <section class="brief">
+      <p class="summary" data-reveal>{d.summary}</p>
+
+      <dl class="facts" data-reveal style="--stagger: 1">
+        {
+          facts.map((fact) => (
+            <div>
+              <dt class="eyebrow">{fact.label}</dt>
+              <dd>{fact.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+
+    <section class="story" data-reveal>
+      <Content />
+    </section>
+
+    <div class="sequence">
+      {
+        d.images.map((image) => (
+          <figure data-reveal="clip">
+            <Image
+              src={image.src}
+              alt={image.alt}
+              widths={[640, 960, 1280, 1920, 2400]}
+              sizes={wide}
+            />
+            {image.caption && <figcaption>{image.caption}</figcaption>}
+          </figure>
+        ))
+      }
+    </div>
+
+    <nav class="pager" aria-label="Outros projetos">
+      <a href={`/projetos/${previous.id}`}>
+        <span class="eyebrow">Projeto anterior</span>
+        <span class="name">{previous.data.title}</span>
+      </a>
+      <a href={`/projetos/${next.id}`} class="forward">
+        <span class="eyebrow">Próximo projeto</span>
+        <span class="name">{next.data.title}</span>
+      </a>
+    </nav>
+  </article>
+</Layout>
+
+<style>
+  /* ------------------------------------------------------------- opening */
+  .opening {
+    position: relative;
+    block-size: min(88svh, 46rem);
+    overflow: clip;
+    background: var(--color-grey-2);
+  }
+
+  .opening img {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    animation: settle 12s var(--ease-out-soft) forwards;
+  }
+
+  @keyframes settle {
+    from {
+      transform: scale(1.06);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  .opening figcaption {
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-5) var(--gutter);
+    padding-block-start: var(--space-8);
+    color: #fff;
+    background: linear-gradient(
+      to top,
+      rgb(0 0 0 / 0.6) 0%,
+      rgb(0 0 0 / 0.3) 50%,
+      rgb(0 0 0 / 0) 100%
+    );
+  }
+
+  .opening h1 {
+    font-size: var(--text-hero);
+    font-weight: 200;
+  }
+
+  .opening .eyebrow {
+    color: rgb(255 255 255 / 0.85);
+  }
+
+  /* --------------------------------------------------------------- brief */
+  .brief {
+    display: grid;
+    gap: var(--space-6);
+    padding: var(--section-pad) var(--gutter) 0;
+  }
+
+  .summary {
+    font-size: clamp(1.25rem, 2.2vw, 2rem);
+    font-weight: 300;
+    line-height: 1.3;
+    letter-spacing: var(--tracking-tight);
+    max-inline-size: 26ch;
+  }
+
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+    margin: 0;
+  }
+
+  .facts dd {
+    margin: 0;
+    margin-block-start: var(--space-1);
+  }
+
+  /* --------------------------------------------------------------- story */
+  .story {
+    padding: var(--space-7) var(--gutter) 0;
+  }
+
+  .story :global(p + p) {
+    margin-block-start: var(--space-3);
+  }
+
+  /* ------------------------------------------------------------ sequence */
+  .sequence {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding-block-start: var(--section-pad);
+  }
+
+  .sequence figure {
+    margin: 0;
+  }
+
+  .sequence img {
+    inline-size: 100%;
+    block-size: auto;
+  }
+
+  .sequence figcaption {
+    padding: var(--space-3) var(--gutter) 0;
+    max-inline-size: 52ch;
+    color: var(--color-grey-1);
+    font-size: var(--text-small);
+    line-height: 1.6;
+  }
+
+  /* --------------------------------------------------------------- pager */
+  .pager {
+    display: grid;
+    gap: var(--space-5);
+    padding: var(--section-pad) var(--gutter) 0;
+  }
+
+  .pager a {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .pager .name {
+    font-size: var(--text-large);
+    font-weight: 300;
+    letter-spacing: var(--tracking-tight);
+    transition: opacity var(--motion-fast) var(--ease-out-soft);
+  }
+
+  .pager a:hover .name,
+  .pager a:focus-visible .name {
+    opacity: 0.5;
+  }
+
+  @media (min-width: 48rem) {
+    .brief {
+      grid-template-columns: 7fr 5fr;
+      align-items: start;
+      gap: var(--space-6);
+    }
+
+    .story {
+      max-inline-size: 62ch;
+    }
+
+    .pager {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .pager .forward {
+      text-align: right;
+      align-items: flex-end;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .opening img {
+      animation: none;
+    }
+  }
+</style>

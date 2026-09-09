@@ -1,0 +1,129 @@
+---
+import { studio, whatsappUrl } from "../config"
+import Layout from "../layouts/Layout.astro"
+
+const channels = [
+  { label: "WhatsApp", value: "Chamar agora", href: whatsappUrl },
+  { label: "E-mail", value: studio.email, href: `mailto:${studio.email}` },
+  {
+    label: "Instagram",
+    value: studio.instagramHandle,
+    href: studio.instagram,
+  },
+]
+---
+
+<Layout
+  title="Contato"
+  description={`Fale com a ${studio.name}. Projetos de arquitetura e interiores em ${studio.regions.join(" e ")}. Converse pelo WhatsApp ou por e-mail.`}
+>
+  <section class="hero">
+    <h1>Vamos conversar sobre a sua casa</h1>
+    <p class="lede">
+      Conte onde fica, o que você quer fazer e para quando. Respondemos em até
+      um dia útil e a primeira conversa não custa nada.
+    </p>
+  </section>
+
+  <ul class="channels" role="list">
+    {
+      channels.map((channel, index) => (
+        <li data-reveal style={`--stagger: ${index}`}>
+          <a href={channel.href} rel="noopener">
+            <span class="eyebrow">{channel.label}</span>
+            <span class="value">{channel.value}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <section class="where" data-reveal>
+    <p class="eyebrow">Onde atendemos</p>
+    <p>
+      {studio.city}, {studio.state}, e toda a região da {studio.regions[1]}.
+    </p>
+  </section>
+</Layout>
+
+<style>
+  .hero {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  h1 {
+    font-size: var(--text-hero);
+    font-weight: 200;
+    max-inline-size: 14ch;
+  }
+
+  .lede {
+    font-size: var(--text-large);
+    line-height: 1.5;
+    color: var(--color-grey-1);
+    max-inline-size: 48ch;
+  }
+
+  .channels {
+    margin: var(--space-7) 0 0;
+    padding: 0;
+    list-style: none;
+    border-block-start: 1px solid var(--color-grey-2);
+  }
+
+  .channels li {
+    border-block-end: 1px solid var(--color-grey-2);
+  }
+
+  .channels a {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding-block: var(--space-4);
+    transition: transform var(--motion-fast) var(--ease-out-soft);
+  }
+
+  .channels a:hover,
+  .channels a:focus-visible {
+    transform: translateX(var(--space-3));
+  }
+
+  .value {
+    font-size: var(--text-title);
+    font-weight: 200;
+    letter-spacing: var(--tracking-tight);
+    line-height: 1.1;
+  }
+
+  .where {
+    padding-block: var(--space-7) 0;
+  }
+
+  .where .eyebrow {
+    margin-block-end: var(--space-2);
+  }
+
+  @media (min-width: 48rem) {
+    .channels a {
+      flex-direction: row;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--space-4);
+    }
+
+    .channels .eyebrow {
+      flex: 0 0 12rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .channels a,
+    .channels a:hover,
+    .channels a:focus-visible {
+      transition: none;
+      transform: none;
+    }
+  }
+</style>

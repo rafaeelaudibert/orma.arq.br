@@ -1,0 +1,71 @@
+---
+import { getCollection } from "astro:content"
+import type { GetStaticPaths } from "astro"
+
+import ProjectGrid from "../components/ProjectGrid.astro"
+import { studio } from "../config"
+import { categories } from "../lib/categories"
+import Layout from "../layouts/Layout.astro"
+
+export const getStaticPaths = (async () => {
+  const projects = (await getCollection("projects")).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  )
+
+  return categories.map((category) => ({
+    params: { category: category.slug },
+    props: {
+      category,
+      projects: projects.filter((p) =>
+        (p.data.categories as string[]).includes(category.slug),
+      ),
+    },
+  }))
+}) satisfies GetStaticPaths
+
+const { category, projects } = Astro.props
+---
+
+<Layout
+  title={category.label}
+  description={`${category.intro} Projetos de ${category.label.toLowerCase()} do estúdio ${studio.name}, em ${studio.regions.join(" e ")}.`}
+  flush
+>
+  <header class="intro">
+    <h1>{category.label}</h1>
+    <p>{category.intro}</p>
+  </header>
+
+  {
+    projects.length > 0 ? (
+      <ProjectGrid projects={projects} lead={false} />
+    ) : (
+      <p class="empty">Estamos preparando esta seção. Volte em breve.</p>
+    )
+  }
+</Layout>
+
+<style>
+  .intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: clamp(3rem, 9vh, 7rem) var(--gutter) clamp(2.5rem, 6vh, 4.5rem);
+    max-inline-size: 34rem;
+  }
+
+  h1 {
+    font-size: var(--text-hero);
+  }
+
+  .intro p {
+    color: var(--color-grey-1);
+    font-size: var(--text-large);
+    line-height: 1.5;
+  }
+
+  .empty {
+    padding: 0 var(--gutter) var(--space-7);
+    color: var(--color-grey-1);
+  }
+</style>

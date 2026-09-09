@@ -1,8 +1,22 @@
 ---
-import Welcome from "../components/Welcome.astro"
+import { getCollection } from "astro:content"
+
+import ProjectGrid from "../components/ProjectGrid.astro"
+import { studio } from "../config"
 import Layout from "../layouts/Layout.astro"
+
+const projects = (await getCollection("projects")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+)
 ---
 
-<Layout>
-  <Welcome />
+<Layout
+  description={`${studio.tagline}. Projetos residenciais, de interiores e comerciais assinados pelo estúdio ${studio.shortName}.`}
+  flush
+>
+  <h1 class="visually-hidden">
+    {studio.name} — {studio.tagline}
+  </h1>
+
+  <ProjectGrid projects={projects} />
 </Layout>

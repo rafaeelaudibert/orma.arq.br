@@ -1,0 +1,253 @@
+---
+import { navLinks } from "../lib/categories"
+import { studio } from "../config"
+import Logo from "./Logo.astro"
+
+/** Current path without a trailing slash, so /arquitetura/ matches /arquitetura. */
+const here = Astro.url.pathname.replace(/\/+$/, "") || "/"
+const isCurrent = (href: string) => here === href
+---
+
+<header class="nav">
+  <a
+    class="brand"
+    href="/"
+    aria-label={`${studio.name}, ir para a página inicial`}
+  >
+    <Logo />
+  </a>
+
+  <button
+    class="toggle"
+    type="button"
+    aria-expanded="false"
+    aria-controls="site-menu"
+    data-menu-toggle
+  >
+    <span class="toggle-label" data-menu-label>Menu</span>
+  </button>
+
+  <nav id="site-menu" class="menu" aria-label="Navegação principal" data-menu>
+    <ul role="list">
+      {
+        navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              aria-current={isCurrent(link.href) ? "page" : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="footnote">
+      {studio.city} &amp; {studio.regions[1]}
+    </p>
+  </nav>
+</header>
+
+<style>
+  .nav {
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    block-size: var(--topbar-height);
+    padding-inline: var(--gutter);
+    background: var(--color-paper);
+    border-block-end: 1px solid var(--color-grey-2);
+  }
+
+  .brand {
+    display: block;
+    padding-block: var(--space-2);
+  }
+
+  /* ---------------------------------------------------------- phone menu */
+  .toggle {
+    display: grid;
+    place-items: center;
+    min-block-size: 44px;
+    min-inline-size: 44px;
+    margin-inline-end: calc(var(--gutter) * -0.5);
+    padding-inline: var(--space-3);
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .toggle-label {
+    font-size: var(--text-small);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+
+  .menu {
+    position: fixed;
+    inset: var(--topbar-height) 0 0 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--gutter);
+    background: var(--color-paper);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-0.5rem);
+    transition:
+      opacity var(--motion-fast) var(--ease-out-soft),
+      transform var(--motion-fast) var(--ease-out-soft),
+      visibility var(--motion-fast);
+  }
+
+  .nav[data-open] .menu {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+  }
+
+  .menu ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+  }
+
+  .menu a {
+    display: inline-block;
+    padding-block: var(--space-2);
+    font-size: clamp(1.75rem, 8vw, 2.5rem);
+    font-weight: 300;
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-grey-1);
+    transition: color var(--motion-fast) var(--ease-out-soft);
+  }
+
+  .menu a[aria-current="page"],
+  .menu a:hover,
+  .menu a:focus-visible {
+    color: var(--color-ink);
+  }
+
+  .footnote {
+    margin-block-start: var(--space-6);
+    font-size: var(--text-small);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-grey-1);
+  }
+
+  /* -------------------------------------------------------- desktop column */
+  @media (min-width: 60rem) {
+    .nav {
+      inset: 0 auto 0 0;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      inline-size: var(--nav-width);
+      block-size: 100svh;
+      padding: var(--space-6) var(--space-5);
+      border-block-end: 0;
+      border-inline-end: 1px solid var(--color-grey-2);
+    }
+
+    .brand {
+      padding-block: 0;
+    }
+
+    .toggle {
+      display: none;
+    }
+
+    .menu {
+      position: static;
+      inset: auto;
+      flex: 1;
+      justify-content: flex-start;
+      padding: 0;
+      margin-block-start: var(--space-6);
+      visibility: visible;
+      opacity: 1;
+      transform: none;
+    }
+
+    .menu ul {
+      gap: var(--space-2);
+    }
+
+    .menu a {
+      position: relative;
+      padding-block: var(--space-1);
+      font-size: var(--text-body);
+      font-weight: 400;
+      letter-spacing: 0.01em;
+    }
+
+    /* A hairline that draws in from the left on hover. */
+    .menu a::after {
+      content: "";
+      position: absolute;
+      inset-block-end: 0.25rem;
+      inset-inline-start: 0;
+      block-size: 1px;
+      inline-size: 100%;
+      background: currentColor;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--motion-fast) var(--ease-out-soft);
+    }
+
+    .menu a:hover::after,
+    .menu a:focus-visible::after,
+    .menu a[aria-current="page"]::after {
+      transform: scaleX(1);
+    }
+
+    .footnote {
+      margin-block-start: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .menu,
+    .menu a::after {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const nav = document.querySelector<HTMLElement>(".nav")
+  const toggle = document.querySelector<HTMLButtonElement>("[data-menu-toggle]")
+  const label = document.querySelector<HTMLElement>("[data-menu-label]")
+
+  if (nav && toggle && label) {
+    const setOpen = (open: boolean) => {
+      nav.toggleAttribute("data-open", open)
+      toggle.setAttribute("aria-expanded", String(open))
+      label.textContent = open ? "Fechar" : "Menu"
+      document.body.style.overflow = open ? "hidden" : ""
+    }
+
+    toggle.addEventListener("click", () =>
+      setOpen(toggle.getAttribute("aria-expanded") !== "true"),
+    )
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") setOpen(false)
+    })
+
+    // Leaving the phone layout must never strand the page in "menu open".
+    window
+      .matchMedia("(min-width: 60rem)")
+      .addEventListener("change", (event) => {
+        if (event.matches) setOpen(false)
+      })
+  }
+</script>

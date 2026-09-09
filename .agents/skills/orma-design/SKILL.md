@@ -89,4 +89,16 @@ Fonts are self-hosted via `@fontsource-variable/*` or `@fontsource/*` packages (
 
 ## Decisions
 
-_Record every visual-identity decision she confirms here (date + one line), so future sessions never re-ask. Nothing decided yet._
+_Record every visual-identity decision she confirms here (date + one line), so future sessions never re-ask._
+
+**2026-09-09 — first build of the site, decided with her directly**
+
+- **Reference**: mir.no. She wants the work to speak first, so the home page **opens straight into the projects** (no separate opening screen, no intro). Confirmed explicitly over the alternatives.
+- **Navigation**: a fixed **column on the left** holding the logo and the menu: Arquitetura, Interiores, Comercial, Sobre nós, Contato. On the phone it becomes a top bar with a full-screen menu.
+- **Colour: none.** Off-white paper (`#f7f6f4`) and off-black ink (`#141414`) plus two greys. She chose "zero cor" over using the brand palette as an accent, so the studio's palette (vinho, off-white, verde, azul) lives in the photography and print, never in the interface. **Do not add an accent colour without asking her.**
+- **Typeface**: Montserrat everywhere (her choice), self-hosted. The logo's typeface was drawn for the logo only and exists nowhere else, so the wordmark must always be the SVG, never live text. Until the SVG arrives, `Logo.astro` fakes it in Montserrat ExtraLight.
+- **Portfolio grid**: newest project first. The most recent one runs **full width at the top**; everything below sits in a varying rhythm of wide/narrow rows (mir.no style), never a uniform card grid. The rhythm lives in `src/lib/grid.ts`.
+- **Categories**: a project can belong to **more than one** (a house where they did both the architecture and the interiors shows up in both sections). Defined once in `src/lib/categories.ts`.
+- **Studio facts**: two partners, Liliane Basso and Letícia Bierhals Ignacio. Based in Porto Alegre, RS; they take work in Porto Alegre and the Serra Gaúcha. Mostly residential, some commercial.
+
+**Still placeholder — ask before treating as real:** the logo SVG, every project photograph, the WhatsApp number, the e-mail address, the Instagram handle, the CAU registration, and all six project entries in `src/content/projects/`.
