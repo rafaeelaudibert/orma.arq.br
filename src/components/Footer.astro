@@ -64,6 +64,11 @@ const year = new Date().getFullYear()
     padding: 0;
   }
 
+  /* The architects sit straight under the word that introduces them. */
+  .label + ul {
+    margin-block-start: 0;
+  }
+
   section a {
     position: relative;
   }
@@ -93,7 +98,7 @@ const year = new Date().getFullYear()
     color: var(--color-mute);
     /* Four fifths of the interface size, as in the design. */
     font-size: calc(var(--text-ui) * 0.8);
-    font-weight: 600;
+    font-weight: 500;
     text-align: center;
   }
 
