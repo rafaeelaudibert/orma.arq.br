@@ -39,7 +39,8 @@ const year = new Date().getFullYear()
   .footer {
     display: flex;
     flex-direction: column;
-    gap: var(--space-5);
+    /* The same breath below the columns as there is above them. */
+    gap: var(--space-6);
     padding: var(--space-6) var(--edge) var(--space-5);
     font-size: var(--text-ui);
     line-height: 1.45;
@@ -105,7 +106,9 @@ const year = new Date().getFullYear()
   @media (min-width: 60rem) {
     .footer {
       margin-inline-start: var(--rail-width);
-      /* A clear breath between the last photographs and the footer. */
+      /* A clear breath between the last photographs and the footer, and the
+         same one again before the year. */
+      gap: var(--space-7);
       padding: var(--space-7) var(--edge) var(--edge) 0;
     }
 
