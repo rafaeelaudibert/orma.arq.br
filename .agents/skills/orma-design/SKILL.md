@@ -140,7 +140,7 @@ are quoted at that size and live as tokens in `global.css`.
 - **Portfolio grid**: newest project first; the rhythm is set in `src/lib/grid.ts`. Superseded in its details by the Figma design above.
 - **Categories**: a project can belong to **more than one** (a house where they did both the architecture and the interiors shows up in both sections). Defined once in `src/lib/categories.ts`.
 - **Studio facts**: two partners, Liliane Basso and Letícia Bierhals Ignacio. Based in Porto Alegre, RS; they take work in Porto Alegre and the Serra Gaúcha. Mostly residential, some commercial.
-- **Favicon**: the "m." mark in off-white on a burgundy disc, generated from `src/assets/brand/mark.png` into `public/favicon*`. Her source file is a PNG, so the favicon is a PNG too; swap in a vector if she ever produces one.
+- **Favicon**: the "m." mark alone, no background, and it follows the browser's theme (ink on light, paper on dark). `public/favicon.svg` is the mark rebuilt as geometry, measured off `src/assets/brand/mark.png` and matched to it within a fraction of a pixel; swap in the studio's own vector if one ever turns up. `favicon-180.png` is the exception and keeps paper behind it, because iOS composites transparency onto black.
 - **Credentials**: Liliane Basso is CAU A307604-0. Letícia's registration is still pending and `partners[].cau` is `null` until it arrives, which hides her from the footer line automatically.
 
 **Photographs.** `Apartamento BR` is real: her four renders, imported from her
