@@ -26,7 +26,7 @@ const { project, previous, next } = Astro.props
 const { Content } = await render(project)
 const d = project.data
 
-const wide = `(min-width: 60rem) calc(100vw - var(--nav-width)), 100vw`
+const wide = "100vw"
 
 const facts = [
   { label: "Local", value: d.location },
@@ -108,7 +108,7 @@ const facts = [
   /* ------------------------------------------------------------- opening */
   .opening {
     position: relative;
-    block-size: min(88svh, 46rem);
+    block-size: 100svh;
     overflow: clip;
     background: var(--color-grey-2);
   }

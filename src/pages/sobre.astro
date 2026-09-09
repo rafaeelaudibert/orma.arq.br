@@ -2,7 +2,7 @@
 import { Image } from "astro:assets"
 
 import opening from "../assets/projects/residencia-gramado/02-fireplace.jpg"
-import { studio, whatsappUrl } from "../config"
+import { partnerNames, studio, whatsappUrl } from "../config"
 import Layout from "../layouts/Layout.astro"
 
 const steps = [
@@ -31,7 +31,7 @@ const steps = [
       src={opening}
       alt="Sala de estar rebaixada com lareira de pedra, sofá de lã e tapete grosso"
       widths={[640, 960, 1280, 1920, 2400]}
-      sizes="(min-width: 60rem) calc(100vw - var(--nav-width)), 100vw"
+      sizes="100vw"
       loading="eager"
       fetchpriority="high"
     />
@@ -43,7 +43,7 @@ const steps = [
   <section class="statement" data-reveal>
     <p>
       A {studio.shortName} nasceu da vontade de projetar casas em que as pessoas queiram
-      passar o dia inteiro. Somos {studio.partners[0]} e {studio.partners[1]}, e
+      passar o dia inteiro. Somos {partnerNames[0]} e {partnerNames[1]}, e
       assinamos cada projeto juntas, do primeiro esboço à última visita de obra.
     </p>
     <p>
@@ -78,7 +78,7 @@ const steps = [
 <style>
   .opening {
     position: relative;
-    block-size: min(78svh, 42rem);
+    block-size: 100svh;
     overflow: clip;
     background: var(--color-grey-2);
     margin: 0;

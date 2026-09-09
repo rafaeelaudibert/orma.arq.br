@@ -6,7 +6,7 @@ import ProjectTile from "./ProjectTile.astro"
 
 interface Props {
   projects: CollectionEntry<"projects">[]
-  /** The first row runs full width. Off on the filtered pages. */
+  /** The first project fills the whole screen. Off on the filtered pages. */
   lead?: boolean
 }
 
@@ -18,22 +18,26 @@ let tileIndex = 0
 
 <div class="grid">
   {
-    rows.map((row, rowIndex) => (
-      <div
-        class="row"
-        class:list={[{ lead: lead && rowIndex === 0 }]}
-        style={`--row-height: ${row.height}svh`}
-      >
-        {row.cells.map((cell) => (
-          <ProjectTile
-            project={cell.item}
-            span={cell.span}
-            eager={tileIndex === 0}
-            index={tileIndex++ % 3}
-          />
-        ))}
-      </div>
-    ))
+    rows.map((row, rowIndex) => {
+      const isLead = lead && rowIndex === 0
+      return (
+        <div
+          class="row"
+          class:list={[{ lead: isLead }]}
+          style={`--row-height: ${row.height}svh`}
+        >
+          {row.cells.map((cell) => (
+            <ProjectTile
+              project={cell.item}
+              span={cell.span}
+              eager={tileIndex === 0}
+              index={tileIndex++ % 3}
+            />
+          ))}
+          {isLead && <span class="cue" aria-hidden="true" />}
+        </div>
+      )
+    })
   }
 </div>
 
@@ -55,9 +59,46 @@ let tileIndex = 0
     aspect-ratio: 4 / 3;
   }
 
-  /* The opening project gets a portrait crop on the phone, so it owns the screen. */
+  /* The opening project owns the whole screen, at every width. */
+  .row.lead {
+    position: relative;
+    block-size: 100svh;
+  }
+
   .row.lead :global(.tile figure) {
-    aspect-ratio: 3 / 4;
+    aspect-ratio: auto;
+  }
+
+  /* A quiet hint that there is more below the first screen. */
+  .cue {
+    position: absolute;
+    inset-block-end: var(--space-4);
+    inset-inline-end: var(--gutter);
+    inline-size: 1px;
+    block-size: 3rem;
+    background: linear-gradient(
+      to bottom,
+      rgb(255 255 255 / 0) 0%,
+      rgb(255 255 255 / 0.9) 100%
+    );
+    transform-origin: top;
+    animation: cue 2.6s var(--ease-out-soft) infinite;
+    pointer-events: none;
+  }
+
+  @keyframes cue {
+    0% {
+      transform: scaleY(0);
+      opacity: 0;
+    }
+    45% {
+      transform: scaleY(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scaleY(1) translateY(100%);
+      opacity: 0;
+    }
   }
 
   @media (min-width: 48rem) {
@@ -66,9 +107,15 @@ let tileIndex = 0
       block-size: var(--row-height);
     }
 
-    .row :global(.tile figure),
-    .row.lead :global(.tile figure) {
+    .row :global(.tile figure) {
       aspect-ratio: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cue {
+      animation: none;
+      opacity: 0.7;
     }
   }
 </style>

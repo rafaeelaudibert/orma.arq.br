@@ -1,5 +1,5 @@
 ---
-import { studio, whatsappUrl } from "../config"
+import { cauLine, partnerNames, studio, whatsappUrl } from "../config"
 import { categories } from "../lib/categories"
 
 const year = new Date().getFullYear()
@@ -19,7 +19,8 @@ const year = new Date().getFullYear()
     <div class="column" data-reveal style="--stagger: 1">
       <p class="eyebrow">Estúdio</p>
       <p>{studio.name}</p>
-      <p>{studio.partners.join(" e ")}</p>
+      <p>{partnerNames.join(" e ")}</p>
+      {cauLine && <p class="cau">{cauLine}</p>}
       <p>{studio.regions.join(" e ")}</p>
     </div>
 
@@ -127,6 +128,10 @@ const year = new Date().getFullYear()
   .column a:hover::after,
   .column a:focus-visible::after {
     transform: scaleX(1);
+  }
+
+  .cau {
+    color: var(--color-grey-1);
   }
 
   .colophon {

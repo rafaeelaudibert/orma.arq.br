@@ -23,8 +23,10 @@ const pageTitle = title ? `${title} — ${studio.name}` : studio.name
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/favicon-512.png" sizes="512x512" />
+    <link rel="apple-touch-icon" href="/favicon-180.png" />
+    <meta name="theme-color" content="#f7f6f4" />
     <meta name="generator" content={Astro.generator} />
 
     <title>{pageTitle}</title>
@@ -41,25 +43,19 @@ const pageTitle = title ? `${title} — ${studio.name}` : studio.name
   </head>
 
   <body>
-    <SiteNav />
+    <SiteNav overlay={flush} />
 
-    <div class="shell">
-      <main id="conteudo" class:list={[{ flush }]}>
-        <slot />
-      </main>
-      <Footer />
-    </div>
+    <main id="conteudo" class:list={[{ flush }]}>
+      <slot />
+    </main>
+
+    <Footer />
 
     <script src="../scripts/motion.js"></script>
   </body>
 </html>
 
 <style>
-  .shell {
-    margin-inline-start: var(--nav-offset);
-    padding-block-start: var(--topbar-height);
-  }
-
   main:not(.flush) {
     padding: var(--section-pad) var(--gutter) 0;
   }

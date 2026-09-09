@@ -1,53 +1,19 @@
 ---
-/**
- * The Orma wordmark.
- *
- * TEMPORARY: drawn in Montserrat ExtraLight until we receive the real logo
- * as an SVG. When it arrives it goes to src/assets/brand/logo.svg and gets
- * inlined here with fill="currentColor" — this is the only file that changes.
- */
-interface Props {
-  /** Hide the "arquitetura" line, for tight places. */
-  compact?: boolean
-}
+import Wordmark from "../assets/brand/logo.svg"
 
-const { compact = false } = Astro.props
+/**
+ * The Orma wordmark, drawn in the studio's own typeface.
+ * The SVG paints with `currentColor`, so the colour comes from whoever uses it.
+ */
 ---
 
-<span class="logo" class:list={[{ compact }]}>
-  <span class="wordmark">Orma</span>
-  {!compact && <span class="descender">Arquitetura</span>}
-</span>
+<Wordmark class="logo" role="img" aria-label="Orma Arquitetura" />
 
 <style>
   .logo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.45em;
-    color: currentColor;
-    line-height: 1;
-  }
-
-  .wordmark {
-    font-size: 1.6rem;
-    font-weight: 200;
-    letter-spacing: 0.26em;
-    /* The tracking adds space after the last letter; pull it back optically. */
-    text-indent: 0.26em;
-    text-transform: uppercase;
-  }
-
-  .descender {
-    font-size: 0.5rem;
-    font-weight: 300;
-    letter-spacing: 0.34em;
-    text-indent: 0.34em;
-    text-transform: uppercase;
-    color: var(--color-grey-1);
-  }
-
-  .compact .wordmark {
-    font-size: 1.15rem;
+    inline-size: var(--logo-width, 7.5rem);
+    max-inline-size: 100%;
+    block-size: auto;
+    color: var(--color-brand);
   }
 </style>

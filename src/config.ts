@@ -11,7 +11,11 @@ export const studio = {
   state: "RS",
   /** Where the studio takes on work, in visitor-facing wording. */
   regions: ["Porto Alegre", "Serra Gaúcha"],
-  partners: ["Liliane Basso", "Letícia Bierhals Ignacio"],
+  /** CAU registration is the credential clients look for. `null` until we have it. */
+  partners: [
+    { name: "Liliane Basso", cau: "A307604-0" },
+    { name: "Letícia Bierhals Ignacio", cau: null },
+  ],
   email: "contato@orma.arq.br",
   /** Digits only, country code included. Used to build the wa.me link. */
   whatsapp: "5551999999999",
@@ -22,8 +26,10 @@ export const studio = {
 
 export const whatsappUrl = `https://wa.me/${studio.whatsapp}`
 
-/** Pretty phone number for display: +55 (51) 99999-9999 */
-export const whatsappDisplay = studio.whatsapp.replace(
-  /^(\d{2})(\d{2})(\d{5})(\d{4})$/,
-  "+$1 ($2) $3-$4",
-)
+export const partnerNames = studio.partners.map((partner) => partner.name)
+
+/** "CAU A307604-0" — only the partners whose registration we already have. */
+export const cauLine = studio.partners
+  .filter((partner) => partner.cau)
+  .map((partner) => `CAU ${partner.cau}`)
+  .join(" · ")

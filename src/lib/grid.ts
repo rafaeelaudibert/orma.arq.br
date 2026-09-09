@@ -7,7 +7,7 @@
  */
 type Shape = { spans: number[]; height: number }
 
-const LEAD: Shape = { spans: [12], height: 86 }
+const LEAD: Shape = { spans: [12], height: 100 }
 
 const SHAPES: Shape[] = [
   { spans: [7, 5], height: 60 },

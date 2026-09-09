@@ -46,12 +46,14 @@ const { category, projects } = Astro.props
 </Layout>
 
 <style>
+  /* The menu block floats over the top-left corner, so the heading starts
+     below it on the phone and beside it from tablet up. */
   .intro {
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
-    padding: clamp(3rem, 9vh, 7rem) var(--gutter) clamp(2.5rem, 6vh, 4.5rem);
-    max-inline-size: 34rem;
+    padding: calc(var(--menu-height) + var(--space-4)) var(--gutter)
+      clamp(2.5rem, 6vh, 4.5rem);
   }
 
   h1 {
@@ -59,6 +61,7 @@ const { category, projects } = Astro.props
   }
 
   .intro p {
+    max-inline-size: 34rem;
     color: var(--color-grey-1);
     font-size: var(--text-large);
     line-height: 1.5;
@@ -67,5 +70,12 @@ const { category, projects } = Astro.props
   .empty {
     padding: 0 var(--gutter) var(--space-7);
     color: var(--color-grey-1);
+  }
+
+  @media (min-width: 48rem) {
+    .intro {
+      padding-block-start: clamp(3rem, 9vh, 7rem);
+      padding-inline-start: calc(var(--menu-width) + var(--gutter));
+    }
   }
 </style>
