@@ -49,6 +49,7 @@ const facts = [
         sizes={openingSizes(d.cover, 1.06)}
         loading="eager"
         fetchpriority="high"
+        transition:name={`cover-${project.id}`}
       />
       <figcaption>
         <h1>{d.title}</h1>

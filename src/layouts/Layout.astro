@@ -1,6 +1,7 @@
 ---
 import Footer from "../components/Footer.astro"
 import PostHog from "../components/posthog.astro"
+import { ClientRouter } from "astro:transitions"
 import SiteNav from "../components/SiteNav.astro"
 import { studio } from "../config"
 import "../styles/global.css"
@@ -40,6 +41,9 @@ const pageTitle = title ? `${title} — ${studio.name}` : studio.name
     <meta property="og:locale" content="pt_BR" />
 
     <PostHog />
+
+    {/* Lets a project photograph fly from the grid into its own page. */}
+    <ClientRouter />
   </head>
 
   <body>

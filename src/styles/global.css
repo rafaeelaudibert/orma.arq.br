@@ -206,12 +206,25 @@
     clip-path: inset(0 0 0 0);
   }
 
+  /* The photograph a visitor clicked flies into place on the project page.
+     Slow and eased, like everything else that moves here. */
+  ::view-transition-group(*) {
+    animation-duration: var(--motion-slow);
+    animation-timing-function: var(--ease-out-soft);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     [data-reveal] {
       transition: none;
       transform: none;
       clip-path: none;
       opacity: 1;
+    }
+
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+      animation: none !important;
     }
   }
 }

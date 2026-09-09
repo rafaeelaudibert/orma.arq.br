@@ -35,6 +35,7 @@ const sizes = tileSizes(cover, span, lead)
       sizes={sizes}
       loading={eager ? "eager" : "lazy"}
       fetchpriority={eager ? "high" : "auto"}
+      transition:name={`cover-${project.id}`}
     />
     <figcaption>
       <span class="title">{title}</span>

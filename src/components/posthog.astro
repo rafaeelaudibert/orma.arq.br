@@ -2,13 +2,13 @@
 // PostHog analytics initialization for this static site.
 ---
 
-<script
-  is:inline
-  define:vars={{
-    projectToken: import.meta.env.PUBLIC_POSTHOG_PROJECT_TOKEN,
-    apiHost: import.meta.env.PUBLIC_POSTHOG_HOST,
-  }}
->
+<script>
+  // Not `is:inline`: Astro has to bundle this so the "posthog-js" import
+  // resolves in the browser. The router captures page views on history
+  // changes on our behalf, so this only ever runs once.
+  const projectToken = import.meta.env.PUBLIC_POSTHOG_PROJECT_TOKEN
+  const apiHost = import.meta.env.PUBLIC_POSTHOG_HOST
+
   if (projectToken && apiHost) {
     import("posthog-js").then(({ default: posthog }) => {
       posthog.init(projectToken, {

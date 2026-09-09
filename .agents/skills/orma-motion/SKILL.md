@@ -17,6 +17,24 @@ Motion on this site should feel like **mass and light** — heavy things settlin
 - **Phones are first-class.** Most visitors arrive on a phone: reveals must feel right at 390 × 844 (sections are taller there — check that things don't reveal too late), hover-only effects need a visible or touch equivalent, and nothing may rely on a mouse existing.
 - Favorite moves for this aesthetic: fade-up reveals, `clip-path: inset()` image reveals (like a curtain drawing back), oversized headline sliding up behind an invisible mask, slow Ken Burns on hero photography (`scale(1) → scale(1.06)` over 8s+), underline draw-in on links.
 
+## Page-to-page transitions
+
+The site navigates through Astro's `<ClientRouter />` (in `Layout.astro`), so
+moving between pages is a swap rather than a reload and the browser can animate
+across it.
+
+- **A project photograph flies from the grid into its own page.** Both the tile
+  image and the project page's opening image carry
+  `transition:name={`cover-`}`, which is all the browser needs to
+  treat them as the same thing and morph one into the other.
+- The morph borrows the site's own timing: `::view-transition-group(*)` is set
+  to `--motion-slow` and `--ease-out-soft` in `global.css`.
+- Reduced motion kills the animation outright (`::view-transition-*` set to
+  `animation: none`), leaving an instant, honest page change.
+- **Anything script-driven must re-run per page.** Hoisted scripts execute once
+  for the whole session now, so wire work to the `astro:page-load` event, which
+  fires on the first load and after every swap. `motion.js` already does this.
+
 ## The shared system (set up once, reuse forever)
 
 Everything scroll-triggered goes through **one** mechanism — never write a new IntersectionObserver per component.
