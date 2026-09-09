@@ -99,7 +99,6 @@
     --header-flow: 9.75rem;
     /* The footer block, so the last row of photographs can shrink to leave
        room for it on the same screen, the way the design draws it. */
-    --footer-height: 15rem;
     /* One size for the whole interface: menu, captions, studio location. */
     --text-ui: clamp(0.8125rem, 1.04vw, 1.25rem); /* 20px */
 

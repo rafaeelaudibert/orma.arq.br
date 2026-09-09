@@ -75,14 +75,6 @@ let tileIndex = 0
       block-size: calc(100svh - var(--header-height) - var(--edge));
     }
 
-    /* The last row shares its screen with the footer, so it gives up the room
-       the footer needs. */
-    .row:last-child {
-      block-size: calc(
-        100svh - var(--header-height) - var(--footer-height) - 2 * var(--edge)
-      );
-    }
-
     .row :global(.tile figure) {
       aspect-ratio: auto;
     }

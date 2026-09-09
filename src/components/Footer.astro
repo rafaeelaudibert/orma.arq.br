@@ -104,12 +104,9 @@ const year = new Date().getFullYear()
 
   @media (min-width: 60rem) {
     .footer {
-      justify-content: space-between;
-      /* Fixed, so the last row of photographs and the footer always add up to
-         exactly one screen. */
-      block-size: calc(var(--footer-height) + 2 * var(--edge));
       margin-inline-start: var(--rail-width);
-      padding: var(--edge) var(--edge) var(--edge) 0;
+      /* A clear breath between the last photographs and the footer. */
+      padding: var(--space-7) var(--edge) var(--edge) 0;
     }
 
     .columns {
