@@ -1,30 +1,28 @@
 /**
- * Turns a flat list of projects into the editorial rows of the portfolio grid:
- * the newest project alone across the full width, then a repeating rhythm of
- * wide/narrow pairs and triplets so no two screens look alike.
+ * Turns a flat list of projects into the rows of the portfolio grid, following
+ * the Figma design: the newest project alone across the content column, then a
+ * repeating rhythm of three-up and two-up rows. Every row is the same height,
+ * set in CSS, so a row fills exactly one screen.
  *
- * `span` is a share of 12 columns; `height` is the row's height in svh.
+ * A shape is a list of spans, each a share of 12 columns.
  */
-type Shape = { spans: number[]; height: number }
+type Shape = number[]
 
-const LEAD: Shape = { spans: [12], height: 100 }
+const LEAD: Shape = [12]
 
 const SHAPES: Shape[] = [
-  { spans: [7, 5], height: 60 },
-  { spans: [4, 4, 4], height: 44 },
-  { spans: [5, 7], height: 60 },
-  { spans: [6, 6], height: 54 },
-  { spans: [8, 4], height: 48 },
+  [4, 4, 4],
+  [6, 6],
 ]
 
 /** Fallbacks used when the remaining projects can't fill the next shape. */
 const REMAINDER: Record<number, Shape> = {
-  1: { spans: [12], height: 64 },
-  2: { spans: [6, 6], height: 54 },
-  3: { spans: [4, 4, 4], height: 44 },
+  1: [12],
+  2: [6, 6],
+  3: [4, 4, 4],
 }
 
-export type Row<T> = { height: number; cells: { item: T; span: number }[] }
+export type Row<T> = { cells: { item: T; span: number }[] }
 
 export function toRows<T>(items: T[], { lead = true } = {}): Row<T>[] {
   const queue = [...items]
@@ -35,15 +33,15 @@ export function toRows<T>(items: T[], { lead = true } = {}): Row<T>[] {
     const isLead = lead && rows.length === 0
     let shape = isLead ? LEAD : SHAPES[shapeIndex++ % SHAPES.length]
 
-    if (shape.spans.length > queue.length) {
+    if (shape.length > queue.length) {
       shape = REMAINDER[queue.length] ?? shape
     }
 
-    const cells = shape.spans
+    const cells = shape
       .slice(0, queue.length)
       .map((span) => ({ item: queue.shift()!, span }))
 
-    rows.push({ height: shape.height, cells })
+    rows.push({ cells })
   }
 
   return rows

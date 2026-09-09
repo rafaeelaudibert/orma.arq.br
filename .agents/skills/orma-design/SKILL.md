@@ -91,16 +91,55 @@ Fonts are self-hosted via `@fontsource-variable/*` or `@fontsource/*` packages (
 
 _Record every visual-identity decision she confirms here (date + one line), so future sessions never re-ask._
 
+**2026-09-09 (later) — she designed the home page in Figma and we built to it**
+
+The file: `https://www.figma.com/design/Wn2k92jj8SicjRMy2g7PuF` (she is on a View
+seat, so read the design with `get_design_context`, never write to it). Three
+artboards at 1920x982 = the home page and its scroll states. Measurements below
+are quoted at that size and live as tokens in `global.css`.
+
+- **A page margin of 40px on every side** (`--edge`), equal all round. Inside it,
+  the **menu rectangle** spans the full width between those margins, 114px tall,
+  fixed, with the words centred in it both ways. Photographs scroll *under* it,
+  so the band is painted from the very top of the viewport even though the words
+  sit in the lower part of it. Total top band = `--header-height` (154px).
+- **The wordmark is turned on its side down the left margin**, reading upwards
+  (O at the bottom), top-aligned with the first photograph, centred in the
+  `--rail-width` (272px) column. Where the studio works sits at the foot of the
+  same column. Both are fixed; on the phone the whole thing becomes one stacked
+  header and the location line hides (the footer already says it).
+- **The logo is black** (`--color-ink`). She asked for burgundy earlier, saw it,
+  and changed her mind. The burgundy `#4f0013` now survives only in the favicon.
+  There is no colour anywhere in the interface.
+- **One type size for the whole interface** (`--text-ui`, 20px at 1920): menu,
+  project captions, studio location. Captions are the project name in bold and
+  the city in regular, white, centred at the foot of each photograph, 53px up.
+- **Rows: 1, then 3, then 2**, repeating three-up and two-up after that. Every
+  row is one screen tall. **One spacing value for everything**: the gap between
+  projects, horizontal and vertical, is the same as the page margin
+  (`--edge`). She asked for this twice; there is no separate grid-gap token.
+- **The opening photograph owns the first screen**: it keeps the 40px page
+  margin below it and pushes the next row past the fold, so nothing but the big
+  image shows until you scroll.
+- Every other page wears the same chrome. Project and studio pages open with a
+  photograph exactly one row tall, so all pages open alike.
+
 **2026-09-09 — first build of the site, decided with her directly**
 
 - **Reference**: mir.no. She wants the work to speak first, so the home page **opens straight into the projects** (no separate opening screen, no intro). Confirmed explicitly over the alternatives.
-- **Navigation**: a small **block in the top-left corner** (`--menu-width` × `--menu-height`) holding the logo and the menu: Arquitetura, Interiores, Comercial, Sobre nós, Contato. It floats over the opening photograph and **scrolls away with the page** — deliberately not fixed, exactly like mir.no. The links are always visible, so there is no hamburger at any width. Pages that do not open with a photograph let the block sit in normal flow and lay their heading out around it.
-- **Colour: the logo only.** Off-white paper (`#f7f6f4`) and off-black ink (`#141414`) plus two greys. She chose "zero cor" for the interface, then asked for the wordmark itself in the brand burgundy **`#4f0013`** (`--color-brand`). That burgundy is the single colour on the whole site and belongs to the logo and the favicon; nothing else may use it. **Do not add another accent colour without asking her.**
+- **Navigation**: superseded by the Figma design above.
+- **Colour**: superseded above. Off-white paper (`#f7f6f4`) and off-black ink (`#141414`) plus two greys, and nothing else. **Do not add an accent colour without asking her.**
 - **Typeface**: Montserrat everywhere (her choice), self-hosted. The logo's typeface was drawn for the logo only and exists nowhere else, so the wordmark is always the SVG at `src/assets/brand/logo.svg`, never live text. The lockup on the site is the **wordmark alone**, without the "arquitetura" line, because that line would have to be faked in Montserrat.
-- **Portfolio grid**: newest project first. The most recent one **fills the entire first screen** (`100svh`, at every width): nothing else is visible until the visitor scrolls. Everything below sits in a varying rhythm of wide/narrow rows (mir.no style), never a uniform card grid. The rhythm lives in `src/lib/grid.ts`. Every page that opens with a photograph opens full-screen the same way.
+- **Portfolio grid**: newest project first; the rhythm is set in `src/lib/grid.ts`. Superseded in its details by the Figma design above.
 - **Categories**: a project can belong to **more than one** (a house where they did both the architecture and the interiors shows up in both sections). Defined once in `src/lib/categories.ts`.
 - **Studio facts**: two partners, Liliane Basso and Letícia Bierhals Ignacio. Based in Porto Alegre, RS; they take work in Porto Alegre and the Serra Gaúcha. Mostly residential, some commercial.
 - **Favicon**: the "m." mark in off-white on a burgundy disc, generated from `src/assets/brand/mark.png` into `public/favicon*`. Her source file is a PNG, so the favicon is a PNG too; swap in a vector if she ever produces one.
 - **Credentials**: Liliane Basso is CAU A307604-0. Letícia's registration is still pending and `partners[].cau` is `null` until it arrives, which hides her from the footer line automatically.
+
+**Photographs.** `Apartamento BR` is real: her four renders, imported from her
+Desktop into `src/assets/projects/apartamento-br/`. The other five projects
+borrow those same four images on purpose ("só para ficar mais bonito") — each
+`cover:` carries a `# TEMPORARY:` comment, and their own folders were deleted.
+Swap each one out as its real photographs arrive.
 
 **Still placeholder, by her explicit decision — do not chase these again:** the WhatsApp number (they do not have one yet), `contato@orma.arq.br` and `@orma.arq.br`. **Still genuinely missing:** every project photograph, Letícia's CAU, and all six project entries in `src/content/projects/`.

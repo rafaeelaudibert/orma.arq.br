@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets"
 
-import opening from "../assets/projects/residencia-gramado/02-fireplace.jpg"
+import opening from "../assets/projects/apartamento-br/03-wardrobe.jpg"
 import { partnerNames, studio, whatsappUrl } from "../config"
 import Layout from "../layouts/Layout.astro"
 
@@ -29,7 +29,7 @@ const steps = [
   <figure class="opening">
     <Image
       src={opening}
-      alt="Sala de estar rebaixada com lareira de pedra, sofá de lã e tapete grosso"
+      alt="Corredor com armários de madeira escura do piso ao teto e luminária de chão redonda"
       widths={[640, 960, 1280, 1920, 2400]}
       sizes="100vw"
       loading="eager"
@@ -76,9 +76,10 @@ const steps = [
 </Layout>
 
 <style>
+  /* The same height as a row of the portfolio grid, so every page opens alike. */
   .opening {
     position: relative;
-    block-size: 100svh;
+    block-size: calc(100svh - var(--header-height) - var(--edge));
     overflow: clip;
     background: var(--color-grey-2);
     margin: 0;

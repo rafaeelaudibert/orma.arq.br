@@ -46,36 +46,31 @@ const { category, projects } = Astro.props
 </Layout>
 
 <style>
-  /* The menu block floats over the top-left corner, so the heading starts
-     below it on the phone and beside it from tablet up. */
+  /* A quiet section heading at the top of the content column, so the page has
+     a name without competing with the photographs. */
   .intro {
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
-    padding: calc(var(--menu-height) + var(--space-4)) var(--gutter)
-      clamp(2.5rem, 6vh, 4.5rem);
+    gap: var(--space-2);
+    padding-block: var(--space-4) var(--space-5);
   }
 
   h1 {
-    font-size: var(--text-hero);
+    font-size: clamp(1.75rem, 3.4vw, 3.25rem);
+    font-weight: 300;
+    letter-spacing: var(--tracking-tight);
+    line-height: 1.05;
   }
 
   .intro p {
     max-inline-size: 34rem;
     color: var(--color-grey-1);
-    font-size: var(--text-large);
+    font-size: var(--text-ui);
     line-height: 1.5;
   }
 
   .empty {
-    padding: 0 var(--gutter) var(--space-7);
+    padding-block-end: var(--space-7);
     color: var(--color-grey-1);
-  }
-
-  @media (min-width: 48rem) {
-    .intro {
-      padding-block-start: clamp(3rem, 9vh, 7rem);
-      padding-inline-start: calc(var(--menu-width) + var(--gutter));
-    }
   }
 </style>

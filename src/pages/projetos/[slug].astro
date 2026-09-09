@@ -106,9 +106,10 @@ const facts = [
 
 <style>
   /* ------------------------------------------------------------- opening */
+  /* The same height as a row of the portfolio grid, so every page opens alike. */
   .opening {
     position: relative;
-    block-size: 100svh;
+    block-size: calc(100svh - var(--header-height) - var(--edge));
     overflow: clip;
     background: var(--color-grey-2);
   }

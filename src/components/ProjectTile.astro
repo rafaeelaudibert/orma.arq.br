@@ -2,8 +2,6 @@
 import { Image } from "astro:assets"
 import type { CollectionEntry } from "astro:content"
 
-import { categoryLabel, type CategorySlug } from "../lib/categories"
-
 interface Props {
   project: CollectionEntry<"projects">
   /** Share of the 12-column row this tile occupies. */
@@ -14,10 +12,10 @@ interface Props {
 }
 
 const { project, span, eager = false, index = 0 } = Astro.props
-const { title, cover, coverAlt, categories, location } = project.data
+const { title, cover, coverAlt, location } = project.data
 
-const sizes = `(min-width: 48rem) calc(100vw * ${span} / 12), 100vw`
-const kinds = (categories as CategorySlug[]).map(categoryLabel).join(" · ")
+/* The content column is the viewport minus the left rail and the right margin. */
+const sizes = `(min-width: 60rem) calc(83.75vw * ${span} / 12), 100vw`
 ---
 
 <a
@@ -36,7 +34,6 @@ const kinds = (categories as CategorySlug[]).map(categoryLabel).join(" · ")
       fetchpriority={eager ? "high" : "auto"}
     />
     <figcaption>
-      <span class="kinds">{kinds}</span>
       <span class="title">{title}</span>
       <span class="place">{location}</span>
     </figcaption>
@@ -47,6 +44,10 @@ const kinds = (categories as CategorySlug[]).map(categoryLabel).join(" · ")
   .tile {
     grid-column: span var(--span);
     display: block;
+    /* Let the row height win over the photograph's own proportions. */
+    min-inline-size: 0;
+    min-block-size: 0;
+    block-size: 100%;
     overflow: clip;
   }
 
@@ -76,38 +77,24 @@ const kinds = (categories as CategorySlug[]).map(categoryLabel).join(" · ")
     inset-inline: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.15em;
-    padding: var(--space-5) var(--gutter);
+    padding: var(--space-5) var(--space-3) clamp(1.25rem, 2.76vw, 3.3125rem);
     color: #fff;
+    font-size: var(--text-ui);
+    line-height: 1.35;
     text-align: center;
-    /* Scrim so the caption keeps contrast over any photograph. */
+    /* The design puts the words straight on the photograph. A whisper of
+       shading plus a soft shadow keeps them readable over a pale one. */
+    text-shadow: 0 1px 14px rgb(0 0 0 / 0.5);
     background: linear-gradient(
       to top,
-      rgb(0 0 0 / 0.62) 0%,
-      rgb(0 0 0 / 0.34) 45%,
+      rgb(0 0 0 / 0.3) 0%,
       rgb(0 0 0 / 0) 100%
     );
-    padding-block-start: var(--space-7);
     pointer-events: none;
   }
 
-  .kinds,
-  .place {
-    font-size: var(--text-small);
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
-    opacity: 0.82;
-  }
-
   .title {
-    font-size: clamp(1.35rem, 2.2vw, 2.25rem);
-    font-weight: 300;
-    letter-spacing: var(--tracking-tight);
-    line-height: 1.1;
-  }
-
-  .place {
-    margin-block-start: 0.35em;
+    font-weight: 700;
   }
 
   @media (prefers-reduced-motion: reduce) {

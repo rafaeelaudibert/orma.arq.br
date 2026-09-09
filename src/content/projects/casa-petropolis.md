@@ -6,20 +6,9 @@ location: Porto Alegre, RS
 year: 2025
 area: 210 m²
 summary: "Uma casa de esquina em terreno estreito, resolvida em três níveis para que todos os ambientes recebam sol da manhã. O concreto aparente convive com carvalho claro e muito verde."
-cover: ../../assets/projects/casa-petropolis/01-facade.jpg
-coverAlt: Fachada de concreto aparente com brises de madeira e um pátio lateral com vegetação
-images:
-  - src: ../../assets/projects/casa-petropolis/02-living-room.jpg
-    alt: Sala de estar com pé-direito duplo e janela que vai do chão ao teto
-    caption: A sala ocupa o vazio central da casa e recebe luz pelos dois lados.
-  - src: ../../assets/projects/casa-petropolis/03-stair.jpg
-    alt: Escada de concreto com corrimão fino de metal preto junto a uma parede de tijolos
-    caption: A escada foi puxada para a fachada e virou o elemento que organiza a planta.
-  - src: ../../assets/projects/casa-petropolis/04-kitchen.jpg
-    alt: Cozinha integrada com bancada de pedra clara e armários de carvalho
-  - src: ../../assets/projects/casa-petropolis/05-garden.jpg
-    alt: Pátio interno com piso de pedra, banco de concreto e vegetação nativa
-    caption: O pátio nos fundos trouxe ventilação cruzada para o térreo inteiro.
+# TEMPORARY: borrowed from Apartamento BR until this project has its own photos.
+cover: ../../assets/projects/apartamento-br/03-wardrobe.jpg
+coverAlt: Corredor com armários de madeira escura do piso ao teto e luminária de chão redonda
 ---
 
 O terreno tinha nove metros de frente e uma vizinha colada de um lado, o que

@@ -1,23 +1,23 @@
 ---
+import { studio } from "../config"
 import { navLinks } from "../lib/categories"
 import Logo from "./Logo.astro"
 
-interface Props {
-  /**
-   * True on pages that open with a full-screen image: the block then floats
-   * over the photograph instead of pushing the page down.
-   */
-  overlay?: boolean
-}
-
-const { overlay = false } = Astro.props
+/**
+ * The chrome that stays put on every page, laid out from the Figma design:
+ * the wordmark turned on its side down the left margin, the menu in a row
+ * along the top, and where the studio works at the foot of the left margin.
+ * On the phone the whole thing collapses into a stacked header.
+ */
 
 /** Current path without a trailing slash, so /arquitetura/ matches /arquitetura. */
 const here = Astro.url.pathname.replace(/\/+$/, "") || "/"
 const isCurrent = (href: string) => here === href
+
+const where = studio.regions.join(" e ")
 ---
 
-<header class="menu" class:list={[{ overlay }]}>
+<header class="chrome">
   <a
     class="brand"
     href="/"
@@ -26,7 +26,7 @@ const isCurrent = (href: string) => here === href
     <Logo />
   </a>
 
-  <nav aria-label="Navegação principal">
+  <nav class="menu" aria-label="Navegação principal">
     <ul role="list">
       {
         navLinks.map((link) => (
@@ -42,62 +42,151 @@ const isCurrent = (href: string) => here === href
       }
     </ul>
   </nav>
+
+  <p class="where">
+    {where}
+    <span>{studio.country}</span>
+  </p>
 </header>
 
 <style>
-  .menu {
-    position: relative;
-    z-index: 20;
+  /* --- phone: one stacked header, the wordmark the right way up --- */
+  .chrome {
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
-    inline-size: var(--menu-width);
-    min-block-size: var(--menu-height);
-    padding: var(--space-4) var(--space-3);
+    gap: var(--space-3);
+    min-block-size: var(--header-flow);
+    padding: var(--space-3) var(--edge);
     background: var(--color-paper);
-    text-align: center;
-  }
-
-  .menu.overlay {
-    position: absolute;
-    inset-block-start: 0;
-    inset-inline-start: 0;
   }
 
   .brand {
-    display: flex;
-    justify-content: center;
-    padding-block-end: var(--space-4);
-    --logo-width: 6.5rem;
+    --logo-width: clamp(6rem, 26vw, 9rem);
+    display: block;
   }
 
   ul {
     display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* Narrow enough that the phone splits it the way it reads: the three kinds
+       of work on one line, the two other pages on the next. */
+    max-inline-size: 17rem;
+    gap: 0.35rem clamp(0.9rem, 4.2vw, 5rem);
     margin: 0;
     padding: 0;
   }
 
   li a {
-    display: grid;
-    place-items: center;
-    /* Comfortable to tap without making the block tower over the photograph. */
-    min-block-size: 2.25rem;
-    font-size: var(--text-body);
+    display: block;
+    padding-block: 0.35rem;
+    font-size: var(--text-ui);
     line-height: 1.2;
-    color: var(--color-grey-1);
-    transition: color var(--motion-fast) var(--ease-out-soft);
-  }
-
-  li a[aria-current="page"],
-  li a:hover,
-  li a:focus-visible {
     color: var(--color-ink);
   }
 
+  /* The line under the current page, drawn in on hover for the others. */
+  li a::after {
+    content: "";
+    display: block;
+    block-size: 1px;
+    margin-block-start: 0.25em;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform var(--motion-fast) var(--ease-out-soft);
+  }
+
+  li a[aria-current="page"]::after,
+  li a:hover::after,
+  li a:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  /* Hidden on the phone: the footer already says where the studio works. */
+  .where {
+    display: none;
+    font-size: var(--text-ui);
+    line-height: 1.35;
+    text-align: center;
+  }
+
+  .where span {
+    display: block;
+    margin-block-start: 1.35em;
+  }
+
+  /* --- desktop: the Figma layout, fixed while the photographs scroll --- */
+  @media (min-width: 60rem) {
+    /* One fixed layer over the page; only the pieces themselves take clicks. */
+    .chrome {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: block;
+      padding: 0;
+      background: none;
+      pointer-events: none;
+    }
+
+    .chrome > * {
+      pointer-events: auto;
+    }
+
+    /* The menu rectangle spans the page between the two side margins, and the
+       words sit centred inside it. It reaches the very top so photographs
+       disappear behind it instead of into the margin. */
+    .menu {
+      position: absolute;
+      inset-block-start: 0;
+      inset-inline: 0;
+      display: grid;
+      place-items: center;
+      block-size: var(--header-height);
+      padding-block-start: var(--edge);
+      background: var(--color-paper);
+    }
+
+    ul {
+      flex-wrap: nowrap;
+      max-inline-size: none;
+    }
+
+    /* The wordmark on its side, reading upwards, top-aligned with the photos. */
+    .brand {
+      --logo-length: clamp(9rem, 32.8vh, 21rem);
+      --logo-thickness: calc(var(--logo-length) * 0.2073);
+      position: absolute;
+      inset-block-start: var(--header-height);
+      inset-inline-start: calc((var(--rail-width) - var(--logo-thickness)) / 2);
+      inline-size: var(--logo-thickness);
+      block-size: var(--logo-length);
+    }
+
+    .brand :global(.logo) {
+      position: absolute;
+      inset: 0 auto auto 0;
+      inline-size: var(--logo-length);
+      /* The rotated wordmark is longer than the box it stands in. */
+      max-inline-size: none;
+      transform-origin: 0 0;
+      transform: rotate(-90deg) translateX(-100%);
+    }
+
+    .where {
+      position: absolute;
+      inset-block-end: var(--edge);
+      inset-inline-start: 0;
+      display: block;
+      inline-size: var(--rail-width);
+      padding-inline: var(--space-2);
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    li a {
+    li a::after {
       transition: none;
     }
   }

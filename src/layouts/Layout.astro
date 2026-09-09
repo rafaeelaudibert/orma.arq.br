@@ -9,7 +9,7 @@ interface Props {
   /** Page name; the studio name is appended automatically. */
   title?: string
   description: string
-  /** Pages whose first screen is an image start flush against the top. */
+  /** Pages that fill the content column edge to edge, like the portfolio grid. */
   flush?: boolean
 }
 
@@ -43,7 +43,7 @@ const pageTitle = title ? `${title} — ${studio.name}` : studio.name
   </head>
 
   <body>
-    <SiteNav overlay={flush} />
+    <SiteNav />
 
     <main id="conteudo" class:list={[{ flush }]}>
       <slot />
@@ -56,7 +56,27 @@ const pageTitle = title ? `${title} — ${studio.name}` : studio.name
 </html>
 
 <style>
+  /* The content column sits inside the chrome: to the right of the sideways
+     logo, under the menu band, with a thin margin on the outside. Pages of
+     photographs run to that margin; pages of text keep a wider one. */
   main:not(.flush) {
-    padding: var(--section-pad) var(--gutter) 0;
+    padding-block-start: var(--space-6);
+    padding-inline: var(--gutter);
+  }
+
+  @media (min-width: 60rem) {
+    main {
+      margin-inline-start: var(--rail-width);
+    }
+
+    main.flush {
+      padding-block-start: var(--header-height);
+      padding-inline-end: var(--edge);
+    }
+
+    main:not(.flush) {
+      padding-block-start: calc(var(--header-height) + var(--space-5));
+      padding-inline: 0 var(--gutter);
+    }
   }
 </style>

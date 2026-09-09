@@ -51,13 +51,12 @@
 /* ----------------------------------------------------------------- tokens */
 @layer tokens {
   :root {
-    /* Palette: paper, ink and the greys between. The only colour on the whole
-       site is the brand burgundy, and it is reserved for the logo. */
+    /* Palette: paper, ink and the greys between. No colour anywhere in the
+       interface; the brand burgundy survives only in the favicon. */
     --color-paper: #f7f6f4;
     --color-ink: #141414;
     --color-grey-1: #6f6d6a; /* secondary text */
     --color-grey-2: #dedbd7; /* hairlines, image placeholders */
-    --color-brand: #4f0013; /* the logo, and nothing else */
 
     /* Type */
     --font-display: "Montserrat Variable", "Montserrat", system-ui, sans-serif;
@@ -86,22 +85,24 @@
     --gutter: clamp(1.25rem, 3vw, 3rem);
     --container-max: 1440px;
 
-    /* Layout: the little menu block that floats over the top-left corner.
-       Its size is fixed here so pages can lay out around it. */
-    --menu-width: 11rem;
-    --menu-height: 17.5rem;
+    /* Layout, measured off the Figma design (values shown at its 1920x982).
+       --rail is the left margin holding the sideways logo, --edge is the white
+       margin on the other three sides AND the gap between photographs (she
+       wanted one spacing everywhere), --header the band the images scroll
+       under. */
+    --rail-width: clamp(8.5rem, 14.17vw, 17rem); /* 272px */
+    --edge: clamp(0.75rem, 2.08vw, 2.5rem); /* 40px */
+    --header-height: clamp(4.5rem, 8.02vw, 9.625rem); /* 154px */
+    /* The stacked phone header. Fixed here so the opening image can be sized
+       to fill exactly the rest of the screen. */
+    --header-flow: 9.75rem;
+    /* One size for the whole interface: menu, captions, studio location. */
+    --text-ui: clamp(0.8125rem, 1.04vw, 1.25rem); /* 20px */
 
     /* Motion */
     --motion-fast: 200ms;
     --motion-slow: 700ms;
     --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  @media (min-width: 48rem) {
-    :root {
-      --menu-width: 12.5rem;
-      --menu-height: 18rem;
-    }
   }
 }
 

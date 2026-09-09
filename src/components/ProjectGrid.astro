@@ -6,7 +6,7 @@ import ProjectTile from "./ProjectTile.astro"
 
 interface Props {
   projects: CollectionEntry<"projects">[]
-  /** The first project fills the whole screen. Off on the filtered pages. */
+  /** The newest project gets the full column to itself. Off on filtered pages. */
   lead?: boolean
 }
 
@@ -18,26 +18,18 @@ let tileIndex = 0
 
 <div class="grid">
   {
-    rows.map((row, rowIndex) => {
-      const isLead = lead && rowIndex === 0
-      return (
-        <div
-          class="row"
-          class:list={[{ lead: isLead }]}
-          style={`--row-height: ${row.height}svh`}
-        >
-          {row.cells.map((cell) => (
-            <ProjectTile
-              project={cell.item}
-              span={cell.span}
-              eager={tileIndex === 0}
-              index={tileIndex++ % 3}
-            />
-          ))}
-          {isLead && <span class="cue" aria-hidden="true" />}
-        </div>
-      )
-    })
+    rows.map((row, rowIndex) => (
+      <div class:list={["row", { lead: lead && rowIndex === 0 }]}>
+        {row.cells.map((cell) => (
+          <ProjectTile
+            project={cell.item}
+            span={cell.span}
+            eager={tileIndex === 0}
+            index={tileIndex++ % 3}
+          />
+        ))}
+      </div>
+    ))
   }
 </div>
 
@@ -45,13 +37,13 @@ let tileIndex = 0
   .grid {
     display: flex;
     flex-direction: column;
-    gap: var(--grid-gap, 2px);
+    gap: var(--edge);
   }
 
   .row {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--grid-gap, 2px);
+    gap: var(--edge);
   }
 
   /* On the phone every project gets the same generous slice of the screen. */
@@ -59,63 +51,28 @@ let tileIndex = 0
     aspect-ratio: 4 / 3;
   }
 
-  /* The opening project owns the whole screen, at every width. */
+  /* The opening project keeps the page margin below it, which is exactly the
+     gap to the next row, so only the big photograph shows until you scroll. */
   .row.lead {
-    position: relative;
-    block-size: 100svh;
+    block-size: calc(100svh - var(--header-flow) - var(--edge));
   }
 
   .row.lead :global(.tile figure) {
     aspect-ratio: auto;
   }
 
-  /* A quiet hint that there is more below the first screen. */
-  .cue {
-    position: absolute;
-    inset-block-end: var(--space-4);
-    inset-inline-end: var(--gutter);
-    inline-size: 1px;
-    block-size: 3rem;
-    background: linear-gradient(
-      to bottom,
-      rgb(255 255 255 / 0) 0%,
-      rgb(255 255 255 / 0.9) 100%
-    );
-    transform-origin: top;
-    animation: cue 2.6s var(--ease-out-soft) infinite;
-    pointer-events: none;
-  }
-
-  @keyframes cue {
-    0% {
-      transform: scaleY(0);
-      opacity: 0;
-    }
-    45% {
-      transform: scaleY(1);
-      opacity: 1;
-    }
-    100% {
-      transform: scaleY(1) translateY(100%);
-      opacity: 0;
-    }
-  }
-
-  @media (min-width: 48rem) {
+  @media (min-width: 60rem) {
     .row {
       grid-template-columns: repeat(12, 1fr);
-      block-size: var(--row-height);
+      block-size: calc(100svh - var(--header-height) - var(--edge));
+    }
+
+    .row.lead {
+      block-size: calc(100svh - var(--header-height) - var(--edge));
     }
 
     .row :global(.tile figure) {
       aspect-ratio: auto;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .cue {
-      animation: none;
-      opacity: 0.7;
     }
   }
 </style>

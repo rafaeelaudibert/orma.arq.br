@@ -6,14 +6,9 @@ location: Porto Alegre, RS
 year: 2024
 area: 74 m²
 summary: "Um café em uma loja de rua estreita e comprida, com o balcão logo na entrada. A luz da vitrine chega até o fundo porque nada bloqueia o caminho."
-cover: ../../assets/projects/cafe-boulevard/01-counter.jpg
-coverAlt: Balcão de café em aço inox e madeira escura sob luminárias pendentes baixas
-images:
-  - src: ../../assets/projects/cafe-boulevard/02-seating.jpg
-    alt: Bancada corrida junto à parede com banquetas altas de madeira
-    caption: A bancada corrida rendeu doze lugares sem estreitar a circulação.
-  - src: ../../assets/projects/cafe-boulevard/03-facade.jpg
-    alt: Fachada com vitrine de vidro, esquadria preta e toldo de lona clara
+# TEMPORARY: borrowed from Apartamento BR until this project has its own photos.
+cover: ../../assets/projects/apartamento-br/02-bed-detail.jpg
+coverAlt: Detalhe da cama vista de cima, com criado-mudo de madeira escura e luminária de mesa dourada
 ---
 
 O ponto tinha quatro metros de largura e vinte de profundidade, o tipo de loja

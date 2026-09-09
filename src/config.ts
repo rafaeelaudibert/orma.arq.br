@@ -11,6 +11,7 @@ export const studio = {
   state: "RS",
   /** Where the studio takes on work, in visitor-facing wording. */
   regions: ["Porto Alegre", "Serra Gaúcha"],
+  country: "Brasil",
   /** CAU registration is the credential clients look for. `null` until we have it. */
   partners: [
     { name: "Liliane Basso", cau: "A307604-0" },
