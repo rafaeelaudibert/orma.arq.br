@@ -111,6 +111,11 @@ are quoted at that size and live as tokens in `global.css`.
 - **The logo is black** (`--color-ink`). She asked for burgundy earlier, saw it,
   and changed her mind. The burgundy `#4f0013` now survives only in the favicon.
   There is no colour anywhere in the interface.
+- **A project's name stays off its photograph until you point at it.** The name
+  and its shading fade in on hover, at the quick hover timing. Guarded twice:
+  only where a real mouse exists (`(hover: hover) and (pointer: fine)`), so touch
+  screens keep the name permanently visible, and keyboard focus reveals it too.
+  She tried this on a branch and adopted it.
 - **One type size for the whole interface** (`--text-ui`, 20px at 1920): menu,
   project captions, studio location. Captions are the project name in bold and
   the city in regular, white, centred at the foot of each photograph, 53px up.
