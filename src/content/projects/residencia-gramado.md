@@ -4,7 +4,7 @@ date: 2024-03-15
 categories: ["arquitetura", "interiores"]
 location: Gramado, RS
 year: 2024
-area: 190 m²
+area: 190
 summary: "Uma casa de inverno organizada em torno da lareira, com a sala meio nível abaixo do resto. Tudo que se toca é madeira, lã ou pedra."
 # TEMPORARY: borrowed from Apartamento BR until this project has its own photos.
 cover: ../../assets/projects/apartamento-br/01-bedroom.jpg

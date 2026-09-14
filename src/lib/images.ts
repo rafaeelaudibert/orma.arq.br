@@ -27,6 +27,12 @@ const TILE_PHONE = "75vw"
 const covered = (image: ImageMetadata, width: string, height: string) =>
   `max(${width}, calc(${height} * ${(image.width / image.height).toFixed(3)}))`
 
+/** A photograph in a project's sequence, sized against the row height. */
+export function sequenceSizes(image: ImageMetadata, ratio: number) {
+  const widest = Math.max(ratio, image.width / image.height).toFixed(3)
+  return `(min-width: 60rem) calc(${ROW} * ${widest}), ${covered(image, "100vw", TILE_PHONE)}`
+}
+
 /** A tile in the portfolio grid, spanning `span` of the 12 columns. */
 export function tileSizes(image: ImageMetadata, span: number, lead: boolean) {
   const desktop = covered(image, `calc(${COLUMN} * ${span} / 12)`, ROW)

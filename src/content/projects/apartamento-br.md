@@ -4,6 +4,7 @@ date: 2026-08-20
 categories: ["interiores"]
 location: Porto Alegre, RS
 year: 2026
+area: 56
 summary: "Um apartamento de casal desenhado em torno de duas madeiras escuras e de um azul acinzentado que reaparece em cada ambiente. A marcenaria resolve quase tudo: cabeceira, penteadeira, armários e bancadas."
 cover: ../../assets/projects/apartamento-br/01-bedroom.jpg
 coverAlt: Quarto de casal com painel de madeira escura, cabeceira estofada azul e luminária de papel sobre a cama

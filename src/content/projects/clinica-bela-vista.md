@@ -4,7 +4,7 @@ date: 2023-10-02
 categories: ["comercial", "interiores"]
 location: Porto Alegre, RS
 year: 2023
-area: 120 m²
+area: 120
 summary: "Uma clínica que não parece uma clínica: sem recepção de vidro, sem luz fria, sem corredor de espera. A ideia era baixar a ansiedade de quem chega."
 # TEMPORARY: borrowed from Apartamento BR until this project has its own photos.
 cover: ../../assets/projects/apartamento-br/04-bathroom.jpg

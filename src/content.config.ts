@@ -16,7 +16,8 @@ const projects = defineCollection({
         .nonempty(),
       location: z.string(),
       year: z.number(),
-      area: z.string().optional(),
+      /** In square metres; the label on the page supplies the unit. */
+      area: z.number().optional(),
       /** Two sentences, shown at the top of the project page. */
       summary: z.string(),
       cover: image(),

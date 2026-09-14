@@ -4,7 +4,7 @@ date: 2024-07-08
 categories: ["comercial"]
 location: Porto Alegre, RS
 year: 2024
-area: 74 m²
+area: 74
 summary: "Um café em uma loja de rua estreita e comprida, com o balcão logo na entrada. A luz da vitrine chega até o fundo porque nada bloqueia o caminho."
 # TEMPORARY: borrowed from Apartamento BR until this project has its own photos.
 cover: ../../assets/projects/apartamento-br/02-bed-detail.jpg

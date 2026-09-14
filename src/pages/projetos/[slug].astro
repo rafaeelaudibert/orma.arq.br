@@ -1,42 +1,37 @@
 ---
 import { Image } from "astro:assets"
-
-import { openingSizes, PHOTO_WIDTHS } from "../../lib/images"
 import { getCollection, render } from "astro:content"
 import type { GetStaticPaths } from "astro"
 
 import { categoryLabel, type CategorySlug } from "../../lib/categories"
+import { openingSizes, PHOTO_WIDTHS, sequenceSizes } from "../../lib/images"
+import { toScreens } from "../../lib/sequence"
 import Layout from "../../layouts/Layout.astro"
 
 export const getStaticPaths = (async () => {
-  const projects = (await getCollection("projects")).sort(
-    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-  )
+  const projects = await getCollection("projects")
 
-  return projects.map((project, index) => ({
+  return projects.map((project) => ({
     params: { slug: project.id },
-    props: {
-      project,
-      // The list wraps, so there is always somewhere to go next.
-      previous: projects[(index - 1 + projects.length) % projects.length],
-      next: projects[(index + 1) % projects.length],
-    },
+    props: { project },
   }))
 }) satisfies GetStaticPaths
 
-const { project, previous, next } = Astro.props
+const { project } = Astro.props
 const { Content } = await render(project)
 const d = project.data
 
 const facts = [
-  { label: "Local", value: d.location },
-  { label: "Ano", value: String(d.year) },
-  ...(d.area ? [{ label: "Área", value: d.area }] : []),
   {
     label: "Projeto",
-    value: (d.categories as CategorySlug[]).map(categoryLabel).join(", "),
+    lines: (d.categories as CategorySlug[]).map(categoryLabel),
   },
+  { label: "Local", lines: [d.location] },
+  ...(d.area ? [{ label: "m²", lines: [String(d.area)] }] : []),
+  { label: "Ano", lines: [String(d.year)] },
 ]
+
+const screens = toScreens(d.images)
 ---
 
 <Layout title={d.title} description={d.summary} flush>
@@ -53,64 +48,59 @@ const facts = [
       />
       <figcaption>
         <h1>{d.title}</h1>
-        <p class="eyebrow">{d.location} — {d.year}</p>
+        <dl class="facts">
+          {
+            facts.map((fact) => (
+              <div>
+                <dt>{fact.label}</dt>
+                {fact.lines.map((line) => (
+                  <dd>{line}</dd>
+                ))}
+              </div>
+            ))
+          }
+        </dl>
       </figcaption>
     </figure>
 
-    <section class="brief">
-      <p class="summary" data-reveal>{d.summary}</p>
-
-      <dl class="facts" data-reveal style="--stagger: 1">
-        {
-          facts.map((fact) => (
-            <div>
-              <dt class="eyebrow">{fact.label}</dt>
-              <dd>{fact.value}</dd>
-            </div>
-          ))
-        }
-      </dl>
+    <section class="story">
+      <div class="prose" data-reveal><Content /></div>
     </section>
 
-    <section class="story" data-reveal>
-      <Content />
-    </section>
-
-    <div class="sequence">
-      {
-        d.images.map((image) => (
-          <figure data-reveal="clip">
-            <Image
-              src={image.src}
-              alt={image.alt}
-              widths={PHOTO_WIDTHS}
-              sizes="(min-width: 60rem) 83.75vw, 100vw"
-            />
-            {image.caption && <figcaption>{image.caption}</figcaption>}
-          </figure>
-        ))
-      }
-    </div>
-
-    <nav class="pager" aria-label="Outros projetos">
-      <a href={`/projetos/${previous.id}`}>
-        <span class="eyebrow">Projeto anterior</span>
-        <span class="name">{previous.data.title}</span>
-      </a>
-      <a href={`/projetos/${next.id}`} class="forward">
-        <span class="eyebrow">Próximo projeto</span>
-        <span class="name">{next.data.title}</span>
-      </a>
-    </nav>
+    {
+      screens.map((screen) => (
+        <div class="screen">
+          {screen.map(({ item, ratio }) => (
+            <figure style={`--ratio: ${ratio}`} data-reveal="clip">
+              <Image
+                src={item.src}
+                alt={item.alt}
+                widths={PHOTO_WIDTHS}
+                sizes={sequenceSizes(item.src, ratio)}
+              />
+              {item.caption && <figcaption>{item.caption}</figcaption>}
+            </figure>
+          ))}
+        </div>
+      ))
+    }
   </article>
 </Layout>
 
 <style>
+  /* Every screen of this page is one grid row tall, so the page moves a
+     photograph at a time, exactly like the home page. */
+  article {
+    --screen: calc(100svh - var(--header-height) - var(--edge));
+    display: flex;
+    flex-direction: column;
+    gap: var(--edge);
+  }
+
   /* ------------------------------------------------------------- opening */
-  /* The same height as a row of the portfolio grid, so every page opens alike. */
   .opening {
     position: relative;
-    block-size: calc(100svh - var(--header-height) - var(--edge));
+    margin: 0;
     overflow: clip;
     background: var(--color-grey-2);
   }
@@ -136,132 +126,136 @@ const facts = [
     inset-block-end: 0;
     inset-inline: 0;
     display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    padding: var(--space-5) var(--gutter);
-    padding-block-start: var(--space-8);
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-7) clamp(1rem, 2.7vw, 3.25rem) var(--edge);
     color: #fff;
+    /* Just enough shading to hold the words over a pale photograph. */
+    text-shadow: 0 1px 14px rgb(0 0 0 / 0.5);
     background: linear-gradient(
       to top,
-      rgb(0 0 0 / 0.6) 0%,
-      rgb(0 0 0 / 0.3) 50%,
+      rgb(0 0 0 / 0.35) 0%,
       rgb(0 0 0 / 0) 100%
     );
   }
 
-  .opening h1 {
-    font-size: var(--text-hero);
-    font-weight: 200;
-  }
-
-  .opening .eyebrow {
-    color: rgb(255 255 255 / 0.85);
-  }
-
-  /* --------------------------------------------------------------- brief */
-  .brief {
-    display: grid;
-    gap: var(--space-6);
-    padding: var(--section-pad) var(--gutter) 0;
-  }
-
-  .summary {
-    font-size: clamp(1.25rem, 2.2vw, 2rem);
-    font-weight: 300;
-    line-height: 1.3;
-    letter-spacing: var(--tracking-tight);
-    max-inline-size: 26ch;
+  h1 {
+    font-size: clamp(1.5rem, 1.875vw, 2.25rem);
+    font-weight: 700;
+    line-height: 1.1;
   }
 
   .facts {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-4);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) clamp(1rem, 2.6vw, 3.125rem);
     margin: 0;
+    font-size: var(--text-ui);
+    line-height: 1.35;
   }
 
-  .facts dd {
+  dt {
+    font-weight: 700;
+  }
+
+  dd {
     margin: 0;
-    margin-block-start: var(--space-1);
   }
 
   /* --------------------------------------------------------------- story */
   .story {
-    padding: var(--space-7) var(--gutter) 0;
+    display: grid;
+    place-items: center;
+    padding-inline: var(--gutter);
   }
 
-  .story :global(p + p) {
-    margin-block-start: var(--space-3);
+  .prose {
+    max-inline-size: 56rem;
+    font-size: var(--text-ui);
+    line-height: 1.6;
+    text-wrap: pretty;
   }
 
-  /* ------------------------------------------------------------ sequence */
-  .sequence {
+  .prose :global(p + p) {
+    margin-block-start: 1.6em;
+  }
+
+  /* ----------------------------------------------------------- sequence */
+  .screen {
     display: flex;
     flex-direction: column;
-    gap: var(--space-6);
-    padding-block-start: var(--section-pad);
+    gap: var(--edge);
   }
 
-  .sequence figure {
+  .screen figure {
+    position: relative;
     margin: 0;
+    overflow: clip;
+    background: var(--color-grey-2);
   }
 
-  .sequence img {
+  .screen img {
     inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  /* Sits on the photograph, since each one fills its screen. */
+  .screen figcaption {
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline: 0;
+    padding: var(--space-6) var(--space-4) var(--edge);
+    color: #fff;
+    font-size: var(--text-small);
+    line-height: 1.6;
+    text-shadow: 0 1px 14px rgb(0 0 0 / 0.5);
+    background: linear-gradient(
+      to top,
+      rgb(0 0 0 / 0.35) 0%,
+      rgb(0 0 0 / 0) 100%
+    );
+  }
+
+  /* On the phone everything is simply full width, one under the other. */
+  .opening,
+  .screen figure {
     block-size: auto;
   }
 
-  .sequence figcaption {
-    padding: var(--space-3) var(--gutter) 0;
-    max-inline-size: 52ch;
-    color: var(--color-grey-1);
-    font-size: var(--text-small);
-    line-height: 1.6;
+  .opening img,
+  .screen img {
+    aspect-ratio: 4 / 3;
   }
 
-  /* --------------------------------------------------------------- pager */
-  .pager {
-    display: grid;
-    gap: var(--space-5);
-    padding: var(--section-pad) var(--gutter) 0;
-  }
-
-  .pager a {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-  }
-
-  .pager .name {
-    font-size: var(--text-large);
-    font-weight: 300;
-    letter-spacing: var(--tracking-tight);
-    transition: opacity var(--motion-fast) var(--ease-out-soft);
-  }
-
-  .pager a:hover .name,
-  .pager a:focus-visible .name {
-    opacity: 0.5;
-  }
-
-  @media (min-width: 48rem) {
-    .brief {
-      grid-template-columns: 7fr 5fr;
-      align-items: start;
-      gap: var(--space-6);
+  @media (min-width: 60rem) {
+    .opening,
+    .story,
+    .screen {
+      block-size: var(--screen);
     }
 
-    .story {
-      max-inline-size: 62ch;
+    .opening img,
+    .screen img {
+      aspect-ratio: auto;
     }
 
-    .pager {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    .screen {
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: center;
     }
 
-    .pager .forward {
-      text-align: right;
-      align-items: flex-end;
+    .screen figure {
+      inline-size: calc(var(--screen) * var(--ratio));
+      block-size: 100%;
+    }
+
+    /* Justified only once the column is wide enough not to gap badly. */
+    .prose {
+      text-align: justify;
     }
   }
 

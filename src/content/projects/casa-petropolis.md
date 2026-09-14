@@ -4,7 +4,7 @@ date: 2025-08-12
 categories: ["arquitetura", "interiores"]
 location: Porto Alegre, RS
 year: 2025
-area: 210 m²
+area: 210
 summary: "Uma casa de esquina em terreno estreito, resolvida em três níveis para que todos os ambientes recebam sol da manhã. O concreto aparente convive com carvalho claro e muito verde."
 # TEMPORARY: borrowed from Apartamento BR until this project has its own photos.
 cover: ../../assets/projects/apartamento-br/03-wardrobe.jpg
