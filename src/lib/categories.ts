@@ -1,6 +1,9 @@
 /**
  * The three kinds of work the studio shows, in menu order.
  * A project can belong to more than one.
+ *
+ * `intro` is never shown: those pages are photographs only. It survives as the
+ * page description search engines read.
  */
 export const categories = [
   {

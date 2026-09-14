@@ -140,6 +140,11 @@ are quoted at that size and live as tokens in `global.css`.
 - **Colour**: superseded above. Off-white paper (`#f7f6f4`) and off-black ink (`#141414`) plus two greys, and nothing else. **Do not add an accent colour without asking her.**
 - **Typeface**: Montserrat everywhere (her choice), self-hosted. The logo's typeface was drawn for the logo only and exists nowhere else, so the wordmark is always the SVG at `src/assets/brand/logo.svg`, never live text. The lockup on the site is the **wordmark alone**, without the "arquitetura" line, because that line would have to be faked in Montserrat.
 - **Portfolio grid**: newest project first; the rhythm is set in `src/lib/grid.ts`. Superseded in its details by the Figma design above.
+- **The category pages are photographs only.** No heading, no intro sentence:
+  they open straight into the grid under the menu band, like the home page. The
+  page name lives in a visually hidden `h1` and in the `<title>`, and the intro
+  in `categories.ts` survives only as the meta description. The underlined menu
+  item is what tells a visitor where they are.
 - **Categories**: a project can belong to **more than one** (a house where they did both the architecture and the interiors shows up in both sections). Defined once in `src/lib/categories.ts`.
 - **Studio facts**: two partners, Liliane Basso and Letícia Bierhals Ignacio. Based in Porto Alegre, RS; they take work in Porto Alegre and the Serra Gaúcha. Mostly residential, some commercial.
 - **Favicon**: the "m." mark alone, no background, and it follows the browser's theme (ink on light, paper on dark). `public/favicon.svg` is the mark rebuilt as geometry, measured off `src/assets/brand/mark.png` and matched to it within a fraction of a pixel; swap in the studio's own vector if one ever turns up. `favicon-180.png` is the exception and keeps paper behind it, because iOS composites transparency onto black.

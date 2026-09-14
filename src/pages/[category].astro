@@ -31,10 +31,13 @@ const { category, projects } = Astro.props
   description={`${category.intro} Projetos de ${category.label.toLowerCase()} do estúdio ${studio.name}, em ${studio.regions.join(" e ")}.`}
   flush
 >
-  <header class="intro">
-    <h1>{category.label}</h1>
-    <p>{category.intro}</p>
-  </header>
+  {
+    /* The page shows photographs only; the name is here for search engines
+      and screen readers, exactly as on the home page. */
+  }
+  <h1 class="visually-hidden">
+    {category.label} — {studio.name}
+  </h1>
 
   {
     projects.length > 0 ? (
@@ -46,31 +49,8 @@ const { category, projects } = Astro.props
 </Layout>
 
 <style>
-  /* A quiet section heading at the top of the content column, so the page has
-     a name without competing with the photographs. */
-  .intro {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    padding-block: var(--space-4) var(--space-5);
-  }
-
-  h1 {
-    font-size: clamp(1.75rem, 3.4vw, 3.25rem);
-    font-weight: 300;
-    letter-spacing: var(--tracking-tight);
-    line-height: 1.05;
-  }
-
-  .intro p {
-    max-inline-size: 34rem;
-    color: var(--color-grey-1);
-    font-size: var(--text-ui);
-    line-height: 1.5;
-  }
-
   .empty {
-    padding-block-end: var(--space-7);
+    padding-block: var(--space-6) var(--space-7);
     color: var(--color-grey-1);
   }
 </style>
