@@ -101,10 +101,33 @@ const sizes = tileSizes(cover, span, lead)
     font-weight: 700;
   }
 
+  /* With a mouse, the name keeps out of the way until you point at the project.
+     Touch screens have no hover, so there the name simply stays put. */
+  @media (hover: hover) and (pointer: fine) {
+    figcaption {
+      opacity: 0;
+      transform: translateY(0.5rem);
+      transition:
+        opacity var(--motion-fast) var(--ease-out-soft),
+        transform var(--motion-fast) var(--ease-out-soft);
+    }
+
+    .tile:hover figcaption,
+    .tile:focus-visible figcaption {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     img,
     .tile:hover img,
     .tile:focus-visible img {
+      transition: none;
+      transform: none;
+    }
+
+    figcaption {
       transition: none;
       transform: none;
     }
