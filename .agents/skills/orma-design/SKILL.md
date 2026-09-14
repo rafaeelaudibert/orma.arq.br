@@ -155,6 +155,18 @@ are quoted at that size and live as tokens in `global.css`.
 - **Favicon**: the "m." mark alone, no background, and it follows the browser's theme (ink on light, paper on dark). `public/favicon.svg` is the mark rebuilt as geometry, measured off `src/assets/brand/mark.png` and matched to it within a fraction of a pixel; swap in the studio's own vector if one ever turns up. `favicon-180.png` is the exception and keeps paper behind it, because iOS composites transparency onto black.
 - **Credentials**: Liliane Basso is CAU A307604-0. Letícia's registration is still pending and `partners[].cau` is `null` until it arrives, which hides her from the footer line automatically.
 
+**Project page** (her design): opening photograph one row tall, project name
+bottom left in Bold 36px, facts bottom right (Projeto, Local, m², Ano); then the
+description alone on a screen, justified in a 56rem column; then the
+photographs a screenful at a time, centred, widths from `src/lib/sequence.ts`.
+No summary line and no previous/next links: her design has neither.
+
+**Sobre nós** (her design): "Forma / Reforma / Transforma" spread across the
+text column, the studio story below it justified with both names in bold, then
+one full-width photograph on a second screen. The story text is **her own
+writing** — do not rewrite it. It is also the source of two real facts: they met
+on the first day of university ten years ago and both trained at UFRGS.
+
 **Photographs.** `Apartamento BR` is real: her four renders, imported from her
 Desktop into `src/assets/projects/apartamento-br/`. The other five projects
 borrow those same four images on purpose ("só para ficar mais bonito") — each

@@ -1,26 +1,13 @@
 ---
 import { Image } from "astro:assets"
 
+import opening from "../assets/projects/apartamento-br/01-bedroom.jpg"
+import { partnerNames, studio } from "../config"
 import { openingSizes, PHOTO_WIDTHS } from "../lib/images"
-
-import opening from "../assets/projects/apartamento-br/03-wardrobe.jpg"
-import { partnerNames, studio, whatsappUrl } from "../config"
 import Layout from "../layouts/Layout.astro"
 
-const steps = [
-  {
-    title: "Conversa",
-    text: "A gente escuta como você vive hoje e o que incomoda. Sem prancheta, sem pressa, sem compromisso.",
-  },
-  {
-    title: "Projeto",
-    text: "Desenhamos as plantas, os materiais e a marcenaria juntos, com imagens em 3D para você ver antes de decidir.",
-  },
-  {
-    title: "Obra",
-    text: "Acompanhamos a execução até o último detalhe, com visitas regulares e conversa direta com quem constrói.",
-  },
-]
+/** The three words she set across the top of the page. */
+const promise = ["Forma", "Reforma", "Transforma"]
 ---
 
 <Layout
@@ -28,7 +15,30 @@ const steps = [
   description={`${studio.name} é um estúdio de arquitetura e interiores em ${studio.city}. Projetos residenciais e comerciais em ${studio.regions.join(" e ")}.`}
   flush
 >
-  <figure class="opening">
+  <h1 class="visually-hidden">Sobre nós — {studio.name}</h1>
+
+  <section class="story">
+    <div class="column">
+      <p class="promise" data-reveal>
+        {promise.map((word) => <span>{word}</span>)}
+      </p>
+
+      <p class="prose" data-reveal style="--stagger: 1">
+        Nossa história começou há 10 anos, no primeiro dia de faculdade e nos
+        aproximou a cada projeto em grupo para uma amizade duradoura que vai
+        além do profissional. Somos <strong>{partnerNames[0]}</strong> e <strong
+          >{partnerNames[1]}</strong
+        >, duas arquitetas formadas pela UFRGS com uma obsessão por detalhe e um
+        fascínio por espaços funcionais e belos, principalmente se tratando de
+        criar o lugar do sonho de cada cliente, onde se vai morar e criar
+        memórias. Somos um escritório surgido da vontade de atuarmos juntas em
+        projetos que acreditamos, com o propósito de proporcionar conforto,
+        segurança, harmonia e paz, seja visualmente ou sensorialmente.
+      </p>
+    </div>
+  </section>
+
+  <figure class="portrait">
     <Image
       src={opening}
       alt="Corredor com armários de madeira escura do piso ao teto e luminária de chão redonda"
@@ -37,153 +47,75 @@ const steps = [
       loading="eager"
       fetchpriority="high"
     />
-    <figcaption>
-      <h1>Duas arquitetas, uma obsessão por detalhe</h1>
-    </figcaption>
   </figure>
-
-  <section class="statement" data-reveal>
-    <p>
-      A {studio.shortName} nasceu da vontade de projetar casas em que as pessoas queiram
-      passar o dia inteiro. Somos {partnerNames[0]} e {partnerNames[1]}, e
-      assinamos cada projeto juntas, do primeiro esboço à última visita de obra.
-    </p>
-    <p>
-      Trabalhamos em {studio.regions[0]} e em toda a {studio.regions[1]}. A
-      maior parte do que fazemos é residencial: casas novas, reformas de
-      apartamento e projetos de interiores. Também projetamos espaços comerciais
-      quando o cliente quer o mesmo cuidado em um lugar de trabalho.
-    </p>
-  </section>
-
-  <section class="method">
-    <h2 class="eyebrow" data-reveal>Como trabalhamos</h2>
-    <ol role="list">
-      {
-        steps.map((step, index) => (
-          <li data-reveal style={`--stagger: ${index}`}>
-            <span class="number">{String(index + 1).padStart(2, "0")}</span>
-            <h3>{step.title}</h3>
-            <p>{step.text}</p>
-          </li>
-        ))
-      }
-    </ol>
-  </section>
-
-  <section class="closing" data-reveal>
-    <p>Quer conversar sobre o seu projeto?</p>
-    <a href={whatsappUrl} rel="noopener">Chamar no WhatsApp</a>
-  </section>
 </Layout>
 
 <style>
-  /* The same height as a row of the portfolio grid, so every page opens alike. */
-  .opening {
-    position: relative;
-    block-size: calc(100svh - var(--header-height) - var(--edge));
-    overflow: clip;
-    background: var(--color-grey-2);
-    margin: 0;
+  /* Two screens: the words and the story, then one photograph. */
+  .story,
+  .portrait {
+    --screen: calc(100svh - var(--header-height) - var(--edge));
   }
 
-  .opening img {
+  .story {
+    display: grid;
+    place-items: center;
+    padding: var(--space-6) var(--gutter);
+  }
+
+  .column {
+    inline-size: 100%;
+    max-inline-size: 56rem;
+  }
+
+  .promise {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-3) var(--space-4);
+    margin-block-end: var(--space-5);
+    font-size: var(--text-ui);
+  }
+
+  .prose {
+    font-size: var(--text-ui);
+    line-height: 1.6;
+    text-wrap: pretty;
+  }
+
+  .prose strong {
+    font-weight: 700;
+  }
+
+  .portrait {
+    margin: var(--edge) 0 0;
+    overflow: clip;
+    background: var(--color-grey-2);
+  }
+
+  .portrait img {
     inline-size: 100%;
     block-size: 100%;
     object-fit: cover;
+    aspect-ratio: 4 / 3;
   }
 
-  .opening figcaption {
-    position: absolute;
-    inset-block-end: 0;
-    inset-inline: 0;
-    padding: var(--space-5) var(--gutter);
-    padding-block-start: var(--space-8);
-    color: #fff;
-    background: linear-gradient(
-      to top,
-      rgb(0 0 0 / 0.6) 0%,
-      rgb(0 0 0 / 0.3) 50%,
-      rgb(0 0 0 / 0) 100%
-    );
-  }
+  @media (min-width: 60rem) {
+    .story,
+    .portrait {
+      block-size: var(--screen);
+    }
 
-  h1 {
-    font-size: var(--text-title);
-    font-weight: 200;
-    max-inline-size: 18ch;
-  }
+    .story {
+      padding-block: 0;
+    }
 
-  .statement {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-    padding: var(--section-pad) var(--gutter) 0;
-  }
+    .portrait img {
+      aspect-ratio: auto;
+    }
 
-  .statement p {
-    font-size: var(--text-large);
-    line-height: 1.5;
-    max-inline-size: 56ch;
-  }
-
-  .method {
-    padding: var(--section-pad) var(--gutter) 0;
-  }
-
-  .method ol {
-    display: grid;
-    gap: var(--space-5);
-    margin: var(--space-5) 0 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .method li {
-    border-block-start: 1px solid var(--color-grey-2);
-    padding-block-start: var(--space-3);
-  }
-
-  .number {
-    display: block;
-    font-size: var(--text-small);
-    letter-spacing: var(--tracking-wide);
-    color: var(--color-grey-1);
-  }
-
-  .method h3 {
-    margin-block: var(--space-2) var(--space-2);
-    font-size: var(--text-large);
-  }
-
-  .method p {
-    color: var(--color-grey-1);
-  }
-
-  .closing {
-    padding: var(--section-pad) var(--gutter) 0;
-  }
-
-  .closing p {
-    font-size: var(--text-title);
-    font-weight: 300;
-    letter-spacing: var(--tracking-tight);
-    max-inline-size: 18ch;
-  }
-
-  .closing a {
-    display: inline-block;
-    margin-block-start: var(--space-4);
-    padding-block-end: 0.3em;
-    border-block-end: 1px solid currentColor;
-    font-size: var(--text-large);
-    font-weight: 300;
-  }
-
-  @media (min-width: 48rem) {
-    .method ol {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: var(--space-4);
+    .prose {
+      text-align: justify;
     }
   }
 </style>
