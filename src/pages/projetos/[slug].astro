@@ -78,7 +78,6 @@ const screens = toScreens(d.images)
                 widths={PHOTO_WIDTHS}
                 sizes={sequenceSizes(item.src, sum)}
               />
-              {item.caption && <figcaption>{item.caption}</figcaption>}
             </figure>
           ))}
         </div>
@@ -204,14 +203,6 @@ const screens = toScreens(d.images)
   }
 
   /* Under the photograph, never over it. */
-  .screen figcaption {
-    padding-block-start: var(--space-3);
-    padding-inline: var(--gutter);
-    color: var(--color-grey-1);
-    font-size: var(--text-small);
-    line-height: 1.6;
-  }
-
   /* On the phone everything is simply full width, one under the other. */
   .opening {
     block-size: auto;
@@ -245,10 +236,6 @@ const screens = toScreens(d.images)
     .screen figure {
       flex: var(--ratio) 1 0;
       min-inline-size: 0;
-    }
-
-    .screen figcaption {
-      padding-inline: 0;
     }
 
     /* Justified only once the column is wide enough not to gap badly. */
