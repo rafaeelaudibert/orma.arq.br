@@ -100,9 +100,17 @@ are quoted at that size and live as tokens in `global.css`.
 
 - **A page margin of 40px on every side** (`--edge`), equal all round. Inside it,
   the **menu rectangle** spans the full width between those margins, 114px tall,
-  fixed, with the words centred in it both ways. Photographs scroll *under* it,
-  so the band is painted from the very top of the viewport even though the words
-  sit in the lower part of it. Total top band = `--header-height` (154px).
+  fixed. Photographs scroll *under* it, so the band is painted from the very top
+  of the viewport even though the words sit in the lower part of it. Total top
+  band = `--header-height` (154px).
+- **The page is two columns, and the menu belongs to the right one.** Her words
+  (2026-09-16, said twice): the fixed left rail carries the wordmark and the
+  location; the right column scrolls and carries the photographs and everything
+  written. The menu words are centred on that right column alone — the rail is
+  padded out of the reckoning, so the middle of the menu and the middle of the
+  photographs are the same pixel at every width. The white band itself still
+  runs the full width, so photographs disappear behind it rather than into the
+  margin. Do not centre the words on the window again.
 - **The wordmark is turned on its side down the left margin**, reading upwards
   (O at the bottom), top-aligned with the first photograph, centred in the
   `--rail-width` (272px) column. Where the studio works sits at the foot of the
