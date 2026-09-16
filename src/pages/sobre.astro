@@ -13,7 +13,6 @@ const promise = ["Forma", "Reforma", "Transforma"]
 <Layout
   title="Sobre nós"
   description={`${studio.name} é um estúdio de arquitetura e interiores em ${studio.city}. Projetos residenciais e comerciais em ${studio.regions.join(" e ")}.`}
-  flush
 >
   <h1 class="visually-hidden">Sobre nós — {studio.name}</h1>
 
@@ -65,10 +64,13 @@ const promise = ["Forma", "Reforma", "Transforma"]
 
   .column {
     inline-size: 100%;
-    max-inline-size: 56rem;
+    max-inline-size: var(--measure);
   }
 
   .promise {
+    /* The base layer caps paragraph width for readability; these two fill the
+       column they sit in, which is already the right measure. */
+    max-inline-size: none;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -78,6 +80,7 @@ const promise = ["Forma", "Reforma", "Transforma"]
   }
 
   .prose {
+    max-inline-size: none;
     font-size: var(--text-ui);
     line-height: 1.6;
     text-wrap: pretty;
@@ -101,13 +104,15 @@ const promise = ["Forma", "Reforma", "Transforma"]
   }
 
   @media (min-width: 60rem) {
-    .story,
     .portrait {
       block-size: var(--screen);
     }
 
+    /* A screenful when the text fits, taller when it does not, so a long
+       story never slides up under the menu band. */
     .story {
-      padding-block: 0;
+      min-block-size: var(--screen);
+      padding-block: var(--edge);
     }
 
     .portrait img {

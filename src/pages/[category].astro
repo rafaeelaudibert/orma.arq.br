@@ -29,7 +29,6 @@ const { category, projects } = Astro.props
 <Layout
   title={category.label}
   description={`${category.intro} Projetos de ${category.label.toLowerCase()} do estúdio ${studio.name}, em ${studio.regions.join(" e ")}.`}
-  flush
 >
   {
     /* The page shows photographs only; the name is here for search engines

@@ -19,6 +19,11 @@
 
   html {
     -webkit-text-size-adjust: 100%;
+    /* Keep the scrollbar's strip of space reserved on every page, whether or
+       not that page scrolls. Without it a short page is a scrollbar wider than
+       a long one, and the whole right-hand column — menu included — jumps
+       sideways as you move between pages. */
+    scrollbar-gutter: stable;
   }
 
   body {
@@ -97,6 +102,10 @@
     /* The stacked phone header. Fixed here so the opening image can be sized
        to fill exactly the rest of the screen. */
     --header-flow: 9.75rem;
+    /* How wide a block of reading text is allowed to get. Every page that has
+       one uses this, centred in the column, so the studio story and a project
+       description sit on exactly the same lines. */
+    --measure: 56rem;
     /* The footer block, so the last row of photographs can shrink to leave
        room for it on the same screen, the way the design draws it. */
     /* One size for the whole interface: menu, captions, studio location. */

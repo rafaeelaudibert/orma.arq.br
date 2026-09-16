@@ -34,7 +34,7 @@ const facts = [
 const screens = toScreens(d.images)
 ---
 
-<Layout title={d.title} description={d.summary} flush>
+<Layout title={d.title} description={d.summary}>
   <article>
     <figure class="opening">
       <Image
@@ -172,10 +172,15 @@ const screens = toScreens(d.images)
   }
 
   .prose {
-    max-inline-size: 56rem;
+    max-inline-size: var(--measure);
     font-size: var(--text-ui);
     line-height: 1.6;
     text-wrap: pretty;
+  }
+
+  /* The base layer caps paragraph width; the column is the measure here. */
+  .prose :global(p) {
+    max-inline-size: none;
   }
 
   .prose :global(p + p) {
@@ -232,9 +237,15 @@ const screens = toScreens(d.images)
 
   @media (min-width: 60rem) {
     .opening,
-    .story,
     .screen {
       block-size: var(--screen);
+    }
+
+    /* A screenful when the text fits, taller when it does not, so a long
+       description never slides up under the menu band. */
+    .story {
+      min-block-size: var(--screen);
+      padding-block: var(--edge);
     }
 
     .opening img,

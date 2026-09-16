@@ -111,6 +111,19 @@ are quoted at that size and live as tokens in `global.css`.
   photographs are the same pixel at every width. The white band itself still
   runs the full width, so photographs disappear behind it rather than into the
   margin. Do not centre the words on the window again.
+- **Every page has the same structure, so every page centres alike.** She asked
+  for this explicitly (2026-09-16). `Layout.astro` has **one** mode, not two:
+  `main` always starts at the rail, always begins under the menu band, always
+  ends at `--edge`. There is no `flush` prop and no page-by-page margin. A page
+  that wants a narrower measure for reading text centres that text *inside* the
+  column (`--measure`, 56rem) rather than moving the column. The footer takes
+  the same column. When adding a page, add nothing: use `Layout` as is.
+- **Reading text fills its measure.** The base layer caps paragraphs at 62ch for
+  readability, which quietly shrinks a story inside its column and presses it
+  against the left edge. Any block already sized to `--measure` opts out with
+  `max-inline-size: none`. A text screen is `min-block-size` a screenful, never
+  exactly one, so a long description grows its screen instead of sliding up
+  under the menu band.
 - **The wordmark is turned on its side down the left margin**, reading upwards
   (O at the bottom), top-aligned with the first photograph, centred in the
   `--rail-width` (272px) column. Where the studio works sits at the foot of the
@@ -165,7 +178,8 @@ are quoted at that size and live as tokens in `global.css`.
 
 **Project page** (her design): opening photograph one row tall, project name
 bottom left in Bold 36px, facts bottom right (Projeto, Local, m², Ano); then the
-description alone on a screen, justified in a 56rem column; then the
+description alone on a screen, justified in the shared `--measure` column
+(56rem), centred in the right-hand column; then the
 photographs a screenful at a time, centred, widths from `src/lib/sequence.ts`.
 No summary line and no previous/next links: her design has neither.
 
