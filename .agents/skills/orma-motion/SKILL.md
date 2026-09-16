@@ -39,6 +39,16 @@ across it.
 
 Everything scroll-triggered goes through **one** mechanism — never write a new IntersectionObserver per component.
 
+> **A reveal must never be the reason something is invisible.** The system hides
+> elements until a script un-hides them, so any browser that misbehaves takes
+> the photographs with it. This actually happened: an embedded viewer that never
+> emitted scroll events left an entire project gallery blank. `motion.js` is
+> therefore written to survive it — geometry instead of `IntersectionObserver`,
+> a slow poll behind the scroll listener, a pass that drops the transition if an
+> element is somehow still transparent, and a `(scripting: none)` fallback in
+> the CSS. Keep those guards when you touch it, and never hide content behind a
+> trigger that has only one way to fire.
+
 1. Copy `assets/motion.js` (next to this file) to **`src/scripts/motion.js`**.
 2. Load it in `src/layouts/Layout.astro` body: `<script src="../scripts/motion.js"></script>`.
 3. Add the motion tokens + classes below to `src/styles/global.css` (once):
