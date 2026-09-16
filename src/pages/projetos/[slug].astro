@@ -78,7 +78,6 @@ const screens = toScreens(d.images)
                 widths={PHOTO_WIDTHS}
                 sizes={sequenceSizes(item.src, ratio)}
               />
-              {item.caption && <figcaption>{item.caption}</figcaption>}
             </figure>
           ))}
         </div>
@@ -194,8 +193,10 @@ const screens = toScreens(d.images)
     gap: var(--edge);
   }
 
+  /* Her standing rule: nothing is ever written over these photographs. There
+     is no caption here and no field to put one in — only the opening
+     photograph at the top of the page carries words. */
   .screen figure {
-    position: relative;
     margin: 0;
     overflow: clip;
     background: var(--color-grey-2);
@@ -205,23 +206,6 @@ const screens = toScreens(d.images)
     inline-size: 100%;
     block-size: 100%;
     object-fit: cover;
-  }
-
-  /* Sits on the photograph, since each one fills its screen. */
-  .screen figcaption {
-    position: absolute;
-    inset-block-end: 0;
-    inset-inline: 0;
-    padding: var(--space-6) var(--space-4) var(--edge);
-    color: #fff;
-    font-size: var(--text-small);
-    line-height: 1.6;
-    text-shadow: 0 1px 14px rgb(0 0 0 / 0.5);
-    background: linear-gradient(
-      to top,
-      rgb(0 0 0 / 0.35) 0%,
-      rgb(0 0 0 / 0) 100%
-    );
   }
 
   /* On the phone everything is simply full width, one under the other. */

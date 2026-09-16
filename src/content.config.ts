@@ -22,12 +22,16 @@ const projects = defineCollection({
       summary: z.string(),
       cover: image(),
       coverAlt: z.string(),
+      /**
+       * The photographs below the opening one. Her standing rule: nothing is
+       * ever written over these, so there is no caption field to fill in. Only
+       * `alt`, which is never seen — it is what a blind visitor hears.
+       */
       images: z
         .array(
           z.object({
             src: image(),
             alt: z.string(),
-            caption: z.string().optional(),
           }),
         )
         .default([]),

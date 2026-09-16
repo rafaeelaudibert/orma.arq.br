@@ -30,7 +30,7 @@ She doesn't know the words "hero", "footer", "nav", or "scroll animation", and s
 - **A full-screen opening on every page** — one enormous image or an animated background (`orma-shaders`) with big confident type. Never start a page with a plain heading on white. Home gets the strongest treatment.
 - **Minimal navigation, always visible**: logo + at most three or four items (Projetos, Estúdio, Contato). No mega-menus, no hamburger on desktop. On the phone, a full-screen menu that's designed as carefully as any page.
 - **Portfolio front and center**: home shows a *curated* set of 3–6 featured projects, not the whole archive; the Projetos page holds everything (add type filters only once there are 8+ projects).
-- **Project pages tell a story**: opening image → the brief in two sentences → a sequence of large images with short captions → facts (local, ano, área) → quiet next/previous project links at the bottom. This template is the heart of the site; build it once, superbly.
+- **Project pages tell a story**: opening image → the brief in two sentences → a sequence of large images, no words on them (see her rule below) → facts (local, ano, área) → quiet next/previous project links at the bottom. This template is the heart of the site; build it once, superbly.
 - **A real footer on every page**: not an afterthought strip — a composed final section with the studio name, contact, WhatsApp CTA, social links, CAU registration. This is a prime spot for a calm animated background (`orma-shaders`).
 - **Motion everywhere, restrained**: reveals as you scroll, hover responses, one hero moment per page — via `orma-motion`, without her asking.
 
@@ -195,6 +195,16 @@ description alone on a screen, justified in the shared `--measure` column (the
 menu's width), centred in the right-hand column; then the
 photographs a screenful at a time, centred, widths from `src/lib/sequence.ts`.
 No summary line and no previous/next links: her design has neither.
+
+**Her standing rule (2026-09-16): never write anything over the photographs
+below the opening one.** Not a caption, not a title, not a line of prose — on
+any project page, now or in future. This is enforced, not remembered: the
+`caption` field is gone from the project schema in `src/content.config.ts`, and
+the sequence figures render an image and nothing else. Do not add it back, and
+do not offer captions under the photographs either unless she asks — she asked
+for the words removed, not moved. The **opening** photograph is the single
+exception and keeps the project name and facts over it, exactly as she drew it
+in Figma; ask her before touching that one.
 
 **Sobre nós** (her design): "Forma / Reforma / Transforma" spread across the
 text column, the studio story below it justified with both names in bold, then

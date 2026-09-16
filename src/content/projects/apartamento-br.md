@@ -11,12 +11,10 @@ coverAlt: Quarto de casal com painel de madeira escura, cabeceira estofada azul 
 images:
   - src: ../../assets/projects/apartamento-br/02-bed-detail.jpg
     alt: Detalhe da cama vista de cima, com criado-mudo de madeira escura e luminária de mesa dourada
-    caption: O criado-mudo nasce da mesma peça de marcenaria que atravessa a parede.
   - src: ../../assets/projects/apartamento-br/03-wardrobe.jpg
     alt: Corredor com armários de madeira escura do piso ao teto e luminária de chão redonda junto à cortina
   - src: ../../assets/projects/apartamento-br/04-bathroom.jpg
     alt: Banheiro com azulejo verde assentado na vertical, bancada de marcenaria escura e piso preto e branco
-    caption: O verde e o piso desenhado quebram a sobriedade da madeira.
 ---
 
 O apartamento foi desenhado em torno de duas madeiras escuras e de um azul
