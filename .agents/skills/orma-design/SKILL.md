@@ -163,9 +163,13 @@ No summary line and no previous/next links: her design has neither.
 
 **Sobre nós** (her design): "Forma / Reforma / Transforma" spread across the
 text column, the studio story below it justified with both names in bold, then
-one full-width photograph on a second screen. The story text is **her own
-writing** — do not rewrite it. It is also the source of two real facts: they met
+one full-width photograph on a second screen. The story is **her own writing**, lightly corrected for grammar at her request
+(regência, a run-on sentence, "há dez anos"); do not change what it says. It is also the source of two real facts: they met
 on the first day of university ten years ago and both trained at UFRGS.
+
+**Contato** (her design, revised): one photograph and the contact details side by
+side, each the width of a paired photograph elsewhere, centred together. No
+form: she removed it. The e-mail, Instagram and WhatsApp are links.
 
 **Photographs.** `Apartamento BR` is real: her four renders, imported from her
 Desktop into `src/assets/projects/apartamento-br/`. The other five projects

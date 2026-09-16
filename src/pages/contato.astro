@@ -1,129 +1,146 @@
 ---
+import { Image } from "astro:assets"
+
+import photo from "../assets/projects/apartamento-br/01-bedroom.jpg"
 import { studio, whatsappUrl } from "../config"
+import { PHOTO_WIDTHS, sequenceSizes } from "../lib/images"
 import Layout from "../layouts/Layout.astro"
 
-const channels = [
-  { label: "WhatsApp", value: "Chamar agora", href: whatsappUrl },
-  { label: "E-mail", value: studio.email, href: `mailto:${studio.email}` },
-  {
-    label: "Instagram",
-    value: studio.instagramHandle,
-    href: studio.instagram,
-  },
-]
+/** The same share of the screen height as a pair of photographs elsewhere. */
+const RATIO = 0.764
 ---
 
 <Layout
   title="Contato"
   description={`Fale com a ${studio.name}. Projetos de arquitetura e interiores em ${studio.regions.join(" e ")}. Converse pelo WhatsApp ou por e-mail.`}
+  flush
 >
-  <section class="hero">
-    <h1>Vamos conversar sobre a sua casa</h1>
-    <p class="lede">
-      Conte onde fica, o que você quer fazer e para quando. Respondemos em até
-      um dia útil e a primeira conversa não custa nada.
-    </p>
-  </section>
+  <h1 class="visually-hidden">Contato — {studio.name}</h1>
 
-  <ul class="channels" role="list">
-    {
-      channels.map((channel, index) => (
-        <li data-reveal style={`--stagger: ${index}`}>
-          <a href={channel.href} rel="noopener">
-            <span class="eyebrow">{channel.label}</span>
-            <span class="value">{channel.value}</span>
-          </a>
+  <section class="pair" style={`--ratio: ${RATIO}`}>
+    <figure>
+      <Image
+        src={photo}
+        alt="Quarto de casal com painel de madeira escura, cabeceira estofada azul e luminária de papel sobre a cama"
+        widths={PHOTO_WIDTHS}
+        sizes={sequenceSizes(photo, RATIO)}
+        loading="eager"
+        fetchpriority="high"
+      />
+    </figure>
+
+    <div class="details" data-reveal>
+      <p class="lead">Vamos conversar?</p>
+      <p class="lead">Entre em contato através do WhatsApp ou por e-mail.</p>
+
+      <ul role="list">
+        <li><a href={`mailto:${studio.email}`}>{studio.email}</a></li>
+        <li>
+          <a href={studio.instagram} rel="noopener">{studio.instagramHandle}</a>
         </li>
-      ))
-    }
-  </ul>
-
-  <section class="where" data-reveal>
-    <p class="eyebrow">Onde atendemos</p>
-    <p>
-      {studio.city}, {studio.state}, e toda a região da {studio.regions[1]}.
-    </p>
+        <li>
+          <a href={whatsappUrl} rel="noopener">chame pelo WhatsApp</a>
+          <span class="hours"> (de segunda a sexta-feira, das 9h às 18h) </span>
+        </li>
+      </ul>
+    </div>
   </section>
 </Layout>
 
 <style>
-  .hero {
+  .pair {
+    --screen: calc(100svh - var(--header-height) - var(--edge));
     display: flex;
     flex-direction: column;
-    gap: var(--space-4);
+    gap: var(--edge);
   }
 
-  h1 {
-    font-size: var(--text-hero);
-    font-weight: 200;
-    max-inline-size: 14ch;
+  figure {
+    margin: 0;
+    overflow: clip;
+    background: var(--color-grey-2);
   }
 
-  .lede {
-    font-size: var(--text-large);
-    line-height: 1.5;
-    color: var(--color-grey-1);
-    max-inline-size: 48ch;
+  figure img {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    aspect-ratio: 4 / 3;
   }
 
-  .channels {
-    margin: var(--space-7) 0 0;
+  .details {
+    padding-inline: var(--gutter);
+    font-size: var(--text-ui);
+    line-height: 1.45;
+  }
+
+  .lead {
+    font-weight: 700;
+  }
+
+  .lead + .lead {
+    margin-block-start: 1.35em;
+  }
+
+  ul {
+    margin: 1.35em 0 0;
     padding: 0;
-    list-style: none;
-    border-block-start: 1px solid var(--color-grey-2);
   }
 
-  .channels li {
-    border-block-end: 1px solid var(--color-grey-2);
+  .hours {
+    color: var(--color-grey-1);
   }
 
-  .channels a {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-    padding-block: var(--space-4);
+  a {
+    position: relative;
+  }
+
+  /* The underline draws in on hover, as it does in the menu and the footer. */
+  a::after {
+    content: "";
+    position: absolute;
+    inset-block-end: -0.1em;
+    inset-inline: 0;
+    block-size: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
     transition: transform var(--motion-fast) var(--ease-out-soft);
   }
 
-  .channels a:hover,
-  .channels a:focus-visible {
-    transform: translateX(var(--space-3));
+  a:hover::after,
+  a:focus-visible::after {
+    transform: scaleX(1);
   }
 
-  .value {
-    font-size: var(--text-title);
-    font-weight: 200;
-    letter-spacing: var(--tracking-tight);
-    line-height: 1.1;
-  }
-
-  .where {
-    padding-block: var(--space-7) 0;
-  }
-
-  .where .eyebrow {
-    margin-block-end: var(--space-2);
-  }
-
-  @media (min-width: 48rem) {
-    .channels a {
+  @media (min-width: 60rem) {
+    .pair {
       flex-direction: row;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: var(--space-4);
+      align-items: stretch;
+      justify-content: center;
+      block-size: var(--screen);
     }
 
-    .channels .eyebrow {
-      flex: 0 0 12rem;
+    figure {
+      inline-size: calc(var(--screen) * var(--ratio));
+    }
+
+    figure img {
+      aspect-ratio: auto;
+    }
+
+    .details {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      inline-size: calc(var(--screen) * var(--ratio));
+      padding-inline: 0;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .channels a,
-    .channels a:hover,
-    .channels a:focus-visible {
+    a::after {
       transition: none;
-      transform: none;
     }
   }
 </style>
