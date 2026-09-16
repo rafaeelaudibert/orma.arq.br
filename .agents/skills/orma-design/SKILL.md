@@ -116,8 +116,21 @@ are quoted at that size and live as tokens in `global.css`.
   `main` always starts at the rail, always begins under the menu band, always
   ends at `--edge`. There is no `flush` prop and no page-by-page margin. A page
   that wants a narrower measure for reading text centres that text *inside* the
-  column (`--measure`, 56rem) rather than moving the column. The footer takes
-  the same column. When adding a page, add nothing: use `Layout` as is.
+  column (`--measure`) rather than moving the column. The footer takes the same
+  column. When adding a page, add nothing: use `Layout` as is.
+- **Reading text is exactly as wide as the menu.** Her decision, drawn with two
+  red lines down the ends of the menu row (2026-09-16): every block of reading
+  text in the content column starts under the A of Arquitetura and ends under
+  the last letter of Contato. `--measure` is that width, and the menu `ul` is
+  pinned to it with `justify-content: space-between`, so the two can never
+  drift apart. The clamp — `clamp(30rem, 42.1vw, 50.5rem)` — is the menu's own
+  natural width at every screen size, so pinning it changed nothing visually
+  (gaps land within a pixel of what they were). If a menu item is ever renamed,
+  the words simply respace inside the measure; nothing breaks, but check that
+  the spacing still looks right and adjust the clamp, never the alignment.
+  **Two deliberate exceptions**: the footer (she excluded it) and the Contato
+  page, whose text is one half of a photo-and-text pair sized to a paired
+  photograph — widening it there would break her composition.
 - **Reading text fills its measure.** The base layer caps paragraphs at 62ch for
   readability, which quietly shrinks a story inside its column and presses it
   against the left edge. Any block already sized to `--measure` opts out with
@@ -178,8 +191,8 @@ are quoted at that size and live as tokens in `global.css`.
 
 **Project page** (her design): opening photograph one row tall, project name
 bottom left in Bold 36px, facts bottom right (Projeto, Local, m², Ano); then the
-description alone on a screen, justified in the shared `--measure` column
-(56rem), centred in the right-hand column; then the
+description alone on a screen, justified in the shared `--measure` column (the
+menu's width), centred in the right-hand column; then the
 photographs a screenful at a time, centred, widths from `src/lib/sequence.ts`.
 No summary line and no previous/next links: her design has neither.
 

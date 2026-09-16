@@ -102,10 +102,15 @@
     /* The stacked phone header. Fixed here so the opening image can be sized
        to fill exactly the rest of the screen. */
     --header-flow: 9.75rem;
-    /* How wide a block of reading text is allowed to get. Every page that has
-       one uses this, centred in the column, so the studio story and a project
-       description sit on exactly the same lines. */
-    --measure: 56rem;
+    /* Her decision: every block of reading text in the content column is
+       exactly as wide as the menu above it, starting under the A of
+       Arquitetura and ending under the last o of Contato. So the menu row and
+       the text share this one width, and the menu spreads its words across it
+       instead of setting its own. The numbers are the menu's own natural width
+       at every screen size (it grows with the interface type and its gaps,
+       then stops when both stop), so the menu looks exactly as it did before
+       it was pinned here. */
+    --measure: clamp(30rem, 42.1vw, 50.5rem);
     /* The footer block, so the last row of photographs can shrink to leave
        room for it on the same screen, the way the design draws it. */
     /* One size for the whole interface: menu, captions, studio location. */

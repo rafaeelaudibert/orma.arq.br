@@ -154,9 +154,15 @@ const where = studio.regions.join(" e ")
       background: var(--color-paper);
     }
 
+    /* The words spread across the shared measure rather than setting their own
+       width, so the first and last of them sit exactly above the ends of every
+       line of text on the page below. */
     ul {
       flex-wrap: nowrap;
+      inline-size: var(--measure);
       max-inline-size: none;
+      justify-content: space-between;
+      gap: 0;
     }
 
     /* The wordmark on its side, reading upwards, top-aligned with the photos. */
