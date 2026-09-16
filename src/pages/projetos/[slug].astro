@@ -68,16 +68,17 @@ const screens = toScreens(d.images)
     </section>
 
     {
-      screens.map(({ photos, sum }) => (
-        <div class="screen" style={`--sum: ${sum}`}>
-          {photos.map(({ item, ratio }) => (
+      screens.map((screen) => (
+        <div class="screen">
+          {screen.map(({ item, ratio }) => (
             <figure style={`--ratio: ${ratio}`} data-reveal="clip">
               <Image
                 src={item.src}
                 alt={item.alt}
                 widths={PHOTO_WIDTHS}
-                sizes={sequenceSizes(item.src, sum)}
+                sizes={sequenceSizes(item.src, ratio)}
               />
+              {item.caption && <figcaption>{item.caption}</figcaption>}
             </figure>
           ))}
         </div>
@@ -177,18 +178,11 @@ const screens = toScreens(d.images)
     text-wrap: pretty;
   }
 
-  /* The base layer caps paragraph width; the column is the measure here. */
-  .prose :global(p) {
-    max-inline-size: none;
-  }
-
   .prose :global(p + p) {
     margin-block-start: 1.6em;
   }
 
-  /* ----------------------------------------------------------- sequence
-     Photographs are shown whole: every box carries its own photograph's
-     proportions, so nothing is ever cropped and no information is lost. */
+  /* ----------------------------------------------------------- sequence */
   .screen {
     display: flex;
     flex-direction: column;
@@ -196,56 +190,67 @@ const screens = toScreens(d.images)
   }
 
   .screen figure {
+    position: relative;
     margin: 0;
+    overflow: clip;
     background: var(--color-grey-2);
   }
 
   .screen img {
-    display: block;
     inline-size: 100%;
-    block-size: auto;
-    aspect-ratio: var(--ratio);
+    block-size: 100%;
+    object-fit: cover;
   }
 
-  /* Under the photograph, never over it. */
+  /* Sits on the photograph, since each one fills its screen. */
+  .screen figcaption {
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline: 0;
+    padding: var(--space-6) var(--space-4) var(--edge);
+    color: #fff;
+    font-size: var(--text-small);
+    line-height: 1.6;
+    text-shadow: 0 1px 14px rgb(0 0 0 / 0.5);
+    background: linear-gradient(
+      to top,
+      rgb(0 0 0 / 0.35) 0%,
+      rgb(0 0 0 / 0) 100%
+    );
+  }
+
   /* On the phone everything is simply full width, one under the other. */
-  .opening {
+  .opening,
+  .screen figure {
     block-size: auto;
   }
 
-  .opening img {
+  .opening img,
+  .screen img {
     aspect-ratio: 4 / 3;
   }
 
   @media (min-width: 60rem) {
-    .opening {
+    .opening,
+    .story,
+    .screen {
       block-size: var(--screen);
     }
 
-    /* A screenful when the text fits, taller when it does not, so a long
-       description never slides up under the menu band. */
-    .story {
-      min-block-size: var(--screen);
-    }
-
-    .opening img {
+    .opening img,
+    .screen img {
       aspect-ratio: auto;
     }
 
-    /* A row is a grid row tall, unless the column is too narrow to hold it at
-       that size, in which case the whole row scales down together. The width
-       has to be definite: the photographs inside are laid out from it, and an
-       `auto` width would collapse around them instead. */
     .screen {
       flex-direction: row;
-      align-items: flex-start;
-      align-self: center;
-      inline-size: min(100%, calc(var(--screen) * var(--sum)));
+      align-items: stretch;
+      justify-content: center;
     }
 
     .screen figure {
-      flex: var(--ratio) 1 0;
-      min-inline-size: 0;
+      inline-size: calc(var(--screen) * var(--ratio));
+      block-size: 100%;
     }
 
     /* Justified only once the column is wide enough not to gap badly. */

@@ -15,7 +15,7 @@ Architecture websites earn "insanely high quality" through **restraint**: enormo
 
 - **Typography does the heavy lifting.** One display face with real character + one quiet text face. Display sizes should be brave — heroes can be `clamp(3rem, 10vw, 9rem)`. Tight letter-spacing on large sizes (−0.02em to −0.04em), generous line-height only on body text.
 - **Near-monochrome palette.** An off-black, an off-white (paper/plaster, never pure `#fff`), two greys between them, and at most one accent used sparingly (a rust, ochre, or deep green reads "material"; never SaaS blue/purple).
-- **Photography is full-bleed or grid-locked, never in "cards".** Every image gets meaningful `alt` text. Openings and grid tiles take a consistent shape (`aspect-ratio` + `object-fit: cover`), but **inside a project the photographs are never cropped** — see her decision of 2026-09-16 below.
+- **Photography is full-bleed or grid-locked, never in "cards".** Consistent aspect ratios (`aspect-ratio` + `object-fit: cover`). Every image gets meaningful `alt` text.
 - **Whitespace is a feature.** Section padding measured in `clamp(4rem, 12vh, 10rem)`, not `2rem`. Let single elements own the screen.
 - **Grid with intent.** A 12-column fluid grid; content usually sits asymmetrically on it (text spanning columns 2–6, an image spanning 7–13). Symmetric centered-everything is the template look — avoid it.
 
@@ -158,21 +158,8 @@ are quoted at that size and live as tokens in `global.css`.
 **Project page** (her design): opening photograph one row tall, project name
 bottom left in Bold 36px, facts bottom right (Projeto, Local, m², Ano); then the
 description alone on a screen, justified in a 56rem column; then the
-photographs a screenful at a time, centred, grouped by `src/lib/sequence.ts`.
+photographs a screenful at a time, centred, widths from `src/lib/sequence.ts`.
 No summary line and no previous/next links: her design has neither.
-
-**2026-09-16 — the photographs inside a project, decided with her**
-
-- **Nothing is cropped.** A photograph shot in 16:9 or 4:3 is shown in 16:9 or
-  4:3. Her words: she does not want to lose information. The fixed shapes
-  measured off Figma (`[1]`, `[0.76, 0.76]`, `[1.31]`, `[0.56, 0.58, 0.58]`) are
-  gone; each box now carries its own photograph's proportions, and a row is a
-  grid row tall unless the column is too narrow, in which case the row scales
-  down whole. Wide photographs take a screen alone, uprights pair up.
-- **No text over a photograph in the sequence.** Captions sit underneath, in
-  `--color-grey-1` at the small size. This does **not** apply to the opening
-  photograph, which keeps the name and facts over it exactly as she drew it in
-  Figma — ask her before touching that one.
 
 **Sobre nós** (her design): "Forma / Reforma / Transforma" spread across the
 text column, the studio story below it justified with both names in bold, then

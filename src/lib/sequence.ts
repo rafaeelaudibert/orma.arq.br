@@ -1,44 +1,38 @@
-import type { ImageMetadata } from "astro"
-
 /**
  * The photographs after a project's opening image are shown a screenful at a
- * time: one or two of them, centred, never taller than a grid row.
+ * time: one, two or three of them, centred, each the height of a grid row.
  *
- * Every photograph keeps its own proportions and is never cropped, so the
- * screens are built from the shapes she actually shot rather than from fixed
- * boxes: a wide photograph holds a screen on its own, uprights pair up.
+ * A shape lists each photograph's width as a share of that height, measured off
+ * the Figma design. The rhythm repeats for as many photographs as a project has.
  */
+const SHAPES: number[][] = [[1], [0.76, 0.76], [1.31], [0.56, 0.58, 0.58]]
 
-/** At or above this, a photograph is wide enough to fill a screen alone. */
-const WIDE = 1.2
-
-/** Width of a photograph as a share of its own height. */
-const ratioOf = (image: ImageMetadata) => image.width / image.height
-
-export type Screen<T> = {
-  photos: { item: T; ratio: number }[]
-  /** Total width of the row, as a share of its height. */
-  sum: number
+/** Used when the photographs left over can't fill the next shape. */
+const REMAINDER: Record<number, number[]> = {
+  1: [1.31],
+  2: [0.76, 0.76],
+  3: [0.56, 0.58, 0.58],
 }
 
-export function toScreens<T extends { src: ImageMetadata }>(
-  items: T[],
-): Screen<T>[] {
-  const queue = items.map((item) => ({ item, ratio: ratioOf(item.src) }))
+export type Screen<T> = { item: T; ratio: number }[]
+
+export function toScreens<T>(items: T[]): Screen<T>[] {
+  const queue = [...items]
   const screens: Screen<T>[] = []
+  let shapeIndex = 0
 
   while (queue.length > 0) {
-    const photos = [queue.shift()!]
+    let shape = SHAPES[shapeIndex++ % SHAPES.length]
 
-    // An upright takes a companion, if the next one is an upright too.
-    if (photos[0].ratio < WIDE && queue[0] && queue[0].ratio < WIDE) {
-      photos.push(queue.shift()!)
+    if (shape.length > queue.length) {
+      shape = REMAINDER[queue.length] ?? shape
     }
 
-    screens.push({
-      photos,
-      sum: photos.reduce((total, { ratio }) => total + ratio, 0),
-    })
+    screens.push(
+      shape
+        .slice(0, queue.length)
+        .map((ratio) => ({ item: queue.shift()!, ratio })),
+    )
   }
 
   return screens

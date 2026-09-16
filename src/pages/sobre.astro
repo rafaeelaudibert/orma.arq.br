@@ -69,9 +69,6 @@ const promise = ["Forma", "Reforma", "Transforma"]
   }
 
   .promise {
-    /* The base layer caps paragraph width for readability; these two fill the
-       column they sit in, which is already the right measure. */
-    max-inline-size: none;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -81,7 +78,6 @@ const promise = ["Forma", "Reforma", "Transforma"]
   }
 
   .prose {
-    max-inline-size: none;
     font-size: var(--text-ui);
     line-height: 1.6;
     text-wrap: pretty;
@@ -105,14 +101,13 @@ const promise = ["Forma", "Reforma", "Transforma"]
   }
 
   @media (min-width: 60rem) {
+    .story,
     .portrait {
       block-size: var(--screen);
     }
 
-    /* A screenful when the text fits, taller when it does not. */
     .story {
-      min-block-size: var(--screen);
-      padding-block: var(--edge);
+      padding-block: 0;
     }
 
     .portrait img {

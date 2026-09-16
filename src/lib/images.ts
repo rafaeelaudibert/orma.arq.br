@@ -27,17 +27,10 @@ const TILE_PHONE = "75vw"
 const covered = (image: ImageMetadata, width: string, height: string) =>
   `max(${width}, calc(${height} * ${(image.width / image.height).toFixed(3)}))`
 
-/**
- * A photograph in a project's sequence. These are never cropped: the box has
- * the photograph's own proportions, so the painted width is simply the box
- * width. A row is as tall as a grid row unless the column is too narrow for
- * that, in which case the whole row shrinks to fit — hence the `min()`.
- */
-export function sequenceSizes(image: ImageMetadata, sum: number) {
-  const share = (image.width / image.height / sum).toFixed(3)
-  const byHeight = `calc(${ROW} * ${(image.width / image.height).toFixed(3)})`
-  const byWidth = `calc(${COLUMN} * ${share})`
-  return `(min-width: 60rem) min(${byHeight}, ${byWidth}), 100vw`
+/** A photograph in a project's sequence, sized against the row height. */
+export function sequenceSizes(image: ImageMetadata, ratio: number) {
+  const widest = Math.max(ratio, image.width / image.height).toFixed(3)
+  return `(min-width: 60rem) calc(${ROW} * ${widest}), ${covered(image, "100vw", TILE_PHONE)}`
 }
 
 /** A tile in the portfolio grid, spanning `span` of the 12 columns. */

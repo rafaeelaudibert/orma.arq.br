@@ -135,10 +135,9 @@ const where = studio.regions.join(" e ")
       pointer-events: auto;
     }
 
-    /* The white band runs the full width, so photographs disappear behind it
-       rather than into the margin. The words themselves are centred on the
-       photographs below, which means the left rail holding the sideways logo
-       is padded out of the reckoning. */
+    /* The menu rectangle spans the page between the two side margins, and the
+       words sit centred inside it. It reaches the very top so photographs
+       disappear behind it instead of into the margin. */
     .menu {
       position: absolute;
       inset-block-start: 0;
@@ -147,7 +146,6 @@ const where = studio.regions.join(" e ")
       place-items: center;
       block-size: var(--header-height);
       padding-block-start: var(--edge);
-      padding-inline: var(--rail-width) var(--edge);
       background: var(--color-paper);
     }
 

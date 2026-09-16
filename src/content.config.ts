@@ -27,8 +27,6 @@ const projects = defineCollection({
           z.object({
             src: image(),
             alt: z.string(),
-            /** Kept for reference; she asked for no words beside the photographs,
-             * so nothing on the site renders this. */
             caption: z.string().optional(),
           }),
         )
