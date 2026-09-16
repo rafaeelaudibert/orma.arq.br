@@ -4,6 +4,7 @@ import { getCollection, render } from "astro:content"
 import type { GetStaticPaths } from "astro"
 
 import { categoryLabel, type CategorySlug } from "../../lib/categories"
+import { breadcrumbSchema, DESCRIPTIONS, projectSchema } from "../../seo"
 import {
   LATER_PHOTO,
   openingSizes,
@@ -41,9 +42,40 @@ const screens = toScreens(d.images)
 
 /** The photograph the page opens on, announced in the head. */
 const openingPhoto = { src: d.cover, sizes: openingSizes(d.cover, 1.06) }
+
+const path = `/projetos/${project.id}`
+const description = DESCRIPTIONS.project(d.summary, d.location, d.year)
+
+/** The first category is the one the project is filed under in the trail. */
+const primaryCategory = (d.categories as CategorySlug[])[0]
+
+const schema = [
+  projectSchema({
+    title: d.title,
+    summary: d.summary,
+    path,
+    location: d.location,
+    year: d.year,
+    area: d.area,
+    categories: d.categories as CategorySlug[],
+    images: [d.cover, ...d.images.map((image) => image.src)].map(
+      (image) => new URL(image.src, Astro.site).href,
+    ),
+  }),
+  breadcrumbSchema([
+    { name: categoryLabel(primaryCategory), path: `/${primaryCategory}` },
+    { name: d.title, path },
+  ]),
+]
 ---
 
-<Layout openingPhoto={openingPhoto} title={d.title} description={d.summary}>
+<Layout
+  openingPhoto={openingPhoto}
+  socialPhoto={{ src: d.cover, alt: d.coverAlt }}
+  schema={schema}
+  title={d.title}
+  description={description}
+>
   <article>
     <figure class="opening">
       <Picture
@@ -202,7 +234,7 @@ const openingPhoto = { src: d.cover, sizes: openingSizes(d.cover, 1.06) }
     gap: var(--edge);
   }
 
-  /* Her standing rule: nothing is ever written over these photographs. There
+  /* Nothing is ever written over these photographs. There
      is no caption here and no field to put one in — only the opening
      photograph at the top of the page carries words. */
   .screen figure {

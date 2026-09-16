@@ -5,6 +5,7 @@ import ProjectGrid from "../components/ProjectGrid.astro"
 import { studio } from "../config"
 import { openingCell } from "../lib/grid"
 import { tileSizes } from "../lib/images"
+import { collectionSchema, DESCRIPTIONS } from "../seo"
 import Layout from "../layouts/Layout.astro"
 
 const projects = (await getCollection("projects")).sort(
@@ -17,11 +18,28 @@ const openingPhoto = opening && {
   src: opening.item.data.cover,
   sizes: tileSizes(opening.item.data.cover, opening.span, opening.lead),
 }
+
+const schema = [
+  collectionSchema({
+    name: studio.name,
+    description: DESCRIPTIONS.home,
+    path: "/",
+    projects: projects.map((project) => ({
+      title: project.data.title,
+      path: `/projetos/${project.id}`,
+    })),
+  }),
+]
 ---
 
 <Layout
   openingPhoto={openingPhoto}
-  description={`${studio.tagline}. Projetos residenciais, de interiores e comerciais assinados pelo estúdio ${studio.shortName}.`}
+  socialPhoto={opening && {
+    src: opening.item.data.cover,
+    alt: opening.item.data.coverAlt,
+  }}
+  schema={schema}
+  description={DESCRIPTIONS.home}
 >
   <h1 class="visually-hidden">
     {studio.name} — {studio.tagline}

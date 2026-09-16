@@ -4,6 +4,7 @@ import { Picture } from "astro:assets"
 import photo from "../assets/projects/apartamento-br/01-bedroom.jpg"
 import { studio, whatsappUrl } from "../config"
 import { OPENING_PHOTO, PHOTO, sequenceSizes } from "../lib/images"
+import { breadcrumbSchema, DESCRIPTIONS, pageSchema } from "../seo"
 import Layout from "../layouts/Layout.astro"
 
 /** The same share of the screen height as a pair of photographs elsewhere. */
@@ -11,12 +12,27 @@ const RATIO = 0.764
 
 /** The photograph beside the details, there from the first screen. */
 const openingPhoto = { src: photo, sizes: sequenceSizes(photo, RATIO) }
+
+const PHOTO_ALT =
+  "Quarto de casal com painel de madeira escura, cabeceira estofada azul e luminária de papel sobre a cama"
+
+const schema = [
+  pageSchema({
+    type: "ContactPage",
+    name: `Contato — ${studio.name}`,
+    description: DESCRIPTIONS.contato,
+    path: "/contato",
+  }),
+  breadcrumbSchema([{ name: "Contato", path: "/contato" }]),
+]
 ---
 
 <Layout
   openingPhoto={openingPhoto}
+  socialPhoto={{ src: photo, alt: PHOTO_ALT }}
+  schema={schema}
   title="Contato"
-  description={`Fale com a ${studio.name}. Projetos de arquitetura e interiores em ${studio.regions.join(" e ")}. Converse pelo WhatsApp ou por e-mail.`}
+  description={DESCRIPTIONS.contato}
 >
   <h1 class="visually-hidden">Contato — {studio.name}</h1>
 
@@ -24,7 +40,7 @@ const openingPhoto = { src: photo, sizes: sequenceSizes(photo, RATIO) }
     <figure>
       <Picture
         src={photo}
-        alt="Quarto de casal com painel de madeira escura, cabeceira estofada azul e luminária de papel sobre a cama"
+        alt={PHOTO_ALT}
         sizes={openingPhoto.sizes}
         {...PHOTO}
         {...OPENING_PHOTO}
@@ -42,7 +58,7 @@ const openingPhoto = { src: photo, sizes: sequenceSizes(photo, RATIO) }
         </li>
         <li>
           <a href={whatsappUrl} rel="noopener">chame pelo WhatsApp</a>
-          <span class="hours"> (de segunda a sexta-feira, das 9h às 18h) </span>
+          <span class="hours"> ({studio.hours.text}) </span>
         </li>
       </ul>
     </div>

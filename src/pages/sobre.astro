@@ -4,15 +4,31 @@ import { Picture } from "astro:assets"
 import opening from "../assets/projects/apartamento-br/03-wardrobe.jpg"
 import { partnerNames, studio } from "../config"
 import { openingSizes, OPENING_PHOTO, PHOTO } from "../lib/images"
+import { breadcrumbSchema, DESCRIPTIONS, pageSchema } from "../seo"
 import Layout from "../layouts/Layout.astro"
 
-/** The three words she set across the top of the page. */
+/** The three words across the top of the page. */
 const promise = ["Forma", "Reforma", "Transforma"]
+
+const OPENING_ALT =
+  "Corredor com armários de madeira escura do piso ao teto e luminária de chão redonda"
+
+const schema = [
+  pageSchema({
+    type: "AboutPage",
+    name: `Sobre nós — ${studio.name}`,
+    description: DESCRIPTIONS.sobre,
+    path: "/sobre",
+  }),
+  breadcrumbSchema([{ name: "Sobre nós", path: "/sobre" }]),
+]
 ---
 
 <Layout
+  socialPhoto={{ src: opening, alt: OPENING_ALT }}
+  schema={schema}
   title="Sobre nós"
-  description={`${studio.name} é um estúdio de arquitetura e interiores em ${studio.city}. Projetos residenciais e comerciais em ${studio.regions.join(" e ")}.`}
+  description={DESCRIPTIONS.sobre}
 >
   <h1 class="visually-hidden">Sobre nós — {studio.name}</h1>
 
@@ -47,7 +63,7 @@ const promise = ["Forma", "Reforma", "Transforma"]
   <figure class="portrait">
     <Picture
       src={opening}
-      alt="Corredor com armários de madeira escura do piso ao teto e luminária de chão redonda"
+      alt={OPENING_ALT}
       sizes={openingSizes(opening)}
       {...PHOTO}
       {...OPENING_PHOTO}

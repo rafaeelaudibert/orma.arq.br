@@ -23,9 +23,9 @@ const projects = defineCollection({
       cover: image(),
       coverAlt: z.string(),
       /**
-       * The photographs below the opening one. Her standing rule: nothing is
-       * ever written over these, so there is no caption field to fill in. Only
-       * `alt`, which is never seen — it is what a blind visitor hears.
+       * The photographs below the opening one. Nothing is ever written over
+       * these, so there is no caption field to fill in. Only `alt`, which is
+       * never seen — it is what a blind visitor hears.
        */
       images: z
         .array(

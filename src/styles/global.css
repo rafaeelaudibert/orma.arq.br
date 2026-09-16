@@ -103,16 +103,16 @@
 
     /* Layout, measured off the Figma design (values shown at its 1920x982).
        --rail is the left margin holding the sideways logo, --edge is the white
-       margin on the other three sides AND the gap between photographs (she
-       wanted one spacing everywhere), --header the band the images scroll
-       under. */
+       margin on the other three sides AND the gap between photographs, which
+       are deliberately one and the same spacing, --header the band the images
+       scroll under. */
     --rail-width: clamp(8.5rem, 14.17vw, 17rem); /* 272px */
     --edge: clamp(0.75rem, 2.08vw, 2.5rem); /* 40px */
     --header-height: clamp(4.5rem, 8.02vw, 9.625rem); /* 154px */
     /* The stacked phone header. Fixed here so the opening image can be sized
        to fill exactly the rest of the screen. */
     --header-flow: 9.75rem;
-    /* Her decision: every block of reading text in the content column is
+    /* Every block of reading text in the content column is
        exactly as wide as the menu above it, starting under the A of
        Arquitetura and ending under the last o of Contato. So the menu row and
        the text share this one width, and the menu spreads its words across it

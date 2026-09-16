@@ -1,11 +1,28 @@
 // @ts-check
+import sitemap from "@astrojs/sitemap"
 import { defineConfig } from "astro/config"
+
+import { studio } from "./src/config"
 
 // https://astro.build/config
 export default defineConfig({
+  // The address the site is served from. Canonical links, the preview cards
+  // links turn into, the sitemap and robots.txt are all built from it, so it
+  // is read from the studio facts rather than written out a second time.
+  site: studio.url,
+
   // The floating dev toolbar sits over the bottom of the page, which is exactly
   // where the project captions are. Off, so screenshots show the real design.
   devToolbar: { enabled: false },
+
+  integrations: [
+    sitemap({
+      // Every page here is equally worth finding and changes at the same pace:
+      // when a project is added. Per-page priorities would be noise.
+      changefreq: "monthly",
+      lastmod: new Date(),
+    }),
+  ],
 
   image: {
     // Quality is set per format because the numbers don't mean the same thing

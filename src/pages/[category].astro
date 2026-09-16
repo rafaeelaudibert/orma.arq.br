@@ -7,6 +7,7 @@ import { studio } from "../config"
 import { categories } from "../lib/categories"
 import { openingCell } from "../lib/grid"
 import { tileSizes } from "../lib/images"
+import { breadcrumbSchema, collectionSchema, DESCRIPTIONS } from "../seo"
 import Layout from "../layouts/Layout.astro"
 
 export const getStaticPaths = (async () => {
@@ -33,12 +34,33 @@ const openingPhoto = opening && {
   src: opening.item.data.cover,
   sizes: tileSizes(opening.item.data.cover, opening.span, opening.lead),
 }
+
+const path = `/${category.slug}`
+const description = DESCRIPTIONS.category(category.slug, category.intro)
+
+const schema = [
+  collectionSchema({
+    name: `${category.label} — ${studio.name}`,
+    description,
+    path,
+    projects: projects.map((project) => ({
+      title: project.data.title,
+      path: `/projetos/${project.id}`,
+    })),
+  }),
+  breadcrumbSchema([{ name: category.label, path }]),
+]
 ---
 
 <Layout
   openingPhoto={openingPhoto}
+  socialPhoto={opening && {
+    src: opening.item.data.cover,
+    alt: opening.item.data.coverAlt,
+  }}
+  schema={schema}
   title={category.label}
-  description={`${category.intro} Projetos de ${category.label.toLowerCase()} do estúdio ${studio.name}, em ${studio.regions.join(" e ")}.`}
+  description={description}
 >
   {
     /* The page shows photographs only; the name is here for search engines
