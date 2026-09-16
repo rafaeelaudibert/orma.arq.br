@@ -1,8 +1,8 @@
 ---
-import { Image } from "astro:assets"
+import { Picture } from "astro:assets"
 import type { CollectionEntry } from "astro:content"
 
-import { PHOTO_WIDTHS, tileSizes } from "../lib/images"
+import { LATER_PHOTO, OPENING_PHOTO, PHOTO, tileSizes } from "../lib/images"
 
 interface Props {
   project: CollectionEntry<"projects">
@@ -28,13 +28,12 @@ const sizes = tileSizes(cover, span, lead)
   data-reveal={eager ? undefined : ""}
 >
   <figure>
-    <Image
+    <Picture
       src={cover}
       alt={coverAlt}
-      widths={PHOTO_WIDTHS}
       sizes={sizes}
-      loading={eager ? "eager" : "lazy"}
-      fetchpriority={eager ? "high" : "auto"}
+      {...PHOTO}
+      {...eager ? OPENING_PHOTO : LATER_PHOTO}
       transition:name={`cover-${project.id}`}
     />
     <figcaption>

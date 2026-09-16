@@ -7,6 +7,20 @@ export default defineConfig({
   // where the project captions are. Off, so screenshots show the real design.
   devToolbar: { enabled: false },
 
+  image: {
+    // Quality is set per format because the numbers don't mean the same thing
+    // in each: AVIF at 60 already looks slightly better than WebP at 80 on
+    // these photographs, and weighs about a quarter less. WebP stays where it
+    // was, so the browsers that fall back to it lose nothing.
+    service: {
+      entrypoint: "astro/assets/services/sharp",
+      config: {
+        avif: { quality: 60 },
+        webp: { quality: 80 },
+      },
+    },
+  },
+
   build: {
     // The reveal script starts every photograph invisible, so it has to run.
     // Inlined scripts are the ones an embedded viewer or a strict content

@@ -22,7 +22,8 @@ const REMAINDER: Record<number, Shape> = {
   3: [4, 4, 4],
 }
 
-export type Row<T> = { cells: { item: T; span: number }[] }
+export type Cell<T> = { item: T; span: number }
+export type Row<T> = { cells: Cell<T>[] }
 
 export function toRows<T>(items: T[], { lead = true } = {}): Row<T>[] {
   const queue = [...items]
@@ -37,7 +38,7 @@ export function toRows<T>(items: T[], { lead = true } = {}): Row<T>[] {
       shape = REMAINDER[queue.length] ?? shape
     }
 
-    const cells = shape
+    const cells: Cell<T>[] = shape
       .slice(0, queue.length)
       .map((span) => ({ item: queue.shift()!, span }))
 
@@ -45,4 +46,15 @@ export function toRows<T>(items: T[], { lead = true } = {}): Row<T>[] {
   }
 
   return rows
+}
+
+/**
+ * The first tile of the grid: the one photograph a visitor sees before
+ * scrolling, and so the only one worth asking the browser to start fetching
+ * from the page's <head>. Same layout rules as the grid itself, so the file it
+ * preloads is exactly the file the tile goes on to use.
+ */
+export function openingCell<T>(items: T[], { lead = true } = {}) {
+  const cell = toRows(items, { lead })[0]?.cells[0]
+  return cell ? { ...cell, lead } : undefined
 }

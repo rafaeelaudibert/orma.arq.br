@@ -1,9 +1,9 @@
 ---
-import { Image } from "astro:assets"
+import { Picture } from "astro:assets"
 
 import opening from "../assets/projects/apartamento-br/03-wardrobe.jpg"
 import { partnerNames, studio } from "../config"
-import { openingSizes, PHOTO_WIDTHS } from "../lib/images"
+import { openingSizes, OPENING_PHOTO, PHOTO } from "../lib/images"
 import Layout from "../layouts/Layout.astro"
 
 /** The three words she set across the top of the page. */
@@ -37,14 +37,20 @@ const promise = ["Forma", "Reforma", "Transforma"]
     </div>
   </section>
 
+  {
+    /* On a wide screen the words fill the first screen and this sits below
+      them; on a phone three quarters of it is already showing. So it is never
+      deferred — but it isn't announced in the head either, because on the
+      screens where it is invisible that would be a large photograph fetched
+      ahead of the words a visitor came to read. */
+  }
   <figure class="portrait">
-    <Image
+    <Picture
       src={opening}
       alt="Corredor com armários de madeira escura do piso ao teto e luminária de chão redonda"
-      widths={PHOTO_WIDTHS}
       sizes={openingSizes(opening)}
-      loading="eager"
-      fetchpriority="high"
+      {...PHOTO}
+      {...OPENING_PHOTO}
     />
   </figure>
 </Layout>

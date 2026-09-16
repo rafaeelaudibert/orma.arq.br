@@ -1,10 +1,16 @@
 ---
-import { Image } from "astro:assets"
+import { Picture } from "astro:assets"
 import { getCollection, render } from "astro:content"
 import type { GetStaticPaths } from "astro"
 
 import { categoryLabel, type CategorySlug } from "../../lib/categories"
-import { openingSizes, PHOTO_WIDTHS, sequenceSizes } from "../../lib/images"
+import {
+  LATER_PHOTO,
+  openingSizes,
+  OPENING_PHOTO,
+  PHOTO,
+  sequenceSizes,
+} from "../../lib/images"
 import { toScreens } from "../../lib/sequence"
 import Layout from "../../layouts/Layout.astro"
 
@@ -32,18 +38,20 @@ const facts = [
 ]
 
 const screens = toScreens(d.images)
+
+/** The photograph the page opens on, announced in the head. */
+const openingPhoto = { src: d.cover, sizes: openingSizes(d.cover, 1.06) }
 ---
 
-<Layout title={d.title} description={d.summary}>
+<Layout openingPhoto={openingPhoto} title={d.title} description={d.summary}>
   <article>
     <figure class="opening">
-      <Image
+      <Picture
         src={d.cover}
         alt={d.coverAlt}
-        widths={PHOTO_WIDTHS}
-        sizes={openingSizes(d.cover, 1.06)}
-        loading="eager"
-        fetchpriority="high"
+        sizes={openingPhoto.sizes}
+        {...PHOTO}
+        {...OPENING_PHOTO}
         transition:name={`cover-${project.id}`}
       />
       <figcaption>
@@ -72,11 +80,12 @@ const screens = toScreens(d.images)
         <div class="screen">
           {screen.map(({ item, ratio }) => (
             <figure style={`--ratio: ${ratio}`} data-reveal="clip">
-              <Image
+              <Picture
                 src={item.src}
                 alt={item.alt}
-                widths={PHOTO_WIDTHS}
                 sizes={sequenceSizes(item.src, ratio)}
+                {...PHOTO}
+                {...LATER_PHOTO}
               />
             </figure>
           ))}

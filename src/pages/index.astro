@@ -3,14 +3,24 @@ import { getCollection } from "astro:content"
 
 import ProjectGrid from "../components/ProjectGrid.astro"
 import { studio } from "../config"
+import { openingCell } from "../lib/grid"
+import { tileSizes } from "../lib/images"
 import Layout from "../layouts/Layout.astro"
 
 const projects = (await getCollection("projects")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 )
+
+/** The newest project, alone across the first screen — announced in the head. */
+const opening = openingCell(projects)
+const openingPhoto = opening && {
+  src: opening.item.data.cover,
+  sizes: tileSizes(opening.item.data.cover, opening.span, opening.lead),
+}
 ---
 
 <Layout
+  openingPhoto={openingPhoto}
   description={`${studio.tagline}. Projetos residenciais, de interiores e comerciais assinados pelo estúdio ${studio.shortName}.`}
 >
   <h1 class="visually-hidden">

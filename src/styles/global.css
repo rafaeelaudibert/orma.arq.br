@@ -39,6 +39,16 @@
     max-inline-size: 100%;
   }
 
+  /* A <picture> only exists so the browser can choose a file; it must never
+     come between a photograph and the box it was told to fill. Every
+     photograph here is a cover crop sized by its figure, so the wrapper
+     stretches to that figure and the photograph goes on sizing against it
+     exactly as it did when it was an <img> on its own. */
+  picture {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
   input,
   button,
   textarea,

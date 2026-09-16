@@ -1,16 +1,20 @@
 ---
-import { Image } from "astro:assets"
+import { Picture } from "astro:assets"
 
 import photo from "../assets/projects/apartamento-br/01-bedroom.jpg"
 import { studio, whatsappUrl } from "../config"
-import { PHOTO_WIDTHS, sequenceSizes } from "../lib/images"
+import { OPENING_PHOTO, PHOTO, sequenceSizes } from "../lib/images"
 import Layout from "../layouts/Layout.astro"
 
 /** The same share of the screen height as a pair of photographs elsewhere. */
 const RATIO = 0.764
+
+/** The photograph beside the details, there from the first screen. */
+const openingPhoto = { src: photo, sizes: sequenceSizes(photo, RATIO) }
 ---
 
 <Layout
+  openingPhoto={openingPhoto}
   title="Contato"
   description={`Fale com a ${studio.name}. Projetos de arquitetura e interiores em ${studio.regions.join(" e ")}. Converse pelo WhatsApp ou por e-mail.`}
 >
@@ -18,13 +22,12 @@ const RATIO = 0.764
 
   <section class="pair" style={`--ratio: ${RATIO}`}>
     <figure>
-      <Image
+      <Picture
         src={photo}
         alt="Quarto de casal com painel de madeira escura, cabeceira estofada azul e luminária de papel sobre a cama"
-        widths={PHOTO_WIDTHS}
-        sizes={sequenceSizes(photo, RATIO)}
-        loading="eager"
-        fetchpriority="high"
+        sizes={openingPhoto.sizes}
+        {...PHOTO}
+        {...OPENING_PHOTO}
       />
     </figure>
 
