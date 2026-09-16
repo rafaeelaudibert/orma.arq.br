@@ -10,27 +10,22 @@ coverAlt: Recepção com parede lilás, painel arqueado iluminado por trás em l
 images:
   - src: ../../assets/projects/consultorio-th/02-reception-overview.jpg
     alt: Vista geral da recepção, com o buffet do café à esquerda e o balcão de atendimento à direita
-    caption: "A sala inteira: de um lado o café, do outro o atendimento."
   - src: ../../assets/projects/consultorio-th/03-reception-counter.jpg
     alt: Balcão de recepção branco ripado sob o painel arqueado com os nomes das duas profissionais
   - src: ../../assets/projects/consultorio-th/04-reception-corridor.jpg
     alt: Recepção vista de lado, com o corredor de acesso às salas ao fundo e nichos brancos na parede lilás
-    caption: O arco marca a entrada das salas sem precisar de placa.
   - src: ../../assets/projects/consultorio-th/05-coffee-corner.jpg
     alt: Canto do café com buffet branco, mesas laterais de madeira e a parede lilás com a frase aplicada
   - src: ../../assets/projects/consultorio-th/06-coffee-counter.jpg
     alt: Buffet do café visto de frente, com cafeteiras, jarra rosa e a frase Seja real, não perfeito na parede
-    caption: Quem espera se serve sozinho, sem precisar pedir.
   - src: ../../assets/projects/consultorio-th/07-wall-lettering.jpg
     alt: Detalhe da frase Seja real, não perfeito aplicada em letras brancas sobre a parede lilás
   - src: ../../assets/projects/consultorio-th/08-coffee-detail.jpg
     alt: Detalhe da bancada do café com cafeteira vermelha, máquina de cápsulas e bandeja de madeira
   - src: ../../assets/projects/consultorio-th/09-consulting-room.jpg
     alt: Sala de atendimento com mesa branca de base ripada, duas poltronas claras e estante vazada junto à janela
-    caption: "A mesa não fica entre as duas pessoas: as poltronas ficam do mesmo lado."
   - src: ../../assets/projects/consultorio-th/10-consulting-room-window.jpg
     alt: Outro ângulo da sala de atendimento, com balança de bioimpedância, espelho oval e estante vazada dividindo o ambiente
-    caption: A estante vazada separa a avaliação da conversa sem fechar a sala.
   - src: ../../assets/projects/consultorio-th/11-lounge.jpg
     alt: Sala de espera com sofá curvo claro, tapete redondo lilás, quadros e bancada alta junto à janela
 ---
