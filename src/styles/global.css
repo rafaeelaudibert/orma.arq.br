@@ -206,6 +206,17 @@
     clip-path: inset(0 0 0 0);
   }
 
+  /* Without scripting nothing can ever set [data-reveal-shown], so the
+     entrance is dropped rather than leaving the page blank. */
+  @media (scripting: none) {
+    [data-reveal] {
+      transition: none;
+      transform: none;
+      clip-path: none;
+      opacity: 1;
+    }
+  }
+
   /* The photograph a visitor clicked flies into place on the project page.
      Slow and eased, like everything else that moves here. */
   ::view-transition-group(*) {
