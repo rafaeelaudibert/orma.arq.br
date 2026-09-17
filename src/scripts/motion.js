@@ -1,4 +1,4 @@
-// Orma shared motion script — the ONLY scroll-reveal mechanism on the site.
+// ORMA shared motion script — the ONLY scroll-reveal mechanism on the site.
 // Elements with [data-reveal] get [data-reveal-shown] once they reach the
 // trigger line; the actual animation lives in CSS (see global.css "Motion").
 //

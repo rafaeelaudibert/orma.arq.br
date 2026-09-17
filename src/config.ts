@@ -3,8 +3,8 @@
  * Never hardcode these in a component or page.
  */
 export const studio = {
-  name: "Orma Arquitetura",
-  shortName: "Orma",
+  name: "ORMA Arquitetura",
+  shortName: "ORMA",
   /** One line, used on the studio page and in meta descriptions. */
   tagline: "Arquitetura e interiores em Porto Alegre e na Serra Gaúcha",
   city: "Porto Alegre",

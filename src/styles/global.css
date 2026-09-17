@@ -1,4 +1,4 @@
-/* Orma — the single source of truth for the site's look.
+/* ORMA — the single source of truth for the site's look.
    Imported once, in src/layouts/Layout.astro. */
 
 @import "@fontsource-variable/montserrat/wght.css";

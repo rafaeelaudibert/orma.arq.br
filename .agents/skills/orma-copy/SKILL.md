@@ -42,7 +42,7 @@ Someone thinking about **hiring an architect**: a couple planning to build or re
 
 ## SEO basics (quietly, on every page)
 
-One `h1` per page. `<title>` pattern: "Página — Orma Arquitetura" (or the studio's confirmed name). Meta descriptions ~150 characters in pt-BR using words clients actually search: "arquiteto em <cidade>", "projeto de casa", "reforma de apartamento". Never stuff keywords into visible copy.
+One `h1` per page. `<title>` pattern: "Página — ORMA Arquitetura". **The name is written ORMA, in capitals, always** (her decision, 2026-09-16); never "Orma". It lives in `studio.name` / `studio.shortName` in `src/config.ts` and is never typed out by hand. Meta descriptions ~150 characters in pt-BR using words clients actually search: "arquiteto em <cidade>", "projeto de casa", "reforma de apartamento". Never stuff keywords into visible copy.
 
 ## Placeholders
 
