@@ -42,6 +42,13 @@ interface Props {
    * below, so every page ships one connected graph rather than loose facts.
    */
   schema?: Record<string, unknown>[]
+  /**
+   * Keep this page out of search results. For the pages that exist to catch a
+   * visitor rather than to be found: a wrong address is not a page anyone
+   * should arrive at from a search. Links are still followed, so the way back
+   * into the site is not a dead end for a crawler either.
+   */
+  noindex?: boolean
 }
 
 const {
@@ -50,6 +57,7 @@ const {
   openingPhoto,
   socialPhoto,
   schema = [],
+  noindex = false,
 } = Astro.props
 
 const pageTitle = title ? TITLE.pattern(title) : TITLE.home
@@ -142,13 +150,15 @@ const structuredData = {
     <link rel="canonical" href={canonical} />
 
     {
-      /* Every page is meant to be found and followed; spelled out rather than
-        left to a default, and with the extra directives that let a search page
-        show the full description and a large photograph. */
+      /* Spelled out rather than left to a default, and with the extra
+        directives that let a search page show the full description and a large
+        photograph. */
     }
     <meta
       name="robots"
-      content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+      content={noindex
+        ? "noindex, follow"
+        : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"}
     />
 
     <meta property="og:type" content="website" />

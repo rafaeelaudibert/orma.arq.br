@@ -1,0 +1,148 @@
+---
+import { Picture } from "astro:assets"
+import { getCollection } from "astro:content"
+
+import { studio } from "../config"
+import { openingCell } from "../lib/grid"
+import { OPENING_PHOTO, PHOTO, tileSizes } from "../lib/images"
+import Layout from "../layouts/Layout.astro"
+
+/**
+ * The page a wrong address lands on. It opens on the same photograph the site
+ * itself opens on, so a visitor who mistyped still arrives somewhere that looks
+ * like the studio rather than at an error.
+ */
+const projects = (await getCollection("projects")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+)
+const opening = openingCell(projects)!
+const photo = opening.item.data.cover
+---
+
+<Layout
+  title="Página não encontrada"
+  description={`A página que você procura não existe. Veja os projetos de arquitetura e interiores da ${studio.name}.`}
+  socialPhoto={{ src: photo, alt: opening.item.data.coverAlt }}
+  noindex
+>
+  <figure class="lost">
+    <Picture
+      src={photo}
+      alt=""
+      sizes={tileSizes(photo, 12, true)}
+      {...PHOTO}
+      {...OPENING_PHOTO}
+    />
+
+    <figcaption>
+      <p class="code" aria-hidden="true">404</p>
+      <h1>Não encontramos esta página</h1>
+      <p class="lead">
+        O endereço que você abriu não existe ou mudou de lugar.
+      </p>
+      <a class="back" href="/">Voltar para o início</a>
+    </figcaption>
+  </figure>
+</Layout>
+
+<style>
+  /* One screen, the same shape the home page opens with: on the phone the
+     header sits in the page, on a wide screen the photograph runs under it. */
+  .lost {
+    position: relative;
+    margin: 0;
+    block-size: calc(100svh - var(--header-flow) - var(--edge));
+    overflow: clip;
+    background: var(--color-grey-2);
+  }
+
+  @media (min-width: 60rem) {
+    .lost {
+      block-size: calc(100svh - var(--header-height) - var(--edge));
+    }
+  }
+
+  .lost img {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  /* The words sit on the photograph, as they do on a project page. The shading
+     is heavier here because this is the only screen a lost visitor gets, and it
+     has to be readable over whichever photograph happens to open the site. */
+  figcaption {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    padding: var(--space-5) var(--gutter);
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 1px 14px rgb(0 0 0 / 0.5);
+    background: linear-gradient(
+      to top,
+      rgb(0 0 0 / 0.55) 0%,
+      rgb(0 0 0 / 0.3) 55%,
+      rgb(0 0 0 / 0.15) 100%
+    );
+  }
+
+  .code {
+    font-size: var(--text-hero);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: var(--tracking-wide);
+    /* The numerals are the picture here, not the message: the sentence below
+       carries that, and a screen reader is given the sentence instead. */
+    opacity: 0.9;
+  }
+
+  h1 {
+    font-size: var(--text-large);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .lead {
+    max-inline-size: 34ch;
+    font-size: var(--text-ui);
+    line-height: 1.45;
+  }
+
+  /* An outline rather than a filled button: the palette has no colour in it,
+     and a white block would fight the photograph. */
+  .back {
+    display: flex;
+    align-items: center;
+    margin-block-start: var(--space-3);
+    /* Never smaller than a comfortable thumb, however small the interface type
+       gets on a narrow screen. */
+    min-block-size: 44px;
+    padding: 0.85em 1.6em;
+    border: 1px solid rgb(255 255 255 / 0.7);
+    font-size: var(--text-ui);
+    line-height: 1;
+    text-shadow: none;
+    transition:
+      background-color var(--motion-fast) var(--ease-out-soft),
+      border-color var(--motion-fast) var(--ease-out-soft),
+      color var(--motion-fast) var(--ease-out-soft);
+  }
+
+  .back:hover,
+  .back:focus-visible {
+    border-color: #fff;
+    background: #fff;
+    color: var(--color-ink);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .back {
+      transition: none;
+    }
+  }
+</style>
