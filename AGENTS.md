@@ -33,16 +33,18 @@ Handle version control fully autonomously: she doesn't know what git is, so neve
 Every commit message has two parts, never a title alone:
 
 - **Title**: [Conventional Commits](https://www.conventionalcommits.org) in English (`feat:`, `fix:`, `refactor:`, `chore:`, plus `docs:` and `style:` where they fit), followed by a short imperative summary of what changed on the site.
-- **Description**: one to three sentences recording what she asked for (paraphrase her prompt) and why the change ended up the way it did: the decisions made along the way, the direction she picked, anything she rejected. She won't remember the details later and can't read the code, so the commit history is the project's diary.
+- **Description**: one to three sentences recording what the change is for and why it ended up this way: the decisions made along the way, the direction chosen, anything rejected. Nobody will remember the details later, so the commit history is the project's diary.
+
+**Never attribute anything to a person, in commit messages or in code comments.** No "she asked for", "her standing rule", "the footer she drew in Figma". Write present tense with no subject: "drawn in Figma", "rejected in favour of the darker tone". The rule itself is what a reader can act on; who asked for it is noise.
 
 Example:
 
 ```
 feat: darken the opening screen of the project pages
 
-She asked for the first screen to feel "more dramatic, like dusk".
-Went with the darkest tone from the existing palette instead of a new
-color, and kept the title white after she rejected the beige version.
+Makes the first screen read closer to dusk. Uses the darkest tone already
+in the palette rather than introducing a new color, and keeps the title
+white: the beige version was tried and rejected.
 ```
 
 ## Documentation
