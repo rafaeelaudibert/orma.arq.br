@@ -34,10 +34,12 @@ const schema = [
 
 <Layout
   openingPhoto={openingPhoto}
-  socialPhoto={opening && {
-    src: opening.item.data.cover,
-    alt: opening.item.data.coverAlt,
-  }}
+  socialPhoto={
+    opening && {
+      src: opening.item.data.cover,
+      alt: opening.item.data.coverAlt,
+    }
+  }
   schema={schema}
   description={DESCRIPTIONS.home}
 >

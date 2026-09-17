@@ -35,31 +35,31 @@ const schema = [
   <section class="story">
     <div class="column">
       <p class="promise" data-reveal>
-        {promise.map((word) => <span>{word}</span>)}
+        {promise.map((word) => (
+          <span>{word}</span>
+        ))}
       </p>
 
       <p class="prose" data-reveal style="--stagger: 1">
         Nossa história começou há dez anos, no primeiro dia de faculdade. A cada
         trabalho em grupo a amizade foi ficando mais forte, e hoje ela vai muito
-        além do profissional. Somos <strong>{partnerNames[0]}</strong> e <strong
-          >{partnerNames[1]}</strong
-        >, duas arquitetas formadas pela UFRGS, com uma obsessão por detalhe e
-        um fascínio por espaços funcionais e belos, principalmente quando se
-        trata de criar o lugar dos sonhos de cada cliente: onde se vai morar e
-        criar memórias. O escritório nasceu da vontade de atuarmos juntas em
-        projetos em que acreditamos, com o propósito de proporcionar conforto,
-        segurança, harmonia e paz, tanto no que se vê quanto no que se sente.
+        além do profissional. Somos <strong>{partnerNames[0]}</strong> e{" "}
+        <strong>{partnerNames[1]}</strong>, duas arquitetas formadas pela UFRGS,
+        com uma obsessão por detalhe e um fascínio por espaços funcionais e
+        belos, principalmente quando se trata de criar o lugar dos sonhos de
+        cada cliente: onde se vai morar e criar memórias. O escritório nasceu da
+        vontade de atuarmos juntas em projetos em que acreditamos, com o
+        propósito de proporcionar conforto, segurança, harmonia e paz, tanto no
+        que se vê quanto no que se sente.
       </p>
     </div>
   </section>
 
-  {
-    /* On a wide screen the words fill the first screen and this sits below
+  {/* On a wide screen the words fill the first screen and this sits below
       them; on a phone three quarters of it is already showing. So it is never
       deferred — but it isn't announced in the head either, because on the
       screens where it is invisible that would be a large photograph fetched
-      ahead of the words a visitor came to read. */
-  }
+      ahead of the words a visitor came to read. */}
   <figure class="portrait">
     <Picture
       src={opening}

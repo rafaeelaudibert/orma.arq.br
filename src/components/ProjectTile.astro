@@ -33,7 +33,7 @@ const sizes = tileSizes(cover, span, lead)
       alt={coverAlt}
       sizes={sizes}
       {...PHOTO}
-      {...eager ? OPENING_PHOTO : LATER_PHOTO}
+      {...(eager ? OPENING_PHOTO : LATER_PHOTO)}
       transition:name={`cover-${project.id}`}
     />
     <figcaption>

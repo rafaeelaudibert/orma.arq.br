@@ -135,30 +135,28 @@ const structuredData = {
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
 
-    {
-      preload && (
-        <link
-          rel="preload"
-          as="image"
-          type={`image/${PHOTO.formats[0]}`}
-          imagesrcset={preload.srcSet.attribute}
-          imagesizes={openingPhoto!.sizes}
-          fetchpriority="high"
-        />
-      )
-    }
+    {preload && (
+      <link
+        rel="preload"
+        as="image"
+        type={`image/${PHOTO.formats[0]}`}
+        imagesrcset={preload.srcSet.attribute}
+        imagesizes={openingPhoto!.sizes}
+        fetchpriority="high"
+      />
+    )}
     <link rel="canonical" href={canonical} />
 
-    {
-      /* Spelled out rather than left to a default, and with the extra
+    {/* Spelled out rather than left to a default, and with the extra
         directives that let a search page show the full description and a large
-        photograph. */
-    }
+        photograph. */}
     <meta
       name="robots"
-      content={noindex
-        ? "noindex, follow"
-        : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"}
+      content={
+        noindex
+          ? "noindex, follow"
+          : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+      }
     />
 
     <meta property="og:type" content="website" />
@@ -179,17 +177,14 @@ const structuredData = {
     <meta name="twitter:image" content={absolute(cardImage.src)} />
     <meta name="twitter:image:alt" content={card.alt} />
 
-    {
-      /* What this page is, in the form a search engine or an assistant reads
+    {/* What this page is, in the form a search engine or an assistant reads
         rather than infers. One connected graph per page: the studio, the site,
-        and whatever the page itself adds. */
-    }
+        and whatever the page itself adds. */}
     <script
       type="application/ld+json"
       is:inline
       set:html={JSON.stringify(structuredData)}
-    />
-
+    ></script>
     <PostHog />
 
     {/* Lets a project photograph fly from the grid into its own page. */}

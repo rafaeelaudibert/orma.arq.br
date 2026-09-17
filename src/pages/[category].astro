@@ -54,29 +54,27 @@ const schema = [
 
 <Layout
   openingPhoto={openingPhoto}
-  socialPhoto={opening && {
-    src: opening.item.data.cover,
-    alt: opening.item.data.coverAlt,
-  }}
+  socialPhoto={
+    opening && {
+      src: opening.item.data.cover,
+      alt: opening.item.data.coverAlt,
+    }
+  }
   schema={schema}
   title={category.label}
   description={description}
 >
-  {
-    /* The page shows photographs only; the name is here for search engines
-      and screen readers, exactly as on the home page. */
-  }
+  {/* The page shows photographs only; the name is here for search engines
+      and screen readers, exactly as on the home page. */}
   <h1 class="visually-hidden">
     {category.label} — {studio.name}
   </h1>
 
-  {
-    projects.length > 0 ? (
-      <ProjectGrid projects={projects} lead={false} />
-    ) : (
-      <p class="empty">Estamos preparando esta seção. Volte em breve.</p>
-    )
-  }
+  {projects.length > 0 ? (
+    <ProjectGrid projects={projects} lead={false} />
+  ) : (
+    <p class="empty">Estamos preparando esta seção. Volte em breve.</p>
+  )}
 </Layout>
 
 <style>

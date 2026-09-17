@@ -16,23 +16,35 @@ const year = new Date().getFullYear()
       <h2>{studio.name}</h2>
       <p class="label">Arquitetas</p>
       <ul role="list">
-        {partnerNames.map((name) => <li>{name}</li>)}
+        {partnerNames.map((name) => (
+          <li>{name}</li>
+        ))}
       </ul>
     </section>
 
     <section>
       <h2>Contato</h2>
       <ul role="list">
-        <li><a href={`mailto:${studio.email}`}>{studio.email}</a></li>
         <li>
-          <a href={studio.instagram} rel="noopener">{studio.instagramHandle}</a>
+          <a href={`mailto:${studio.email}`}>{studio.email}</a>
         </li>
-        <li><a href={whatsappUrl} rel="noopener">chame pelo WhatsApp</a></li>
+        <li>
+          <a href={studio.instagram} rel="noopener">
+            {studio.instagramHandle}
+          </a>
+        </li>
+        <li>
+          <a href={whatsappUrl} rel="noopener">
+            chame pelo WhatsApp
+          </a>
+        </li>
       </ul>
     </section>
   </div>
 
-  <p class="colophon">© {year} {studio.name}</p>
+  <p class="colophon">
+    © {year} {studio.name}
+  </p>
 </footer>
 
 <style>

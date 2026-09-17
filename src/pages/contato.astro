@@ -52,12 +52,18 @@ const schema = [
       <p class="lead">Entre em contato através do WhatsApp ou por e-mail.</p>
 
       <ul role="list">
-        <li><a href={`mailto:${studio.email}`}>{studio.email}</a></li>
         <li>
-          <a href={studio.instagram} rel="noopener">{studio.instagramHandle}</a>
+          <a href={`mailto:${studio.email}`}>{studio.email}</a>
         </li>
         <li>
-          <a href={whatsappUrl} rel="noopener">chame pelo WhatsApp</a>
+          <a href={studio.instagram} rel="noopener">
+            {studio.instagramHandle}
+          </a>
+        </li>
+        <li>
+          <a href={whatsappUrl} rel="noopener">
+            chame pelo WhatsApp
+          </a>
           <span class="hours"> ({studio.hours.text}) </span>
         </li>
       </ul>

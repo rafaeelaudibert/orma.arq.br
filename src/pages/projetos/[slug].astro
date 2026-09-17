@@ -89,41 +89,39 @@ const schema = [
       <figcaption>
         <h1>{d.title}</h1>
         <dl class="facts">
-          {
-            facts.map((fact) => (
-              <div>
-                <dt>{fact.label}</dt>
-                {fact.lines.map((line) => (
-                  <dd>{line}</dd>
-                ))}
-              </div>
-            ))
-          }
+          {facts.map((fact) => (
+            <div>
+              <dt>{fact.label}</dt>
+              {fact.lines.map((line) => (
+                <dd>{line}</dd>
+              ))}
+            </div>
+          ))}
         </dl>
       </figcaption>
     </figure>
 
     <section class="story">
-      <div class="prose" data-reveal><Content /></div>
+      <div class="prose" data-reveal>
+        <Content />
+      </div>
     </section>
 
-    {
-      screens.map((screen) => (
-        <div class="screen">
-          {screen.map(({ item, ratio }) => (
-            <figure style={`--ratio: ${ratio}`} data-reveal="clip">
-              <Picture
-                src={item.src}
-                alt={item.alt}
-                sizes={sequenceSizes(item.src, ratio)}
-                {...PHOTO}
-                {...LATER_PHOTO}
-              />
-            </figure>
-          ))}
-        </div>
-      ))
-    }
+    {screens.map((screen) => (
+      <div class="screen">
+        {screen.map(({ item, ratio }) => (
+          <figure style={`--ratio: ${ratio}`} data-reveal="clip">
+            <Picture
+              src={item.src}
+              alt={item.alt}
+              sizes={sequenceSizes(item.src, ratio)}
+              {...PHOTO}
+              {...LATER_PHOTO}
+            />
+          </figure>
+        ))}
+      </div>
+    ))}
   </article>
 </Layout>
 
